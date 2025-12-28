@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aman Töleg Hasaplaýjy</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f7ff; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; width: 100%; max-width: 350px; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        h2 { color: #2b50ed; margin-bottom: 5px; }
+        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
+        .result-box { background: #eff3ff; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .result-box small { color: #666; }
+        .result-box span { font-weight: bold; color: #2b50ed; font-size: 20px; }
+        .info-box { background: #fdfdfd; border: 1px solid #f0f0f0; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: left; font-size: 14px; }
+        .info-label { color: #2b50ed; font-weight: bold; display: block; font-size: 12px; text-transform: uppercase; margin-bottom: 2px; }
+        .btn { background: #2b50ed; color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Pul tölegi</h2>
+    <p>Töleg geçirmek üçin maglumatlary giriziň</p>
+
+    <div class="input-group">
+        <label>Telefon belgisi</label>
+        <input type="text" placeholder="+9936xxxxxxxx">
+    </div>
+
+    <div class="input-group">
+        <label>Manat möçberi</label>
+        <input type="number" id="manatInput" placeholder="Manat giriz">
+    </div>
+
+    <div class="result-box">
+        <small>Jemi TL:</small>
+        <span id="tlResult">0.00 TL</span>
+    </div>
+
+    <div class="info-box">
+        <span class="info-label">IBAN</span>
+        <strong>TR15 0015 7000 0000 0201 4581 78</strong>
+        <br><br>
+        <span class="info-label">ALYJY</span>
+        <strong>Aman Hayitmuradow</strong>
+    </div>
+
+    <button class="btn" id="sendBtn">Dekont iber →</button>
+</div>
+
+<script>
+    window.onload = function() {
+        const mInput = document.getElementById('manatInput');
+        const tResult = document.getElementById('tlResult');
+        const sendBtn = document.getElementById('sendBtn');
+
+        if (mInput) {
+            mInput.oninput = function() {
+                let m = mInput.value;
+                if (m > 0) {
+                    tResult.innerText = (m * 5.0).toFixed(2) + " TL";
+                } else {
+                    tResult.innerText = "0.00 TL";
+                }
+            };
+        }
+
+        if (sendBtn) {
+            sendBtn.onclick = function() {
+                let m = mInput.value;
+                let tl = tResult.innerText;
+                let belgi = "+99364041065";
+                
+                if (m > 0) {
+                    let text = "Salam Aman, men töleg etdim:%0A" + 
+                                "Gelen Manat: " + m + " TMT%0A" + 
+                                "Jemi TL: " + tl;
+                    window.open("https://wa.me/" + belgi + "?text=" + text, '_blank');
+                } else {
+                    alert("Sany giriziň!");
+                }
+            };
+        }
+    };
+</script>
+
+</body>
+</html>
