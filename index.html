@@ -51,36 +51,48 @@
 
     <button class="btn" id="sendBtn">Dekont iber →</button>
 </div>
-<div class="card" style="margin-top: 20px;">
+
+  <div class="card" style="margin-top: 20px;">
     <h2 style="color: #2b50ed;">Internet Paketler</h2>
+    <p style="font-size: 12px; color: #666;">Hasaplamak üçin pakediň üstüne basyň:</p>
     <table style="width:100%; border-collapse: collapse; text-align: left; font-size: 14px;">
         <tr style="border-bottom: 2px solid #2b50ed; background-color: #f8f9fa;">
             <th style="padding: 10px;">Bahasy</th>
             <th style="padding: 10px;">Kody</th>
             <th style="padding: 10px;">Göwrümi</th>
         </tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">3 TMT</td><td style="padding: 10px;">*0850*3#</td><td style="padding: 10px;">50 MB</td></tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">5 TMT</td><td style="padding: 10px;">*0850*5#</td><td style="padding: 10px;">100 MB</td></tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">10 TMT</td><td style="padding: 10px;">*0850*10#</td><td style="padding: 10px;">250 MB</td></tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">15 TMT</td><td style="padding: 10px;">*0850*15#</td><td style="padding: 10px;">500 MB</td></tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">60 TMT</td><td style="padding: 10px;">*0850*60#</td><td style="padding: 10px;">1,5 GB</td></tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">160 TMT</td><td style="padding: 10px;">*0850*160#</td><td style="padding: 10px;">4 GB</td></tr>
-        <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">200 TMT</td><td style="padding: 10px;">*0850*200#</td><td style="padding: 10px;">20 GB</td></tr>
+        <tr onclick="selectPacket(3)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">3 TMT</td><td style="padding: 10px;">*0850*3#</td><td style="padding: 10px;">50 MB</td></tr>
+        <tr onclick="selectPacket(5)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">5 TMT</td><td style="padding: 10px;">*0850*5#</td><td style="padding: 10px;">100 MB</td></tr>
+        <tr onclick="selectPacket(10)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">10 TMT</td><td style="padding: 10px;">*0850*10#</td><td style="padding: 10px;">250 MB</td></tr>
+        <tr onclick="selectPacket(15)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">15 TMT</td><td style="padding: 10px;">*0850*15#</td><td style="padding: 10px;">500 MB</td></tr>
+        <tr onclick="selectPacket(60)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">60 TMT</td><td style="padding: 10px;">*0850*60#</td><td style="padding: 10px;">1,5 GB</td></tr>
+        <tr onclick="selectPacket(160)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">160 TMT</td><td style="padding: 10px;">*0850*160#</td><td style="padding: 10px;">4 GB</td></tr>
+        <tr onclick="selectPacket(200)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">200 TMT</td><td style="padding: 10px;">*0850*200#</td><td style="padding: 10px;">20 GB</td></tr>
     </table>
-    <p style="font-size: 12px; color: #666; margin-top: 10px;">Wagty: 30 gün</p>
-</div>
+  </div>
+    
+
     
 <script>
-    window.onload = function() {
+   function selectPacket(price) {
+    const mInput = document.getElementById('manatInput');
+    mInput.value = price;
+    const event = new Event('input', { bubbles: true });
+    mInput.dispatchEvent(event);
+}
+
+
+                                
         const mInput = document.getElementById('manatInput');
         const tResult = document.getElementById('tlResult');
         const sendBtn = document.getElementById('sendBtn');
 
         if (mInput) {
             mInput.oninput = function() {
+            
                 let m = mInput.value;
                 if (m > 0) {
-                    tResult.innerText = (m * 90.0).toFixed(2) + " TL";
+                    tResult.innerText = (m * 17.6).toFixed(2) + " TL";
                 } else {
                     tResult.innerText = "0.00 TL";
                 }
