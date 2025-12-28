@@ -3,12 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Töleg Pro Max</title>
+    <title>Aman Töleg 2026</title>
     <style>
         :root { --primary: #2b50ed; --bg: #f4f7ff; --card-bg: white; --text: #333; --border: #e0e0e0; }
         .dark-mode { --bg: #121212; --card-bg: #1e1e1e; --text: #fff; --primary: #5c7cff; --border: #333; }
         
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding: 20px; transition: 0.3s; margin: 0; min-height: 100vh; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding: 0 20px 20px 20px; transition: 0.3s; margin: 0; min-height: 100vh; overflow-x: hidden; }
+
+        /* Akyp geçýän ýazgy (Marquee) */
+        .new-year-banner {
+            width: 100%;
+            background: linear-gradient(90deg, #ff0000, #2b50ed);
+            color: white;
+            padding: 10px 0;
+            font-weight: bold;
+            font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
 
         /* Gar effekti */
         .snowflake { position: fixed; top: -10px; color: white; user-select: none; z-index: 9999; pointer-events: none; animation: fall linear infinite; }
@@ -17,47 +41,51 @@
         .top-bar { display: flex; gap: 15px; margin-bottom: 20px; z-index: 10; align-items: center; }
         .icon-btn { cursor: pointer; font-size: 24px; border: none; background: none; }
 
-        .card { background: var(--card-bg); width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; box-sizing: border-box; position: relative; }
+        .card { background: var(--card-bg); width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; box-sizing: border-box; }
         
-        input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; margin-top: 5px; background: var(--card-bg); color: var(--text); box-sizing: border-box; font-size: 16px; }
+        input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; margin-top: 5px; background: var(--card-bg); color: var(--text); box-sizing: border-box; font-size: 16px; outline: none; }
         
         .result-box { background: var(--primary); color: white; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; margin: 15px 0; font-weight: bold; font-size: 18px; }
         
         .btn { background: var(--primary); color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; }
-        .btn:active { transform: scale(0.95); }
 
-        .qr-section { display: none; text-align: center; margin-top: 15px; padding: 10px; background: #fff; border-radius: 10px; }
-        .qr-section img { width: 150px; height: 150px; }
+        .info-box { background: rgba(43, 80, 237, 0.05); border: 1px solid var(--primary); padding: 15px; border-radius: 12px; text-align: left; }
+        .copy-item { cursor: pointer; margin-bottom: 10px; }
 
-        #settingsModal, #confirmModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        td { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 14px; }
         
         .history-item { font-size: 13px; border-bottom: 1px solid var(--border); padding: 10px 0; display: flex; justify-content: space-between; }
+
+        #confirmModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; }
     </style>
 </head>
 <body>
+
+<div class="new-year-banner">
+    <div class="marquee-text" id="marqueeText">
+        🎅 Täze ýylyňyz gutly bolsun! 2026-njy ýyl bagt we rowaçlyk getirsin! 🎄 Mutlu Yıllar 2026! ❄️ С Новым Годом 2026! ⛄
+    </div>
+</div>
 
 <div class="top-bar">
     <button class="icon-btn" onclick="setLang('tk')">🇹🇲</button>
     <button class="icon-btn" onclick="setLang('tr')">🇹🇷</button>
     <button class="icon-btn" onclick="setLang('ru')">🇷🇺</button>
-    <button class="icon-btn" onclick="toggleSettings()">⚙️</button>
     <button class="icon-btn" onclick="document.body.classList.toggle('dark-mode')">🌙</button>
 </div>
 
 <div class="card" id="mainCard">
-    <h2 id="title" style="color:var(--primary); margin-top:0;">🎄 Aman Töleg</h2>
+    <h2 id="title" style="color:var(--primary); margin-top:0; text-align:center;">🎄 Aman Töleg</h2>
     
     <div style="text-align:left; margin-bottom:15px;">
-        <label id="lblPhone">Telefon belgisi</label>
+        <label id="lblPhone" style="font-weight:bold; font-size:14px;">Telefon belgisi</label>
         <input type="text" id="phoneInput" placeholder="+9936...">
     </div>
 
     <div style="text-align:left; margin-bottom:15px;">
-        <label id="lblAmount">Manat mukdary</label>
+        <label id="lblAmount" style="font-weight:bold; font-size:14px;">Manat mukdary</label>
         <input type="number" id="manatInput" oninput="updateTL()" placeholder="0.00">
     </div>
 
@@ -66,16 +94,19 @@
         <span id="tlResult">0.00 TL</span>
     </div>
 
-    <button class="btn" onclick="showModal()" id="btnSend">Ibermek →</button>
+    <div class="info-box">
+        <div class="copy-item" onclick="copyText('TR150015700000000201458178')">
+            <small style="color:var(--primary); font-weight:bold;" id="lblIbanCopy">IBAN (GÖÇÜR)</small><br>
+            <strong>TR15 0015 7000 0000 0201 4581 78</strong>
+        </div>
+        <hr style="border:0; border-top:1px solid rgba(43,80,237,0.1); margin:10px 0;">
+        <div class="copy-item" onclick="copyText('Aman Hayitmuradow')">
+            <small style="color:var(--primary); font-weight:bold;" id="lblReceiver">ALYJY</small><br>
+            <strong>Aman Hayitmuradow</strong>
+        </div>
+    </div>
 
-    <div style="margin-top:15px; font-size:12px; color:var(--primary); cursor:pointer;" onclick="toggleQR()">
-        🔍 <span id="lblShowQR">QR Kody görkez</span>
-    </div>
-    
-    <div id="qrSection" class="qr-section">
-        <p style="color:#333; font-size:12px;">Bankdan skanerläň</p>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TR150015700000000201458178" alt="QR">
-    </div>
+    <button class="btn" onclick="showModal()" id="btnSend" style="margin-top:20px;">Ibermek →</button>
 </div>
 
 <div class="card">
@@ -88,25 +119,16 @@
 </div>
 
 <div class="card">
-    <h3 id="lblHistory" style="margin-top:0;">📜 Taryh</h3>
+    <h3 id="lblHistory" style="margin-top:0;">📜 Töleg taryhy</h3>
     <div id="historyList"></div>
-</div>
-
-<div id="settingsModal">
-    <div class="modal-content">
-        <h3>Sazlamalar</h3>
-        <label>Häzirki Kurs (1 TMT = ? TL)</label>
-        <input type="number" id="rateInput" value="17.6" step="0.1">
-        <button class="btn" style="margin-top:15px;" onclick="toggleSettings()">Ýatda sakla</button>
-    </div>
 </div>
 
 <div id="confirmModal">
     <div class="modal-content">
         <h3 id="lblConfirmTitle">Barlag</h3>
-        <p id="confirmText" style="text-align:left;"></p>
-        <button class="btn" onclick="sendWhatsApp()">Tassykla we Iber</button>
-        <button onclick="closeModal()" style="margin-top:15px; border:none; background:none; color:red;">Yza dön</button>
+        <p id="confirmText" style="text-align:left; font-size:14px;"></p>
+        <button class="btn" onclick="sendWhatsApp()" id="btnConfirm">Tassykla we Iber</button>
+        <button onclick="closeModal()" style="margin-top:15px; border:none; background:none; color:red; font-weight:bold; cursor:pointer;" id="btnCancel">Yza dön</button>
     </div>
 </div>
 
@@ -117,16 +139,16 @@
         s.classList.add('snowflake'); s.innerHTML = '❄';
         s.style.left = Math.random() * 100 + 'vw';
         s.style.animationDuration = Math.random() * 3 + 2 + 's';
+        s.style.opacity = Math.random();
         document.body.appendChild(s);
         setTimeout(() => s.remove(), 5000);
     }
     setInterval(createSnow, 200);
 
-    // Diller
     const langData = {
-        tk: { title: "🎄 Aman Töleg", phone: "Telefon belgisi", amount: "Manat mukdary", total: "Jemi:", send: "Ibermek →", packets: "🌐 Internet Paketler", history: "📜 Taryh", showQR: "QR Kody görkez" },
-        tr: { title: "🎄 Aman Ödeme", phone: "Telefon Numarası", amount: "Manat Tutarı", total: "Toplam:", send: "Gönder →", packets: "🌐 İnternet Paketleri", history: "📜 Geçmiş", showQR: "QR Kodu Göster" },
-        ru: { title: "🎄 Аман Платеж", phone: "Номер телефона", amount: "Сумма (Манат)", total: "Итого:", send: "Отправить →", packets: "🌐 Пакеты", history: "📜 История", showQR: "Показать QR" }
+        tk: { title: "🎄 Aman Töleg", phone: "Telefon belgisi", amount: "Manat mukdary", total: "Jemi:", iban: "IBAN (GÖÇÜR)", receiver: "ALYJY", send: "Ibermek →", packets: "🌐 Internet Paketler", history: "📜 Töleg taryhy", confirm: "Maglumatlary barlaň", cancel: "Yza dön", btnConfirm: "Tassykla we Iber" },
+        tr: { title: "🎄 Aman Ödeme", phone: "Telefon Numarası", amount: "Manat Tutarı", total: "Toplam:", iban: "IBAN (KOPYALA)", receiver: "ALICI", send: "Gönder →", packets: "🌐 İnternet Paketleri", history: "📜 Geçmiş", confirm: "Bilgileri Kontrol Edin", cancel: "Vazgeç", btnConfirm: "Onayla ve Gönder" },
+        ru: { title: "🎄 Аман Платеж", phone: "Номер телефона", amount: "Сумма (Манат)", total: "Итого:", iban: "IBAN (КОПИР.)", receiver: "ПОЛУЧАТЕЛЬ", send: "Отправить →", packets: "🌐 Пакеты", history: "📜 История", confirm: "Проверьте данные", cancel: "Назад", btnConfirm: "Подтвердить" }
     };
 
     function setLang(lang) {
@@ -135,27 +157,24 @@
         document.getElementById('lblPhone').innerText = d.phone;
         document.getElementById('lblAmount').innerText = d.amount;
         document.getElementById('lblTotal').innerText = d.total;
+        document.getElementById('lblIbanCopy').innerText = d.iban;
+        document.getElementById('lblReceiver').innerText = d.receiver;
         document.getElementById('btnSend').innerText = d.send;
         document.getElementById('lblPackets').innerText = d.packets;
         document.getElementById('lblHistory').innerText = d.history;
-        document.getElementById('lblShowQR').innerText = d.showQR;
+        document.getElementById('lblConfirmTitle').innerText = d.confirm;
+        document.getElementById('btnCancel').innerText = d.cancel;
+        document.getElementById('btnConfirm').innerText = d.btnConfirm;
     }
 
     function updateTL() {
-        const rate = document.getElementById('rateInput').value;
         const m = document.getElementById('manatInput').value;
-        document.getElementById('tlResult').innerText = m > 0 ? (m * rate).toFixed(2) + " TL" : "0.00 TL";
+        document.getElementById('tlResult').innerText = m > 0 ? (m * 17.6).toFixed(2) + " TL" : "0.00 TL";
     }
 
-    function toggleSettings() {
-        const m = document.getElementById('settingsModal');
-        m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
-        updateTL();
-    }
-
-    function toggleQR() {
-        const q = document.getElementById('qrSection');
-        q.style.display = q.style.display === 'block' ? 'none' : 'block';
+    function copyText(text) {
+        navigator.clipboard.writeText(text);
+        alert("Göçürildi: " + text);
     }
 
     function selectPacket(price) {
@@ -180,15 +199,11 @@
         const p = document.getElementById('phoneInput').value;
         const tl = document.getElementById('tlResult').innerText;
         
-        // Taryhy sakla
         let history = JSON.parse(localStorage.getItem('amanHistory') || "[]");
-        history.unshift({ p, m, tl, time: new Date().toLocaleTimeString() });
+        history.unshift({ p, m, tl });
         localStorage.setItem('amanHistory', JSON.stringify(history.slice(0, 5)));
         
-        // Ses effekti (opsional)
-        new Audio('https://www.soundjay.com/buttons/sounds/button-4.mp3').play().catch(()=>{});
-
-        window.open(`https://wa.me/99364041065?text=Töleg:%20${p}%20-%20${m}TMT%20(${tl})`, '_blank');
+        window.open(`https://wa.me/99364041065?text=Töleg%202026:%20${p}%20-%20${m}TMT%20(${tl})`, '_blank');
         closeModal();
         renderHistory();
     }
