@@ -3,30 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Töleg Hasaplaýjy</title>
+    <title>Aman Töleg Pro</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f7ff; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .card { background: white; width: 100%; max-width: 350px; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px; }
-        h2 { color: #2b50ed; margin-bottom: 5px; }
-        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        :root { 
+            --primary: #2b50ed; 
+            --bg: #f4f7ff; 
+            --card-bg: white; 
+            --text: #333; 
+            --input-border: #e0e0e0;
+        }
+        .dark-mode { 
+            --bg: #121212; 
+            --card-bg: #1e1e1e; 
+            --text: #ffffff; 
+            --primary: #5c7cff; 
+            --input-border: #333;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 20px; 
+            transition: 0.3s; 
+        }
+
+        .dark-btn { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            cursor: pointer; 
+            padding: 10px; 
+            background: var(--card-bg); 
+            border-radius: 50%; 
+            border: 1px solid var(--primary); 
+            z-index: 1000;
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            width: 100%; 
+            max-width: 380px; 
+            padding: 25px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            text-align: center; 
+            margin-bottom: 20px; 
+            box-sizing: border-box;
+        }
+
+        h2 { color: var(--primary); margin-bottom: 10px; }
+        
         .input-group { text-align: left; margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; }
-        input { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        .result-box { background: #eff3ff; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-        .result-box small { color: #666; }
-        .result-box span { font-weight: bold; color: #2b50ed; font-size: 20px; }
-        .info-box { background: #fdfdfd; border: 1px solid #f0f0f0; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: left; font-size: 14px; }
-        .info-label { color: #2b50ed; font-weight: bold; display: block; font-size: 12px; text-transform: uppercase; margin-bottom: 2px; }
-        .btn { background: #2b50ed; color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        .btn:hover { background: #1a3bc7; }
-        tr:hover { background-color: #f1f4ff; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 2px solid var(--input-border); 
+            border-radius: 12px; 
+            font-size: 16px; 
+            background: var(--card-bg); 
+            color: var(--text); 
+            box-sizing: border-box;
+        }
+
+        .result-box { 
+            background: var(--primary); 
+            color: white; 
+            padding: 15px; 
+            border-radius: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin: 20px 0;
+        }
+
+        .info-box { 
+            background: rgba(43, 80, 237, 0.05); 
+            border: 1px solid var(--primary); 
+            padding: 15px; 
+            border-radius: 12px; 
+            text-align: left; 
+        }
+
+        .copy-item { 
+            cursor: pointer; 
+            margin-bottom: 10px; 
+            padding: 8px; 
+            border-radius: 8px; 
+            transition: 0.2s;
+        }
+        .copy-item:hover { background: rgba(43, 80, 237, 0.1); }
+
+        .btn { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { border-bottom: 2px solid var(--primary); padding: 10px; text-align: left; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--input-border); }
+        .packet-row { cursor: pointer; }
+        .packet-row:hover { background: rgba(43, 80, 237, 0.1); }
     </style>
 </head>
 <body>
 
+<button class="dark-btn" onclick="toggleDark()">🌙/☀️</button>
+
 <div class="card" id="mainCard">
-    <h2>Pul tölegi</h2>
-    <p>Töleg geçirmek üçin maglumatlary giriziň</p>
+    <h2>Töleg Merkezi</h2>
+    <p>Maglumatlary giriziň ýa-da paket saýlaň</p>
 
     <div class="input-group">
         <label>Telefon belgisi</label>
@@ -34,89 +132,102 @@
     </div>
 
     <div class="input-group">
-        <label>Manat möçberi</label>
-        <input type="number" id="manatInput" placeholder="Manat giriz">
+        <label>Manat mukdary (TMT)</label>
+        <input type="number" id="manatInput" placeholder="0.00">
     </div>
 
     <div class="result-box">
-        <small>Jemi TL:</small>
-        <span id="tlResult">0.00 TL</span>
+        <span>Jemi TL:</span>
+        <strong id="tlResult" style="font-size: 24px;">0.00 TL</strong>
     </div>
 
     <div class="info-box">
-        <span class="info-label">IBAN</span>
-        <strong>TR15 0015 7000 0000 0201 4581 78</strong>
-        <br><br>
-        <span class="info-label">ALYJY</span>
-        <strong>Aman Hayitmuradow</strong>
+        <div class="copy-item" onclick="copyText('TR150015700000000201458178')">
+            <small style="color: var(--primary);">IBAN (GÖÇÜRMEK ÜÇIN BASYŇ)</small><br>
+            <strong>TR15 0015 7000 0000 0201 4581 78</strong>
+        </div>
+        <div class="copy-item" onclick="copyText('Aman Hayitmuradow')">
+            <small style="color: var(--primary);">ALYJY</small><br>
+            <strong>Aman Hayitmuradow</strong>
+        </div>
     </div>
 
-    <button class="btn" id="sendBtn">Dekont iber →</button>
+    <button class="btn" onclick="sendWhatsApp()" style="margin-top: 20px;">WhatsApp bilen iber →</button>
 </div>
 
 <div class="card">
-    <h2 style="color: #2b50ed;">Internet Paketler</h2>
-    <p style="font-size: 12px; color: #666;">Hasaplamak üçin pakediň üstüne basyň:</p>
-    <table style="width:100%; border-collapse: collapse; text-align: left; font-size: 14px;">
-        <tr style="border-bottom: 2px solid #2b50ed; background-color: #f8f9fa;">
-            <th style="padding: 10px;">Bahasy</th>
-            <th style="padding: 10px;">Kody</th>
-            <th style="padding: 10px;">Göwrümi</th>
-        </tr>
-        <tr onclick="selectPacket(3)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">3 TMT</td><td style="padding: 10px;">*0850*3#</td><td style="padding: 10px;">50 MB</td></tr>
-        <tr onclick="selectPacket(5)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">5 TMT</td><td style="padding: 10px;">*0850*5#</td><td style="padding: 10px;">100 MB</td></tr>
-        <tr onclick="selectPacket(10)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">10 TMT</td><td style="padding: 10px;">*0850*10#</td><td style="padding: 10px;">250 MB</td></tr>
-        <tr onclick="selectPacket(15)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">15 TMT</td><td style="padding: 10px;">*0850*15#</td><td style="padding: 10px;">500 MB</td></tr>
-        <tr onclick="selectPacket(60)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">60 TMT</td><td style="padding: 10px;">*0850*60#</td><td style="padding: 10px;">1,5 GB</td></tr>
-        <tr onclick="selectPacket(160)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">160 TMT</td><td style="padding: 10px;">*0850*160#</td><td style="padding: 10px;">4 GB</td></tr>
-        <tr onclick="selectPacket(200)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">200 TMT</td><td style="padding: 10px;">*0850*200#</td><td style="padding: 10px;">20 GB</td></tr>
+    <h3 style="color: var(--primary);">Internet Paketler</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Baha</th>
+                <th>Kod</th>
+                <th>Gb</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="packet-row" onclick="selectPacket(3)"><td>3 TMT</td><td>*0850*3#</td><td>50 MB</td></tr>
+            <tr class="packet-row" onclick="selectPacket(5)"><td>5 TMT</td><td>*0850*5#</td><td>100 MB</td></tr>
+            <tr class="packet-row" onclick="selectPacket(10)"><td>10 TMT</td><td>*0850*10#</td><td>250 MB</td></tr>
+            <tr class="packet-row" onclick="selectPacket(15)"><td>15 TMT</td><td>*0850*15#</td><td>500 MB</td></tr>
+            <tr class="packet-row" onclick="selectPacket(60)"><td>60 TMT</td><td>*0850*60#</td><td>1.5 GB</td></tr>
+            <tr class="packet-row" onclick="selectPacket(160)"><td>160 TMT</td><td>*0850*160#</td><td>4 GB</td></tr>
+            <tr class="packet-row" onclick="selectPacket(200)"><td>200 TMT</td><td>*0850*200#</td><td>20 GB</td></tr>
+        </tbody>
     </table>
 </div>
 
 <script>
+    // Garaňky rejim
+    function toggleDark() {
+        document.body.classList.toggle('dark-mode');
+    }
+
+    // Göçürmek funksiýasy
+    function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Göçürildi: " + text);
+        });
+    }
+
     const mInput = document.getElementById('manatInput');
     const tResult = document.getElementById('tlResult');
-    const sendBtn = document.getElementById('sendBtn');
     const phoneInput = document.getElementById('phoneInput');
 
-    // Paket saýlananda işleýän funksiýa
+    // Paket saýlananda
     function selectPacket(price) {
         mInput.value = price;
-        updateTL(); // Hasaplamany täzele
-        // Ýokaryk, esasy karta süýşürýär
+        updateTL();
         document.getElementById('mainCard').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // TL hasaplaýyş funksiýasy
+    // Hasaplama logikasy
     function updateTL() {
-        let m = mInput.value;
+        let m = parseFloat(mInput.value);
         if (m > 0) {
+            // 17.6 kursy bilen hasaplaýar
             tResult.innerText = (m * 17.6).toFixed(2) + " TL";
         } else {
             tResult.innerText = "0.00 TL";
         }
     }
 
-    // El bilen san girizilende hasapla
     mInput.oninput = updateTL;
 
-    // WhatsApp-a iberiş
-    sendBtn.onclick = function() {
+    // WhatsApp-a ugratmak
+    function sendWhatsApp() {
         let m = mInput.value;
         let tl = tResult.innerText;
-        let belgi = "+99364041065";
-        let telBelgi = phoneInput.value;
+        let phone = phoneInput.value;
+        let adminBelgi = "99364041065";
         
-        if (m > 0 && telBelgi !== "") {
-            let text = "Salam Aman, men töleg etdim:%0A" + 
-                        "Telefon: " + telBelgi + "%0A" + 
-                        "Gelen Manat: " + m + " TMT%0A" + 
-                        "Jemi TL: " + tl;
-            window.open("https://wa.me/" + belgi + "?text=" + text, '_blank');
+        if (m > 0 && phone !== "") {
+            let text = `Salam Aman, men töleg etdim:%0A📞 Telefon: ${phone}%0A💰 Gelen: ${m} TMT%0A🇹🇷 Jemi TL: ${tl}`;
+            window.open(`https://wa.me/${adminBelgi}?text=${text}`, '_blank');
         } else {
             alert("Lütfen telefon belgisini we manat mukdaryny giriziň!");
         }
-    };
+    }
 </script>
 
 </body>
