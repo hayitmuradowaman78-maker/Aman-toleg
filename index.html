@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Töleg Pro - Ählisi Bir Ýerde</title>
+    <title>Aman Töleg Pro Max</title>
     <style>
         :root { --primary: #2b50ed; --bg: #f4f7ff; --card-bg: white; --text: #333; --border: #e0e0e0; }
         .dark-mode { --bg: #121212; --card-bg: #1e1e1e; --text: #fff; --primary: #5c7cff; --border: #333; }
@@ -14,52 +14,50 @@
         .snowflake { position: fixed; top: -10px; color: white; user-select: none; z-index: 9999; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(105vh); } }
 
-        .lang-bar { display: flex; gap: 10px; margin-bottom: 15px; z-index: 10; align-items: center; }
-        .lang-btn { cursor: pointer; font-size: 24px; border: none; background: none; }
+        .top-bar { display: flex; gap: 15px; margin-bottom: 20px; z-index: 10; align-items: center; }
+        .icon-btn { cursor: pointer; font-size: 24px; border: none; background: none; }
 
-        .card { background: var(--card-bg); width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; box-sizing: border-box; z-index: 5; }
+        .card { background: var(--card-bg); width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; box-sizing: border-box; position: relative; }
         
         input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; margin-top: 5px; background: var(--card-bg); color: var(--text); box-sizing: border-box; font-size: 16px; }
         
         .result-box { background: var(--primary); color: white; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; margin: 15px 0; font-weight: bold; font-size: 18px; }
         
         .btn { background: var(--primary); color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
+        .btn:active { transform: scale(0.95); }
 
-        .info-box { background: rgba(43, 80, 237, 0.05); border: 1px solid var(--primary); padding: 15px; border-radius: 12px; text-align: left; margin-top: 15px; font-size: 14px; }
-        .copy-item { cursor: pointer; margin-bottom: 10px; }
+        .qr-section { display: none; text-align: center; margin-top: 15px; padding: 10px; background: #fff; border-radius: 10px; }
+        .qr-section img { width: 150px; height: 150px; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        th { border-bottom: 2px solid var(--primary); padding: 10px; text-align: left; }
-        td { padding: 10px; border-bottom: 1px solid var(--border); }
-        .packet-row { cursor: pointer; }
-        .packet-row:hover { background: rgba(43, 80, 237, 0.1); }
-
-        #confirmModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center; }
+        #settingsModal, #confirmModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; }
         .modal-content { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; }
 
-        .history-item { font-size: 12px; border-bottom: 1px solid var(--border); padding: 8px 0; display: flex; justify-content: space-between; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        td { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
+        
+        .history-item { font-size: 13px; border-bottom: 1px solid var(--border); padding: 10px 0; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
 
-<div class="lang-bar">
-    <button class="lang-btn" onclick="setLang('tk')">🇹🇲</button>
-    <button class="lang-btn" onclick="setLang('tr')">🇹🇷</button>
-    <button class="lang-btn" onclick="setLang('ru')">🇷🇺</button>
-    <button onclick="document.body.classList.toggle('dark-mode')" style="border:none; background:none; font-size:24px; cursor:pointer;">🌙</button>
+<div class="top-bar">
+    <button class="icon-btn" onclick="setLang('tk')">🇹🇲</button>
+    <button class="icon-btn" onclick="setLang('tr')">🇹🇷</button>
+    <button class="icon-btn" onclick="setLang('ru')">🇷🇺</button>
+    <button class="icon-btn" onclick="toggleSettings()">⚙️</button>
+    <button class="icon-btn" onclick="document.body.classList.toggle('dark-mode')">🌙</button>
 </div>
 
 <div class="card" id="mainCard">
-    <h2 id="title" style="color:var(--primary); text-align:center; margin-top:0;">🎄 Töleg Merkezi</h2>
+    <h2 id="title" style="color:var(--primary); margin-top:0;">🎄 Aman Töleg</h2>
     
     <div style="text-align:left; margin-bottom:15px;">
-        <label id="lblPhone" style="font-weight:bold; font-size:14px;">Telefon belgisi</label>
+        <label id="lblPhone">Telefon belgisi</label>
         <input type="text" id="phoneInput" placeholder="+9936...">
     </div>
 
     <div style="text-align:left; margin-bottom:15px;">
-        <label id="lblAmount" style="font-weight:bold; font-size:14px;">Manat mukdary</label>
+        <label id="lblAmount">Manat mukdary</label>
         <input type="number" id="manatInput" oninput="updateTL()" placeholder="0.00">
     </div>
 
@@ -68,56 +66,57 @@
         <span id="tlResult">0.00 TL</span>
     </div>
 
-    <div class="info-box">
-        <div class="copy-item" onclick="copyText('TR150015700000000201458178')">
-            <small id="lblIban" style="color:var(--primary); font-weight:bold;">IBAN (GÖÇÜR)</small><br>
-            <strong>TR15 0015 7000 0000 0201 4581 78</strong>
-        </div>
-        <div class="copy-item" onclick="copyText('Aman Hayitmuradow')">
-            <small id="lblReceiver" style="color:var(--primary); font-weight:bold;">ALYJY</small><br>
-            <strong>Aman Hayitmuradow</strong>
-        </div>
-    </div>
+    <button class="btn" onclick="showModal()" id="btnSend">Ibermek →</button>
 
-    <button class="btn" onclick="showModal()" id="btnSend" style="margin-top:20px;">Ibermek →</button>
+    <div style="margin-top:15px; font-size:12px; color:var(--primary); cursor:pointer;" onclick="toggleQR()">
+        🔍 <span id="lblShowQR">QR Kody görkez</span>
+    </div>
+    
+    <div id="qrSection" class="qr-section">
+        <p style="color:#333; font-size:12px;">Bankdan skanerläň</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TR150015700000000201458178" alt="QR">
+    </div>
 </div>
 
 <div class="card">
     <h3 id="lblPackets" style="color:var(--primary); margin-top:0;">🌐 Internet Paketler</h3>
     <table>
-        <thead><tr id="tableHead"><th>Baha</th><th>Kod</th><th>GB</th></tr></thead>
-        <tbody>
-            <tr class="packet-row" onclick="selectPacket(3)"><td>3 TMT</td><td>*0850*3#</td><td>50 MB</td></tr>
-            <tr class="packet-row" onclick="selectPacket(10)"><td>10 TMT</td><td>*0850*10#</td><td>250 MB</td></tr>
-            <tr class="packet-row" onclick="selectPacket(60)"><td>60 TMT</td><td>*0850*60#</td><td>1.5 GB</td></tr>
-            <tr class="packet-row" onclick="selectPacket(200)"><td>200 TMT</td><td>*0850*200#</td><td>20 GB</td></tr>
-        </tbody>
+        <tr onclick="selectPacket(3)"><td>3 TMT</td><td>*0850*3#</td><td>50 MB</td></tr>
+        <tr onclick="selectPacket(60)"><td>60 TMT</td><td>*0850*60#</td><td>1.5 GB</td></tr>
+        <tr onclick="selectPacket(200)"><td>200 TMT</td><td>*0850*200#</td><td>20 GB</td></tr>
     </table>
 </div>
 
 <div class="card">
-    <h3 id="lblHistory" style="margin-top:0;">📜 Töleg taryhy</h3>
+    <h3 id="lblHistory" style="margin-top:0;">📜 Taryh</h3>
     <div id="historyList"></div>
+</div>
+
+<div id="settingsModal">
+    <div class="modal-content">
+        <h3>Sazlamalar</h3>
+        <label>Häzirki Kurs (1 TMT = ? TL)</label>
+        <input type="number" id="rateInput" value="17.6" step="0.1">
+        <button class="btn" style="margin-top:15px;" onclick="toggleSettings()">Ýatda sakla</button>
+    </div>
 </div>
 
 <div id="confirmModal">
     <div class="modal-content">
         <h3 id="lblConfirmTitle">Barlag</h3>
-        <p id="confirmText" style="text-align:left; font-size:14px;"></p>
-        <button class="btn" onclick="sendWhatsApp()" id="btnFinal">Tassykla we Iber</button>
-        <button onclick="closeModal()" style="margin-top:15px; border:none; background:none; color:red; font-weight:bold;" id="btnCancel">Yza dön</button>
+        <p id="confirmText" style="text-align:left;"></p>
+        <button class="btn" onclick="sendWhatsApp()">Tassykla we Iber</button>
+        <button onclick="closeModal()" style="margin-top:15px; border:none; background:none; color:red;">Yza dön</button>
     </div>
 </div>
 
 <script>
-    // Gar ýagdyrmak
+    // Gar efekti
     function createSnow() {
         const s = document.createElement('div');
-        s.classList.add('snowflake');
-        s.innerHTML = '❄';
+        s.classList.add('snowflake'); s.innerHTML = '❄';
         s.style.left = Math.random() * 100 + 'vw';
         s.style.animationDuration = Math.random() * 3 + 2 + 's';
-        s.style.opacity = Math.random();
         document.body.appendChild(s);
         setTimeout(() => s.remove(), 5000);
     }
@@ -125,9 +124,9 @@
 
     // Diller
     const langData = {
-        tk: { title: "🎄 Töleg Merkezi", phone: "Telefon belgisi", amount: "Manat mukdary", total: "Jemi:", iban: "IBAN (GÖÇÜR)", receiver: "ALYJY", send: "Ibermek →", packets: "🌐 Internet Paketler", history: "📜 Töleg taryhy", confirm: "Maglumatlary barlaň", cancel: "Yza dön", final: "Tassykla we Iber" },
-        tr: { title: "🎄 Ödeme Merkezi", phone: "Telefon Numarası", amount: "Manat Tutarı", total: "Toplam:", iban: "IBAN (KOPYALA)", receiver: "ALICI", send: "Gönder →", packets: "🌐 İnternet Paketleri", history: "📜 İşlem Geçmişi", confirm: "Bilgileri Kontrol Edin", cancel: "Vazgeç", final: "Onayla ve Gönder" },
-        ru: { title: "🎄 Платежный центр", phone: "Номер телефона", amount: "Сумма (Манат)", total: "Итого:", iban: "IBAN (КОПИР.)", receiver: "ПОЛУЧАТЕЛЬ", send: "Отправить →", packets: "🌐 Интернет пакеты", history: "📜 История", confirm: "Проверьте данные", cancel: "Назад", final: "Подтвердить" }
+        tk: { title: "🎄 Aman Töleg", phone: "Telefon belgisi", amount: "Manat mukdary", total: "Jemi:", send: "Ibermek →", packets: "🌐 Internet Paketler", history: "📜 Taryh", showQR: "QR Kody görkez" },
+        tr: { title: "🎄 Aman Ödeme", phone: "Telefon Numarası", amount: "Manat Tutarı", total: "Toplam:", send: "Gönder →", packets: "🌐 İnternet Paketleri", history: "📜 Geçmiş", showQR: "QR Kodu Göster" },
+        ru: { title: "🎄 Аман Платеж", phone: "Номер телефона", amount: "Сумма (Манат)", total: "Итого:", send: "Отправить →", packets: "🌐 Пакеты", history: "📜 История", showQR: "Показать QR" }
     };
 
     function setLang(lang) {
@@ -136,19 +135,27 @@
         document.getElementById('lblPhone').innerText = d.phone;
         document.getElementById('lblAmount').innerText = d.amount;
         document.getElementById('lblTotal').innerText = d.total;
-        document.getElementById('lblIban').innerText = d.iban;
-        document.getElementById('lblReceiver').innerText = d.receiver;
         document.getElementById('btnSend').innerText = d.send;
         document.getElementById('lblPackets').innerText = d.packets;
         document.getElementById('lblHistory').innerText = d.history;
-        document.getElementById('lblConfirmTitle').innerText = d.confirm;
-        document.getElementById('btnCancel').innerText = d.cancel;
-        document.getElementById('btnFinal').innerText = d.final;
+        document.getElementById('lblShowQR').innerText = d.showQR;
     }
 
     function updateTL() {
-        let m = document.getElementById('manatInput').value;
-        document.getElementById('tlResult').innerText = m > 0 ? (m * 17.6).toFixed(2) + " TL" : "0.00 TL";
+        const rate = document.getElementById('rateInput').value;
+        const m = document.getElementById('manatInput').value;
+        document.getElementById('tlResult').innerText = m > 0 ? (m * rate).toFixed(2) + " TL" : "0.00 TL";
+    }
+
+    function toggleSettings() {
+        const m = document.getElementById('settingsModal');
+        m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+        updateTL();
+    }
+
+    function toggleQR() {
+        const q = document.getElementById('qrSection');
+        q.style.display = q.style.display === 'block' ? 'none' : 'block';
     }
 
     function selectPacket(price) {
@@ -157,40 +164,39 @@
         document.getElementById('mainCard').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function copyText(text) {
-        navigator.clipboard.writeText(text);
-        alert("OK: " + text);
-    }
-
     function showModal() {
-        let m = document.getElementById('manatInput').value;
-        let p = document.getElementById('phoneInput').value;
+        const m = document.getElementById('manatInput').value;
+        const p = document.getElementById('phoneInput').value;
         if(m > 0 && p !== "") {
-            document.getElementById('confirmText').innerHTML = `<b>Tel:</b> ${p}<br><b>Manat:</b> ${m} TMT<br><b>TL:</b> ${(m*17.6).toFixed(2)} TL`;
+            document.getElementById('confirmText').innerHTML = `<b>Tel:</b> ${p}<br><b>TMT:</b> ${m}<br><b>TL:</b> ${document.getElementById('tlResult').innerText}`;
             document.getElementById('confirmModal').style.display = 'flex';
-        } else { alert("Maglumatlary giriziň!"); }
+        } else { alert("Maglumat giriziň!"); }
     }
 
     function closeModal() { document.getElementById('confirmModal').style.display = 'none'; }
 
     function sendWhatsApp() {
-        let m = document.getElementById('manatInput').value;
-        let p = document.getElementById('phoneInput').value;
-        let tl = (m * 17.6).toFixed(2);
+        const m = document.getElementById('manatInput').value;
+        const p = document.getElementById('phoneInput').value;
+        const tl = document.getElementById('tlResult').innerText;
         
-        let history = JSON.parse(localStorage.getItem('tolegHistory') || "[]");
-        history.unshift({ p, m, tl });
-        localStorage.setItem('tolegHistory', JSON.stringify(history.slice(0, 5)));
+        // Taryhy sakla
+        let history = JSON.parse(localStorage.getItem('amanHistory') || "[]");
+        history.unshift({ p, m, tl, time: new Date().toLocaleTimeString() });
+        localStorage.setItem('amanHistory', JSON.stringify(history.slice(0, 5)));
         
-        window.open(`https://wa.me/99364041065?text=Töleg:%20${p}%20-%20${m}TMT%20(${tl}TL)`, '_blank');
+        // Ses effekti (opsional)
+        new Audio('https://www.soundjay.com/buttons/sounds/button-4.mp3').play().catch(()=>{});
+
+        window.open(`https://wa.me/99364041065?text=Töleg:%20${p}%20-%20${m}TMT%20(${tl})`, '_blank');
         closeModal();
         renderHistory();
     }
 
     function renderHistory() {
-        let history = JSON.parse(localStorage.getItem('tolegHistory') || "[]");
+        let history = JSON.parse(localStorage.getItem('amanHistory') || "[]");
         document.getElementById('historyList').innerHTML = history.map(h => `
-            <div class="history-item"><span>${h.p}</span><span>${h.m} TMT - <b>${h.tl} TL</b></span></div>
+            <div class="history-item"><span>${h.p}</span><span>${h.m} TMT - <b>${h.tl}</b></span></div>
         `).join('');
     }
 
