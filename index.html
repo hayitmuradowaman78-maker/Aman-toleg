@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aman Töleg Hasaplaýjy</title>
     <style>
-        body { font-family: sans-serif; background-color: #f4f7ff; display: flex; justify-content: center; padding: 20px; }
-        .card { background: white; width: 100%; max-width: 350px; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        body { font-family: sans-serif; background-color: #f4f7ff; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .card { background: white; width: 100%; max-width: 350px; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; margin-bottom: 20px; }
         h2 { color: #2b50ed; margin-bottom: 5px; }
         p { color: #666; font-size: 14px; margin-bottom: 20px; }
         .input-group { text-align: left; margin-bottom: 15px; }
@@ -17,18 +17,20 @@
         .result-box span { font-weight: bold; color: #2b50ed; font-size: 20px; }
         .info-box { background: #fdfdfd; border: 1px solid #f0f0f0; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: left; font-size: 14px; }
         .info-label { color: #2b50ed; font-weight: bold; display: block; font-size: 12px; text-transform: uppercase; margin-bottom: 2px; }
-        .btn { background: #2b50ed; color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 16px; }
+        .btn { background: #2b50ed; color: white; border: none; width: 100%; padding: 16px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .btn:hover { background: #1a3bc7; }
+        tr:hover { background-color: #f1f4ff; }
     </style>
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="mainCard">
     <h2>Pul tölegi</h2>
     <p>Töleg geçirmek üçin maglumatlary giriziň</p>
 
     <div class="input-group">
         <label>Telefon belgisi</label>
-        <input type="text" placeholder="+9936xxxxxxxx">
+        <input type="text" id="phoneInput" placeholder="+9936xxxxxxxx">
     </div>
 
     <div class="input-group">
@@ -52,7 +54,7 @@
     <button class="btn" id="sendBtn">Dekont iber →</button>
 </div>
 
-  <div class="card" style="margin-top: 20px;">
+<div class="card">
     <h2 style="color: #2b50ed;">Internet Paketler</h2>
     <p style="font-size: 12px; color: #666;">Hasaplamak üçin pakediň üstüne basyň:</p>
     <table style="width:100%; border-collapse: collapse; text-align: left; font-size: 14px;">
@@ -69,51 +71,50 @@
         <tr onclick="selectPacket(160)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">160 TMT</td><td style="padding: 10px;">*0850*160#</td><td style="padding: 10px;">4 GB</td></tr>
         <tr onclick="selectPacket(200)" style="border-bottom: 1px solid #eee; cursor: pointer;"><td style="padding: 10px;">200 TMT</td><td style="padding: 10px;">*0850*200#</td><td style="padding: 10px;">20 GB</td></tr>
     </table>
-  </div>
-    
+</div>
 
-    
 <script>
-   function selectPacket(price) {
     const mInput = document.getElementById('manatInput');
-    mInput.value = price;
-    const event = new Event('input', { bubbles: true });
-    mInput.dispatchEvent(event);
-}
+    const tResult = document.getElementById('tlResult');
+    const sendBtn = document.getElementById('sendBtn');
+    const phoneInput = document.getElementById('phoneInput');
 
+    // Paket saýlananda işleýän funksiýa
+    function selectPacket(price) {
+        mInput.value = price;
+        updateTL(); // Hasaplamany täzele
+        // Ýokaryk, esasy karta süýşürýär
+        document.getElementById('mainCard').scrollIntoView({ behavior: 'smooth' });
+    }
 
-                                
-        const mInput = document.getElementById('manatInput');
-        const tResult = document.getElementById('tlResult');
-        const sendBtn = document.getElementById('sendBtn');
-
-        if (mInput) {
-            mInput.oninput = function() {
-            
-                let m = mInput.value;
-                if (m > 0) {
-                    tResult.innerText = (m * 17.6).toFixed(2) + " TL";
-                } else {
-                    tResult.innerText = "0.00 TL";
-                }
-            };
+    // TL hasaplaýyş funksiýasy
+    function updateTL() {
+        let m = mInput.value;
+        if (m > 0) {
+            tResult.innerText = (m * 17.6).toFixed(2) + " TL";
+        } else {
+            tResult.innerText = "0.00 TL";
         }
+    }
 
-        if (sendBtn) {
-            sendBtn.onclick = function() {
-                let m = mInput.value;
-                let tl = tResult.innerText;
-                let belgi = "+99364041065";
-                
-                if (m > 0) {
-                    let text = "Salam Aman, men töleg etdim:%0A" + 
-                                "Gelen Manat: " + m + " TMT%0A" + 
-                                "Jemi TL: " + tl;
-                    window.open("https://wa.me/" + belgi + "?text=" + text, '_blank');
-                } else {
-                    alert("Sany giriziň!");
-                }
-            };
+    // El bilen san girizilende hasapla
+    mInput.oninput = updateTL;
+
+    // WhatsApp-a iberiş
+    sendBtn.onclick = function() {
+        let m = mInput.value;
+        let tl = tResult.innerText;
+        let belgi = "+99364041065";
+        let telBelgi = phoneInput.value;
+        
+        if (m > 0 && telBelgi !== "") {
+            let text = "Salam Aman, men töleg etdim:%0A" + 
+                        "Telefon: " + telBelgi + "%0A" + 
+                        "Gelen Manat: " + m + " TMT%0A" + 
+                        "Jemi TL: " + tl;
+            window.open("https://wa.me/" + belgi + "?text=" + text, '_blank');
+        } else {
+            alert("Lütfen telefon belgisini we manat mukdaryny giriziň!");
         }
     };
 </script>
