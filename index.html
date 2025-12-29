@@ -1,140 +1,224 @@
 <!DOCTYPE html>
-<html 
+<html lang="tk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiz Tole - New Year Edition</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --primary-blue: #6366f1;
+            --input-bg: #2a2a2a;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Konteýner */
+        .app-wrapper {
             width: 100%;
-            height: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid #333;
+        }
+
+        /* Gar Effekti */
+        #snow-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 10;
+            z-index: 99;
         }
 
-        .app-container {
-            width: 350px;
-            background: #1e1e1e;
-            border-radius: 25px;
-            padding: 20px;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* Giriş meýdançalary */
+        .input-group {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            background: var(--input-bg);
+            border: 1px solid #444;
+            border-radius: 12px;
+            color: #aaa;
+            box-sizing: border-box;
         }
 
-        /* Arça we Çyralar Bölümi */
-        .card-special {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=400&q=80'); /* Arça suraty */
+        .total-box {
+            background: var(--primary-blue);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        /* Arça we IBAN Bölümi */
+        .arça-card {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1511130490061-3444983086b9?q=80&w=1000&auto=format&fit=crop'); 
             background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 15px;
             text-align: center;
+            border: 2px solid #064e3b;
             position: relative;
-            border: 2px solid #3a3a3a;
         }
 
-        /* Ýanyp-öçýän çyralar effekti */
-        .lights {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            height: 10px;
+        /* Çyralar */
+        .garland {
             display: flex;
             justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        .bulb {
+            width: 8px; height: 8px; border-radius: 50%;
+            animation: blink 0.8s infinite alternate;
         }
 
-        .light {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            animation: flash 1s infinite alternate;
+        @keyframes blink {
+            from { opacity: 0.3; transform: scale(0.8); box-shadow: 0 0 0px transparent; }
+            to { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px currentColor; }
         }
 
-        @keyframes flash {
-            from { opacity: 0.2; box-shadow: 0 0 0px transparent; }
-            to { opacity: 1; box-shadow: 0 0 10px white; }
-        }
-
-        .iban-box, .name-box {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            padding: 15px;
+        .white-box {
+            background: white;
+            color: #2563eb;
+            padding: 12px;
             border-radius: 10px;
-            margin: 10px 0;
+            margin: 8px 0;
             font-weight: bold;
-            font-size: 1.1em;
-            word-break: break-all;
+            font-size: 0.9em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .button-confirm {
-            background: #6366f1;
+        .confirm-btn {
+            background: var(--primary-blue);
             color: white;
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             border: none;
             border-radius: 15px;
-            font-size: 18px;
-            margin-top: 20px;
-            cursor: pointer;
+            font-size: 1.1em;
+            margin: 20px 0;
+            font-weight: bold;
         }
 
-        /* Gar bölejikleri */
+        /* Internet Paketler Tablisasy */
+        .internet-section {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+        .internet-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+        .package-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #2a2a2a;
+            font-size: 0.9em;
+        }
+        .package-code { color: #888; }
+
         .snowflake {
-            position: absolute;
-            color: white;
-            font-size: 1em;
-            top: -10%;
-            animation: fall linear infinite;
+            position: fixed; top: -10px; color: white;
+            user-select: none; z-index: 1000;
+            animation: fall linear forwards;
         }
-
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
+        @keyframes fall { to { transform: translateY(105vh); } }
     </style>
 </head>
 <body>
 
-<div id="snow-container"></div>
+<div id="snow-layer"></div>
 
-<div class="app-container">
-    <h2 style="text-align: center;">Tiz Tole</h2>
-    
-    <div class="card-special">
-        <div class="lights">
-            <div class="light" style="background: red; animation-delay: 0s;"></div>
-            <div class="light" style="background: gold; animation-delay: 0.2s;"></div>
-            <div class="light" style="background: lime; animation-delay: 0.4s;"></div>
-            <div class="light" style="background: cyan; animation-delay: 0.6s;"></div>
-        </div>
+<div class="app-wrapper">
+    <h3 style="margin-top:0">Tiz Tole</h3>
 
-        <p style="font-size: 12px; color: #ccc;">Alyjynyň IBAN belgisi</p>
-        <div class="iban-box">
-            TR15 0015 7000 0000 0201 4581 78
-        </div>
-
-        <p style="font-size: 12px; color: #ccc;">Alyjy</p>
-        <div class="name-box">
-            Aman Hayitmuradow
-        </div>
+    <div class="input-group">
+        <input type="text" placeholder="Telefon (mysal: +9936...)">
+    </div>
+    <div class="input-group">
+        <input type="text" placeholder="TMT Mukdary">
     </div>
 
-    <button class="button-confirm">Tassyklap Ibermek →</button>
+    <div class="total-box">
+        <span>Jemi:</span>
+        <span>0.00 TL</span>
+    </div>
+
+    <div class="arça-card">
+        <div class="garland">
+            <div class="bulb" style="background: #ff4d4d; color: #ff4d4d;"></div>
+            <div class="bulb" style="background: #fbbf24; color: #fbbf24; animation-delay: 0.2s"></div>
+            <div class="bulb" style="background: #34d399; color: #34d399; animation-delay: 0.4s"></div>
+            <div class="bulb" style="background: #60a5fa; color: #60a5fa; animation-delay: 0.6s"></div>
+        </div>
+        
+        <span style="font-size: 11px; opacity: 0.8;">Alyjynyň IBAN belgisi</span>
+        <div class="white-box">TR15 0015 7000 0000 0201 4581 78</div>
+        
+        <span style="font-size: 11px; opacity: 0.8;">Alyjy</span>
+        <div class="white-box" style="color: #333;">Aman Hayitmuradow</div>
+    </div>
+
+    <button class="confirm-btn">Tassyklap Ibermek →</button>
+
+    <div class="internet-section">
+        <div class="internet-header">
+            <span>🌐</span> <b>Internet Paketler</b>
+        </div>
+        <div class="package-row">
+            <span>3 TMT</span>
+            <span class="package-code">*0850*3#</span>
+            <span>50 MB</span>
+        </div>
+        <div class="package-row">
+            <span>60 TMT</span>
+            <span class="package-code">*0850*60#</span>
+            <span>1.5 GB</span>
+        </div>
+        <div class="package-row">
+            <span>200 TMT</span>
+            <span class="package-code">*0850*200#</span>
+            <span>20 GB</span>
+        </div>
+    </div>
 </div>
 
 <script>
-    // Gar ýagdyrmak üçin skript
     function createSnowflake() {
-        const container = document.getElementById('snow-container');
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.innerHTML = '❄';
-        snowflake.style.left = Math.random() * 100 + 'vw';
-        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
-        snowflake.style.opacity = Math.random();
-        
-        container.appendChild(snowflake);
-        
-        setTimeout(() => {
-            snowflake.remove();
-        }, 5000);
+        const snow = document.createElement('div');
+        snow.className = 'snowflake';
+        snow.innerHTML = '❄';
+        snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.opacity = Math.random();
+        snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        document.getElementById('snow-layer').appendChild(snow);
+        setTimeout(() => snow.remove(), 5000);
     }
-    setInterval(createSnowflake, 100);
+    setInterval(createSnowflake, 150);
 </script>
 
 </body>
