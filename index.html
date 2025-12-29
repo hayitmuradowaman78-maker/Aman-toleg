@@ -3,191 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiz Tole</title>
+    <title>Tiz Tole - New Year Edition</title>
     <style>
-        :root { --primary: #2b50ed; --bg: #f4f7ff; --card-bg: white; --text: #333; --border: #e0e0e0; }
-        .dark-mode { --bg: #121212; --card-bg: #1e1e1e; --text: #fff; --primary: #5c7cff; --border: #333; }
-        
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; transition: 0.3s; margin: 0; min-height: 100vh; overflow-x: hidden; }
-
-        /* ÝOKARKY GÖK PANEL */
-        .app-header {
-            width: 100%;
-            background-color: #2b50ed;
+        body {
+            background-color: #121212;
             color: white;
-            padding: 15px 20px;
+            font-family: Arial, sans-serif;
+            margin: 0;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            box-sizing: border-box;
-            position: sticky;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Gar effekti üçin konteýner */
+        #snow-container {
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
         }
-        .app-title { font-size: 22px; font-weight: bold; }
-        .header-icons span { cursor: pointer; font-size: 24px; margin-left: 15px; }
 
-        .new-year-banner { width: 100%; background: linear-gradient(90deg, #ff0000, #2b50ed); color: white; padding: 8px 0; font-weight: bold; font-size: 14px; white-space: nowrap; overflow: hidden; }
-        .marquee-text { display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-
-        .card { background: var(--card-bg); width: calc(100% - 40px); max-width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 20px; box-sizing: border-box; margin-top: 10px; }
-        
-        input { width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 12px; margin-top: 10px; background: var(--card-bg); color: var(--text); box-sizing: border-box; font-size: 16px; outline: none; }
-        
-        .result-box { background: var(--primary); color: white; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; margin: 15px 0; font-weight: bold; font-size: 18px; }
-        
-        .btn { background: var(--primary); color: white; border: none; width: 100%; padding: 18px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(43, 80, 237, 0.2); }
-
-        /* MÜŞDERI ÜÇIN TÄZE PROFESSIONAL MAGLUMAT BÖLÜMI */
-        .customer-info { margin-top: 10px; text-align: center; }
-        .info-label { color: #888; font-size: 12px; margin-bottom: 4px; display: block; }
-        .info-value { 
-            display: block; 
-            font-size: 17px; 
-            font-weight: 600; 
-            color: #2b50ed; 
-            background: #f0f3ff; 
-            padding: 12px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            margin-bottom: 15px;
-            border: 1px solid rgba(43, 80, 237, 0.1);
-            transition: 0.2s;
+        .app-container {
+            width: 350px;
+            background: #1e1e1e;
+            border-radius: 25px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .info-value:active { background: #e0e7ff; transform: scale(0.98); }
-        .copy-hint { font-size: 10px; color: #aaa; margin-top: -10px; margin-bottom: 15px; display: block; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10001; justify-content: center; align-items: center; }
-        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; }
-        
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; font-size: 14px; }
+        /* Arça we Çyralar Bölümi */
+        .card-special {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=400&q=80'); /* Arça suraty */
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border: 2px solid #3a3a3a;
+        }
+
+        /* Ýanyp-öçýän çyralar effekti */
+        .lights {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            height: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: flash 1s infinite alternate;
+        }
+
+        @keyframes flash {
+            from { opacity: 0.2; box-shadow: 0 0 0px transparent; }
+            to { opacity: 1; box-shadow: 0 0 10px white; }
+        }
+
+        .iban-box, .name-box {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 1.1em;
+            word-break: break-all;
+        }
+
+        .button-confirm {
+            background: #6366f1;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        /* Gar bölejikleri */
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 1em;
+            top: -10%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
     </style>
 </head>
 <body>
 
-<div class="app-header">
-    <div class="app-title">Tiz Tole</div>
-    <div class="header-icons">
-        <span onclick="openHistory()">🕒</span>
-        <span onclick="document.body.classList.toggle('dark-mode')">🌙</span>
-    </div>
-</div>
+<div id="snow-container"></div>
 
-<div class="new-year-banner">
-    <div class="marquee-text">🎅 Täze ýylyňyz gutly bolsun! 2026! 🎄 Mutlu Yıllar! ❄️</div>
-</div>
-
-<div class="card">
-    <h2 style="color:var(--primary); margin-top:0; text-align:center;">Töleg Maglumatlary</h2>
+<div class="app-container">
+    <h2 style="text-align: center;">Tiz Tole</h2>
     
-    <input type="text" id="phoneInput" placeholder="Telefon (mysal: +9936...)">
-    <input type="number" id="manatInput" oninput="updateTL()" placeholder="TMT Mukdary">
+    <div class="card-special">
+        <div class="lights">
+            <div class="light" style="background: red; animation-delay: 0s;"></div>
+            <div class="light" style="background: gold; animation-delay: 0.2s;"></div>
+            <div class="light" style="background: lime; animation-delay: 0.4s;"></div>
+            <div class="light" style="background: cyan; animation-delay: 0.6s;"></div>
+        </div>
 
-    <div class="result-box">
-        <span>Jemi:</span>
-        <span id="tlResult">0.00 TL</span>
+        <p style="font-size: 12px; color: #ccc;">Alyjynyň IBAN belgisi</p>
+        <div class="iban-box">
+            TR15 0015 7000 0000 0201 4581 78
+        </div>
+
+        <p style="font-size: 12px; color: #ccc;">Alyjy</p>
+        <div class="name-box">
+            Aman Hayitmuradow
+        </div>
     </div>
 
-    <div class="customer-info">
-        <span class="info-label">Alyjynyň IBAN belgisi</span>
-        <span class="info-value" onclick="copyText('TR150015700000000201458178')">TR15 0015 7000 0000 0201 4581 78</span>
-        <span class="copy-hint">(Göçürmek üçin üstüne basyň)</span>
-
-        <span class="info-label">Alyjy</span>
-        <span class="info-value" style="color: #333;" onclick="copyText('Aman Hayitmuradow')">Aman Hayitmuradow</span>
-        <span class="copy-hint">(Göçürmek üçin üstüne basyň)</span>
-    </div>
-
-    <button class="btn" onclick="showConfirm()">Tassyklap Ibermek →</button>
-</div>
-
-<div class="card">
-    <h3 style="color:var(--primary); margin-top:0;">🌐 Internet Paketler</h3>
-    <table>
-        <tr onclick="selectPacket(3)"><td>3 TMT</td><td>*0850*3#</td><td>50 MB</td></tr>
-        <tr onclick="selectPacket(60)"><td>60 TMT</td><td>*0850*60#</td><td>1.5 GB</td></tr>
-        <tr onclick="selectPacket(200)"><td>200 TMT</td><td>*0850*200#</td><td>20 GB</td></tr>
-    </table>
-</div>
-
-<div id="confirmModal" class="modal">
-    <div class="modal-content">
-        <h3>Barlag</h3>
-        <p id="confirmText" style="text-align:left; font-size:14px;"></p>
-        <button class="btn" onclick="sendWhatsApp()">Tassykla we Iber</button>
-        <button onclick="closeModals()" style="margin-top:15px; border:none; background:none; color:red; cursor:pointer;">Yza dön</button>
-    </div>
-</div>
-
-<div id="historyModal" class="modal">
-    <div class="modal-content">
-        <h3 style="color:var(--primary);">📜 Töleg taryhy</h3>
-        <div id="historyList" style="text-align:left;"></div>
-        <button class="btn" onclick="closeModals()" style="margin-top:20px; background:gray;">Ýap</button>
-    </div>
+    <button class="button-confirm">Tassyklap Ibermek →</button>
 </div>
 
 <script>
-    function updateTL() {
-        const m = document.getElementById('manatInput').value;
-        document.getElementById('tlResult').innerText = m > 0 ? (m * 17.6).toFixed(2) + " TL" : "0.00 TL";
+    // Gar ýagdyrmak üçin skript
+    function createSnowflake() {
+        const container = document.getElementById('snow-container');
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.innerHTML = '❄';
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+        snowflake.style.opacity = Math.random();
+        
+        container.appendChild(snowflake);
+        
+        setTimeout(() => {
+            snowflake.remove();
+        }, 5000);
     }
-
-    function selectPacket(price) {
-        document.getElementById('manatInput').value = price;
-        updateTL();
-    }
-
-    function copyText(text) {
-        navigator.clipboard.writeText(text);
-        // Kiçijik bildiriş (Toast)
-        const toast = document.createElement('div');
-        toast.innerText = "Göçürildi!";
-        toast.style.position = "fixed";
-        toast.style.bottom = "20px";
-        toast.style.background = "#2b50ed";
-        toast.style.color = "white";
-        toast.style.padding = "10px 20px";
-        toast.style.borderRadius = "20px";
-        toast.style.zIndex = "10002";
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
-    }
-
-    function showConfirm() {
-        const m = document.getElementById('manatInput').value;
-        const p = document.getElementById('phoneInput').value;
-        if(m > 0 && p !== "") {
-            document.getElementById('confirmText').innerHTML = `<b>Tel:</b> ${p}<br><b>TMT:</b> ${m}<br><b>TL:</b> ${document.getElementById('tlResult').innerText}`;
-            document.getElementById('confirmModal').style.display = 'flex';
-        } else { alert("Telefon we mukdar giriziň!"); }
-    }
-
-    function openHistory() {
-        let h = JSON.parse(localStorage.getItem('amanHistory') || "[]");
-        document.getElementById('historyList').innerHTML = h.length > 0 ? 
-            h.map(i => `<div style="border-bottom:1px solid #eee; padding:8px 0; display:flex; justify-content:space-between; font-size:13px;"><span>${i.p}</span><span><b>${i.tl}</b></span></div>`).join('') 
-            : "Taryh boş.";
-        document.getElementById('historyModal').style.display = 'flex';
-    }
-
-    function closeModals() {
-        document.getElementById('confirmModal').style.display = 'none';
-        document.getElementById('historyModal').style.display = 'none';
-    }
-
-    function sendWhatsApp() {
-        const m = document.getElementById('manatInput').value;
-        const p = document.getElementById('phoneInput').value;
-        const tl = document.getElementById('tlResult').innerText;
-        let h = JSON.parse(localStorage.getItem('amanHistory') || "[]");
-        h.unshift({ p, tl });
-        localStorage.setItem('amanHistory', JSON.stringify(h.slice(0,10)));
-        window.open(`https://wa.me/99364041065?text=Töleg:%20${p}%20-%20${m}TMT%20(${tl})`, '_blank');
-        closeModals();
-    }
+    setInterval(createSnowflake, 100);
 </script>
+
 </body>
 </html>
