@@ -3,146 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiz Tole - New Year Edition</title>
+    <title>Tiz Tole - Arça we Gar Effekti</title>
     <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --primary-blue: #6366f1;
-            --input-bg: #2a2a2a;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
-            padding: 20px;
+            align-items: center;
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
         /* Konteýner */
-        .app-wrapper {
-            width: 100%;
-            max-width: 400px;
-            background: var(--card-bg);
-            border-radius: 30px;
+        .app-card {
+            width: 360px;
+            background: #181818;
+            border-radius: 25px;
             padding: 20px;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Inputlar we Umumy Meýdançalar */
+        .input-field {
+            background: #222;
             border: 1px solid #333;
-        }
-
-        /* Gar Effekti */
-        #snow-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 99;
-        }
-
-        /* Giriş meýdançalary */
-        .input-group {
-            margin-bottom: 15px;
-        }
-        input {
-            width: 100%;
-            padding: 15px;
-            background: var(--input-bg);
-            border: 1px solid #444;
             border-radius: 12px;
-            color: #aaa;
-            box-sizing: border-box;
+            padding: 15px;
+            margin-bottom: 12px;
+            color: #888;
+            font-size: 14px;
         }
 
-        .total-box {
-            background: var(--primary-blue);
-            padding: 15px;
+        .jemi-box {
+            background: #5c67f2;
+            padding: 18px;
             border-radius: 12px;
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 18px;
             margin-bottom: 20px;
         }
 
         /* Arça we IBAN Bölümi */
-        .arça-card {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1511130490061-3444983086b9?q=80&w=1000&auto=format&fit=crop'); 
+        .special-area {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=500&auto=format&fit=crop'); 
             background-size: cover;
+            background-position: center;
             border-radius: 20px;
             padding: 15px;
             text-align: center;
-            border: 2px solid #064e3b;
             position: relative;
+            border: 1px solid #2d5a27;
         }
 
-        /* Çyralar */
+        /* Çyralar (Garland) */
         .garland {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            gap: 15px;
             margin-bottom: 10px;
         }
         .bulb {
-            width: 8px; height: 8px; border-radius: 50%;
+            width: 10px; height: 10px; border-radius: 50%;
             animation: blink 0.8s infinite alternate;
         }
 
         @keyframes blink {
-            from { opacity: 0.3; transform: scale(0.8); box-shadow: 0 0 0px transparent; }
-            to { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px currentColor; }
+            from { opacity: 0.3; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px currentColor; }
         }
 
-        .white-box {
-            background: white;
-            color: #2563eb;
+        .white-display {
+            background: #f8f9fa;
+            color: #2b59c3;
             padding: 12px;
             border-radius: 10px;
-            margin: 8px 0;
+            margin: 10px 0;
             font-weight: bold;
-            font-size: 0.9em;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-size: 15px;
         }
 
-        .confirm-btn {
-            background: var(--primary-blue);
+        .btn-confirm {
+            background: #5c67f2;
             color: white;
             width: 100%;
             padding: 18px;
             border: none;
             border-radius: 15px;
-            font-size: 1.1em;
-            margin: 20px 0;
+            font-size: 16px;
             font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
         }
 
-        /* Internet Paketler Tablisasy */
-        .internet-section {
+        /* Internet Paketler Bölümi */
+        .internet-list {
+            margin-top: 30px;
             border-top: 1px solid #333;
-            padding-top: 20px;
+            padding-top: 15px;
         }
-        .internet-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #60a5fa;
-            margin-bottom: 15px;
-        }
-        .package-row {
+        .list-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #2a2a2a;
-            font-size: 0.9em;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+            font-size: 14px;
         }
-        .package-code { color: #888; }
+        .code-text { color: #888; }
 
-        .snowflake {
+        /* Gar Bölejikleri */
+        .snow-flake {
             position: fixed; top: -10px; color: white;
-            user-select: none; z-index: 1000;
+            user-select: none; z-index: 100;
             animation: fall linear forwards;
         }
         @keyframes fall { to { transform: translateY(105vh); } }
@@ -150,75 +128,57 @@
 </head>
 <body>
 
-<div id="snow-layer"></div>
+<div id="snow-container"></div>
 
-<div class="app-wrapper">
-    <h3 style="margin-top:0">Tiz Tole</h3>
+<div class="app-card">
+    <div style="font-size: 20px; font-weight: bold; margin-bottom: 20px;">Tiz Tole</div>
 
-    <div class="input-group">
-        <input type="text" placeholder="Telefon (mysal: +9936...)">
-    </div>
-    <div class="input-group">
-        <input type="text" placeholder="TMT Mukdary">
-    </div>
+    <div class="input-field">Telefon (mysal: +9936...)</div>
+    <div class="input-field">TMT Mukdary</div>
 
-    <div class="total-box">
+    <div class="jemi-box">
         <span>Jemi:</span>
         <span>0.00 TL</span>
     </div>
 
-    <div class="arça-card">
+    <div class="special-area">
         <div class="garland">
-            <div class="bulb" style="background: #ff4d4d; color: #ff4d4d;"></div>
-            <div class="bulb" style="background: #fbbf24; color: #fbbf24; animation-delay: 0.2s"></div>
-            <div class="bulb" style="background: #34d399; color: #34d399; animation-delay: 0.4s"></div>
-            <div class="bulb" style="background: #60a5fa; color: #60a5fa; animation-delay: 0.6s"></div>
+            <div class="bulb" style="background: #ff0000; color: #ff0000;"></div>
+            <div class="bulb" style="background: #ffcc00; color: #ffcc00; animation-delay: 0.2s;"></div>
+            <div class="bulb" style="background: #00ff00; color: #00ff00; animation-delay: 0.4s;"></div>
+            <div class="bulb" style="background: #00ccff; color: #00ccff; animation-delay: 0.6s;"></div>
         </div>
         
-        <span style="font-size: 11px; opacity: 0.8;">Alyjynyň IBAN belgisi</span>
-        <div class="white-box">TR15 0015 7000 0000 0201 4581 78</div>
+        <div style="font-size: 11px; color: #ddd;">Alyjynyň IBAN belgisi</div>
+        <div class="white-display">TR15 0015 7000 0000 0201 4581 78</div>
         
-        <span style="font-size: 11px; opacity: 0.8;">Alyjy</span>
-        <div class="white-box" style="color: #333;">Aman Hayitmuradow</div>
+        <div style="font-size: 11px; color: #ddd;">Alyjy</div>
+        <div class="white-display" style="color: #333;">Aman Hayitmuradow</div>
     </div>
 
-    <button class="confirm-btn">Tassyklap Ibermek →</button>
+    <button class="btn-confirm">Tassyklap Ibermek →</button>
 
-    <div class="internet-section">
-        <div class="internet-header">
-            <span>🌐</span> <b>Internet Paketler</b>
-        </div>
-        <div class="package-row">
-            <span>3 TMT</span>
-            <span class="package-code">*0850*3#</span>
-            <span>50 MB</span>
-        </div>
-        <div class="package-row">
-            <span>60 TMT</span>
-            <span class="package-code">*0850*60#</span>
-            <span>1.5 GB</span>
-        </div>
-        <div class="package-row">
-            <span>200 TMT</span>
-            <span class="package-code">*0850*200#</span>
-            <span>20 GB</span>
-        </div>
+    <div class="internet-list">
+        <div style="color: #4facfe; margin-bottom: 10px;">🌐 <b>Internet Paketler</b></div>
+        <div class="list-item"><span>3 TMT</span> <span class="code-text">*0850*3#</span> <span>50 MB</span></div>
+        <div class="list-item"><span>60 TMT</span> <span class="code-text">*0850*60#</span> <span>1.5 GB</span></div>
+        <div class="list-item"><span>200 TMT</span> <span class="code-text">*0850*200#</span> <span>20 GB</span></div>
     </div>
 </div>
 
 <script>
-    function createSnowflake() {
+    function createSnow() {
         const snow = document.createElement('div');
-        snow.className = 'snowflake';
+        snow.className = 'snow-flake';
         snow.innerHTML = '❄';
         snow.style.left = Math.random() * 100 + 'vw';
         snow.style.opacity = Math.random();
         snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
         snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        document.getElementById('snow-layer').appendChild(snow);
+        document.getElementById('snow-container').appendChild(snow);
         setTimeout(() => snow.remove(), 5000);
     }
-    setInterval(createSnowflake, 150);
+    setInterval(createSnow, 200);
 </script>
 
 </body>
