@@ -3,183 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiz Tole - Arça we Gar Effekti</title>
+    <title>Töleg Sahypasy</title>
     <style>
+        /* Esasy stil sazlamalary */
         body {
-            background-color: #0b0b0b;
-            color: #ffffff;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* Konteýner */
-        .app-card {
-            width: 360px;
-            background: #181818;
-            border-radius: 25px;
-            padding: 20px;
+        /* Geçýän ýazgy (Marquee) - Sagdan çepe */
+        .marquee-container {
+            width: 100%;
+            background: #d41414; /* Täze ýyl gyzyl reňki */
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
-        /* Inputlar we Umumy Meýdançalar */
-        .input-field {
-            background: #222;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .jemi-box {
-            background: #5c67f2;
-            padding: 18px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
             font-size: 18px;
+            font-weight: bold;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Dilleriň ýerleşişi */
+        .language-switcher {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 20px;
+            background: #fff;
+            box-sizing: border-box;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .language-switcher a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .language-switcher a:hover {
+            color: #007bff;
+        }
+
+        /* Form konteýneri */
+        .payment-card {
+            background: #ffffff;
+            width: 350px;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            text-align: left;
             margin-bottom: 20px;
         }
 
-        /* Arça we IBAN Bölümi */
-        .special-area {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=500&auto=format&fit=crop'); 
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            position: relative;
-            border: 1px solid #2d5a27;
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
         }
 
-        /* Çyralar (Garland) */
-        .garland {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        .bulb {
-            width: 10px; height: 10px; border-radius: 50%;
-            animation: blink 0.8s infinite alternate;
-        }
-
-        @keyframes blink {
-            from { opacity: 0.3; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px currentColor; }
-        }
-
-        .white-display {
-            background: #f8f9fa;
-            color: #2b59c3;
-            padding: 12px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        .btn-confirm {
-            background: #5c67f2;
-            color: white;
+        /* Nomer we Pul ýazylýan ýer (Input) */
+        input[type="tel"],
+        input[type="number"] {
             width: 100%;
-            padding: 18px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #27ae60;
+        }
+
+        /* Tassyklama düwmesi */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #27ae60;
+            color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
-            margin-top: 20px;
             cursor: pointer;
+            transition: background 0.3s;
         }
 
-        /* Internet Paketler Bölümi */
-        .internet-list {
-            margin-top: 30px;
-            border-top: 1px solid #333;
-            padding-top: 15px;
+        .submit-btn:hover {
+            background-color: #219150;
         }
-        .list-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #222;
-            font-size: 14px;
-        }
-        .code-text { color: #888; }
-
-        /* Gar Bölejikleri */
-        .snow-flake {
-            position: fixed; top: -10px; color: white;
-            user-select: none; z-index: 100;
-            animation: fall linear forwards;
-        }
-        @keyframes fall { to { transform: translateY(105vh); } }
     </style>
 </head>
 <body>
 
-<div id="snow-container"></div>
-
-<div class="app-card">
-    <div style="font-size: 20px; font-weight: bold; margin-bottom: 20px;">Tiz Tole</div>
-
-    <div class="input-field">Telefon (mysal: +9936...)</div>
-    <div class="input-field">TMT Mukdary</div>
-
-    <div class="jemi-box">
-        <span>Jemi:</span>
-        <span>0.00 TL</span>
-    </div>
-
-    <div class="special-area">
-        <div class="garland">
-            <div class="bulb" style="background: #ff0000; color: #ff0000;"></div>
-            <div class="bulb" style="background: #ffcc00; color: #ffcc00; animation-delay: 0.2s;"></div>
-            <div class="bulb" style="background: #00ff00; color: #00ff00; animation-delay: 0.4s;"></div>
-            <div class="bulb" style="background: #00ccff; color: #00ccff; animation-delay: 0.6s;"></div>
+    <div class="marquee-container">
+        <div class="marquee-text">
+            Täze ýylyňyz gutly bolsun! • С Новым Годом! • Happy New Year! • Yeni Yılınız Kutlu Olsun!
         </div>
-        
-        <div style="font-size: 11px; color: #ddd;">Alyjynyň IBAN belgisi</div>
-        <div class="white-display">TR15 0015 7000 0000 0201 4581 78</div>
-        
-        <div style="font-size: 11px; color: #ddd;">Alyjy</div>
-        <div class="white-display" style="color: #333;">Aman Hayitmuradow</div>
     </div>
 
-    <button class="btn-confirm">Tassyklap Ibermek →</button>
-
-    <div class="internet-list">
-        <div style="color: #4facfe; margin-bottom: 10px;">🌐 <b>Internet Paketler</b></div>
-        <div class="list-item"><span>3 TMT</span> <span class="code-text">*0850*3#</span> <span>50 MB</span></div>
-        <div class="list-item"><span>60 TMT</span> <span class="code-text">*0850*60#</span> <span>1.5 GB</span></div>
-        <div class="list-item"><span>200 TMT</span> <span class="code-text">*0850*200#</span> <span>20 GB</span></div>
+    <div class="language-switcher">
+        <a href="#">Türkmen</a>
+        <a href="#">Türkçe</a>
+        <a href="#">Русский</a>
+        <a href="#">English</a>
     </div>
-</div>
 
-<script>
-    function createSnow() {
-        const snow = document.createElement('div');
-        snow.className = 'snow-flake';
-        snow.innerHTML = '❄';
-        snow.style.left = Math.random() * 100 + 'vw';
-        snow.style.opacity = Math.random();
-        snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
-        snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        document.getElementById('snow-container').appendChild(snow);
-        setTimeout(() => snow.remove(), 5000);
-    }
-    setInterval(createSnow, 200);
-</script>
+    <div class="payment-card">
+        <h2>Töleg Sahypasy</h2>
+        
+        <form action="#">
+            <div class="input-group">
+                <label for="phone">Telefon belgiňiz:</label>
+                <input type="tel" id="phone" placeholder="+993 6x xx xx xx" required>
+            </div>
+
+            <div class="input-group">
+                <label for="amount">Geçirilmeli mukdar (Manat):</label>
+                <input type="number" id="amount" placeholder="0.00" min="1" step="0.1" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Indiki ädim</button>
+        </form>
+    </div>
 
 </body>
 </html>
