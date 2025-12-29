@@ -10,6 +10,7 @@
             --card-bg: #ffffff;
             --text-color: #333;
             --header-bg: #0056b3;
+            --accent: #28a745;
         }
 
         .night-mode {
@@ -24,71 +25,51 @@
             background-color: var(--bg-color); 
             color: var(--text-color); 
             margin: 0; padding: 0; transition: 0.5s;
-            overflow-x: hidden;
         }
 
-        /* --- REGISTRASIÝA PENJIRESİ --- */
-        #auth-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #011627; z-index: 5000; display: flex; align-items: center; justify-content: center;
-        }
-        .auth-card {
-            background: white; padding: 30px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 2px solid #ffc107;
-        }
-        .auth-card h2 { color: #0056b3; margin-bottom: 20px; font-size: 24px; }
-        .auth-input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .auth-btn { width: 100%; padding: 14px; background: #28a745; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
-
-        /* Esasy Elementler */
+        /* Gar effekti */
         #snow-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 100; }
-        
+
+        /* Täze ýyl yşyklary */
         .lights { position: fixed; top: 0; width: 100%; height: 10px; display: flex; justify-content: space-around; z-index: 1000; }
         .light { width: 10px; height: 10px; border-radius: 50%; animation: flash 1s infinite alternate; }
         @keyframes flash { from { opacity: 0.3; } to { opacity: 1; box-shadow: 0 0 10px white; } }
 
+        /* Ýokarky bannner */
         .marquee-banner { background: #d00000; color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; border-bottom: 3px solid #ffcc00; }
         .marquee-text { display: inline-block; animation: scroll-left 15s linear infinite; font-weight: bold; }
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .container { max-width: 420px; margin: 10px auto; padding: 10px; display: none; position: relative; z-index: 10; }
+        .container { max-width: 420px; margin: 20px auto; padding: 15px; position: relative; z-index: 10; }
 
-        .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .live-clock { font-family: monospace; font-weight: bold; color: #ffc107; background: #333; padding: 5px 10px; border-radius: 5px; }
+        /* Garaşylýan wagt (Loading) stili */
+        #loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--header-bg); border-radius: 50%;
+            animation: spin 1s linear infinite; margin: 0 auto 10px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* Kartlar we Dizayn */
         .profile-card { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center; border-top: 5px solid var(--header-bg); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .iban-style { display: block; margin-top: 15px; color: #000; font-family: 'Courier New', monospace; font-weight: 900; font-size: 18px; padding: 12px; background: #eee; border: 2px solid #333; border-radius: 8px; }
+        .iban-style { display: block; margin-top: 15px; color: #000; font-family: 'Courier New', monospace; font-weight: 900; font-size: 16px; padding: 12px; background: #eee; border: 2px solid #333; border-radius: 8px; }
 
         .card { background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.2); }
         .card-header { background: var(--header-bg); color: white; padding: 15px; text-align: center; }
-        input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 18px; box-sizing: border-box; }
+        input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 18px; box-sizing: border-box; background: white; color: black; }
 
-        .pay-btn { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .wa-btn { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-
-        .testimonials { margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; border: 1px dashed var(--header-bg); font-size: 13px; }
+        .pay-btn { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; }
+        .wa-btn { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; margin-top: 10px; }
+        
+        .live-clock { font-family: monospace; font-weight: bold; color: #ffc107; background: #333; padding: 5px 10px; border-radius: 5px; text-align: center; margin-bottom: 10px; }
     </style>
 </head>
-<body>
-
-    <div id="auth-overlay">
-        <div class="auth-card" id="reg-box">
-            <h1 style="font-size: 40px; margin: 0;">🎄</h1>
-            <h2>Hasaba alyş</h2>
-            <input type="text" id="reg-user" class="auth-input" placeholder="Adyňyz">
-            <input type="password" id="reg-pass" class="auth-input" placeholder="Parol dörediň">
-            <button class="auth-btn" onclick="register()">Hasaba dur</button>
-            <p style="font-size: 13px; margin-top: 15px; color: #666;">Hasabyňyz barmy? <a href="#" onclick="showLogin()" style="color: #0056b3; font-weight: bold;">Giriň</a></p>
-        </div>
-
-        <div class="auth-card" id="login-box" style="display: none;">
-            <h1 style="font-size: 40px; margin: 0;">🎅</h1>
-            <h2>Giriş</h2>
-            <input type="text" id="login-user" class="auth-input" placeholder="Ulanyjy ady">
-            <input type="password" id="login-pass" class="auth-input" placeholder="Parol">
-            <button class="auth-btn" style="background: #0056b3;" onclick="login()">Giriş et</button>
-        </div>
-    </div>
+<body onload="initSnow(); drawSnow();">
 
     <canvas id="snow-canvas"></canvas>
     <div class="lights">
@@ -102,67 +83,43 @@
         <div class="marquee-text">🎄 Täze ýylyňyz gutly bolsun! Aman Hayitmuradow bilen çalt we ynamly tölegler! 🎅</div>
     </div>
 
-    <div class="container" id="main-app">
-        <div class="top-row">
-            <button onclick="toggleMode()" style="cursor:pointer; border-radius:10px; border:none; padding:5px 10px;">🌙 Gije/Gündiz</button>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <button onclick="toggleMode()" style="cursor:pointer; border-radius:10px; border:none; padding:8px;">🌙 Gije/Gündiz</button>
             <div id="clock" class="live-clock">00:00:00</div>
-            <button onclick="logout()" style="background:#d00000; color:white; border:none; padding:5px 10px; border-radius:10px; cursor:pointer;">Çykyş</button>
         </div>
 
         <div class="profile-card">
-            <h3 id="welcome-msg" style="color: #0056b3;">Hoş geldiňiz!</h3>
             <h2 style="margin:0;">Hayitmuradow Aman</h2>
             <span class="iban-style">TR15 0015 7000 0000 0201 4581 78</span>
         </div>
 
         <div class="card">
             <div class="card-header"><h2 style="margin:0;">ALTYN ASYR</h2></div>
-            <div class="card-body">
+            <div class="card-body" style="padding: 20px;" id="main-content">
+                <label>Telefon belgiňiz:</label>
                 <input type="tel" value="+993 6" id="phone">
+                
+                <label>Mukdar (TMT):</label>
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
+                
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:#0056b3; margin-bottom:15px; font-size:24px;">0.00 TL</div>
-                <button class="pay-btn" onclick="alert('Töleg hasaba alyndy! Dekont ugratmagy ýatdan çykarmaň.')">TÖLEG ET</button>
+                
+                <button class="pay-btn" id="pay-button" onclick="processPayment()">TÖLEG ET</button>
+                
+                <div id="loader">
+                    <div class="spinner"></div>
+                    <p><b>Töleg hasaplanýar, garaşyň...</b></p>
+                </div>
+
                 <a id="wa-link" href="https://wa.me/99364041065" class="wa-btn">💬 Dekont ugrat (WhatsApp)</a>
             </div>
-        </div>
-
-        <div class="testimonials">
-            <h4 style="margin:0 0 10px 0; color:#ffc107;">Müşderi Seslenmeleri:</h4>
-            <div style="margin-bottom:5px;"><b>Merdan:</b> "Gaty çalt geçirdi, sag bol Aman!"</div>
-            <div style="margin-bottom:5px;"><b>Sapa:</b> "5 minutda hasabym doldy. Ynamly!"</div>
         </div>
     </div>
 
     <script>
-        // Registrasiýa Logikasy
-        function showLogin() { document.getElementById('reg-box').style.display='none'; document.getElementById('login-box').style.display='block'; }
-        
-        function register() {
-            const user = document.getElementById('reg-user').value;
-            const pass = document.getElementById('reg-pass').value;
-            if(user && pass) {
-                localStorage.setItem('aman_user', user);
-                localStorage.setItem('aman_pass', pass);
-                alert("Hasaba alyndyňyz! Indi giriş ediň.");
-                showLogin();
-            } else { alert("Meýdançalary dolduruň!"); }
-        }
-
-        function login() {
-            const user = document.getElementById('login-user').value;
-            const pass = document.getElementById('login-pass').value;
-            if(user === localStorage.getItem('aman_user') && pass === localStorage.getItem('aman_pass')) {
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                document.getElementById('welcome-msg').innerText = "Hoş geldiňiz, " + user + "!";
-                initSnow(); drawSnow(); // Girişden soň gary başlat
-            } else { alert("Adyňyz ýa-da paroluňyz ýalňyş!"); }
-        }
-
-        function logout() { localStorage.removeItem('aman_user'); localStorage.removeItem('aman_pass'); location.reload(); }
         function toggleMode() { document.body.classList.toggle('night-mode'); }
 
-        // Kalkulýator
         function calculate() {
             let tmt = document.getElementById('tmt_input').value;
             let tl = (tmt * 10.5).toFixed(2);
@@ -170,15 +127,39 @@
             document.getElementById('wa-link').href = `https://wa.me/99364041065?text=Salam Aman, men ${tmt} TMT töleg etdim (${tl} TL).`;
         }
 
+        // Töleg amala aşyrylýan wagtyndaky animasiýa
+        function processPayment() {
+            const btn = document.getElementById('pay-button');
+            const loader = document.getElementById('loader');
+            const tmtVal = document.getElementById('tmt_input').value;
+
+            if(!tmtVal || tmtVal <= 0) {
+                alert("Haýyş, mukdary giriziň!");
+                return;
+            }
+
+            // Düwmäni gizle we "Hasaplanýar" ýazgyny görkez
+            btn.style.display = "none";
+            loader.style.display = "block";
+
+            // 3 sekuntdan soň netijeni görkez
+            setTimeout(() => {
+                loader.style.display = "none";
+                btn.style.display = "block";
+                alert('Töleg hasaba alyndy! Indi dekonty WhatsApp arkaly ugradyp bilersiňiz.');
+            }, 3000);
+        }
+
         // Sagat
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-        // Gar effekti
+        // Gar effekti logikasy
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         function initSnow() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            particles = [];
             for(let i=0; i<100; i++) particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*3+1, v: Math.random()*1+0.5});
         }
         function drawSnow() {
@@ -189,6 +170,7 @@
             });
             ctx.fill(); requestAnimationFrame(drawSnow);
         }
+        window.onresize = initSnow;
     </script>
 </body>
 </html>
