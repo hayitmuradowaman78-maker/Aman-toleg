@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Hayitmuradow - Töleg</title>
+    <title>Aman Hayitmuradow - Dekont</title>
     <style>
         :root { --bg: #f4f4f4; --card: #ffffff; --text: #333; --main: #d00000; --accent: #28a745; }
         .night-mode { --bg: #011627; --card: #1e2a38; --text: #ffffff; --main: #ff4d4d; }
         
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5; overflow-x: hidden; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5s; overflow-x: hidden; }
         #snow-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 100; }
         
         .marquee-container { background: var(--main); color: white; padding: 12px 0; font-weight: bold; overflow: hidden; white-space: nowrap; border-bottom: 3px solid #ffc107; }
@@ -17,7 +17,6 @@
 
         .container { max-width: 420px; margin: auto; padding: 15px; position: relative; z-index: 10; }
         
-        /* Täze Sene we Sagat Stili */
         .time-box { 
             display: flex; 
             flex-direction: column; 
@@ -46,7 +45,9 @@
         .card-body { padding: 20px; }
         
         input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 18px; box-sizing: border-box; background: #fff; color: #000; outline: none; }
-        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 22px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        
+        /* Dekont Ugrat Düwmesi */
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 22px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(40,167,69,0.3); }
         .pay-btn:active { transform: scale(0.97); }
 
         #receipt-box { display: none; background: #fff; color: #000; padding: 20px; border: 2px dashed #333; border-radius: 10px; margin-top: 20px; font-family: monospace; }
@@ -97,10 +98,11 @@
                 <input type="tel" value="+993 6" id="phone">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:15px; font-size:28px;">0.00 TL</div>
-                <button class="pay-btn" id="pay-btn" onclick="processPayment()">TÖLEG ET</button>
+                
+                <button class="pay-btn" id="pay-btn" onclick="processPayment()">DEKONT UGRAT</button>
                 
                 <div id="receipt-box">
-                    <h3 style="text-align:center; margin:0;">🧾 TÖLEG ÇEKI</h3>
+                    <h3 style="text-align:center; margin:0;">🧾 DEKONT ÇEKI</h3>
                     <hr>
                     <div id="receipt-details"></div>
                 </div>
@@ -120,14 +122,14 @@
     </div>
 
     <script>
-        let currentRate = 2.5; // ESASY KURS 2.5
+        let currentRate = 2.5; 
         let currentLang = 'tk';
         
         const langs = {
-            tk: { pay: "TÖLEG ET", receipt: "TÖLEG ÇEKI", alert: "Mukdary giriziň!", copied: "Göçürildi!" },
-            ru: { pay: "ОПЛАТИТЬ", receipt: "ЧЕК ОПЛАТЫ", alert: "Введите сумму!", copied: "Скопировано!" },
-            tr: { pay: "ÖDEME YAP", receipt: "ÖDEME FİŞİ", alert: "Miktarı giriniz!", copied: "Kopyalandı!" },
-            en: { pay: "PAY NOW", receipt: "RECEIPT", alert: "Enter amount!", copied: "Copied!" }
+            tk: { pay: "DEKONT UGRAT", receipt: "DEKONT ÇEKI", alert: "Mukdary giriziň!", copied: "Göçürildi!" },
+            ru: { pay: "ОТПРАВИТЬ ЧЕК", receipt: "ЧЕК ОПЛАТЫ", alert: "Введите сумму!", copied: "Скопировано!" },
+            tr: { pay: "DEKONT GÖNDER", receipt: "ÖDEME FİŞİ", alert: "Miktarı giriniz!", copied: "Kopyalandı!" },
+            en: { pay: "SEND RECEIPT", receipt: "RECEIPT", alert: "Enter amount!", copied: "Copied!" }
         };
 
         function calculate() {
@@ -147,13 +149,13 @@
 
         function saveSettings() {
             currentRate = document.getElementById('rate-input').value;
-            localStorage.setItem('aman_rate_v3', currentRate);
+            localStorage.setItem('aman_rate_final', currentRate);
             alert("Kurs täzelendi!");
             calculate();
         }
 
         function loadSettings() {
-            let r = localStorage.getItem('aman_rate_v3');
+            let r = localStorage.getItem('aman_rate_final');
             if(r) { currentRate = r; document.getElementById('rate-input').value = r; }
             loadHistory();
         }
@@ -171,16 +173,16 @@
             document.getElementById('receipt-box').style.display = "block";
             document.getElementById('receipt-details').innerHTML = `ID: #${id}<br>Tel: ${phone}<br>TMT: ${tmt}<br>TL: ${tl}<br>${dateStr}`;
 
-            let hist = JSON.parse(localStorage.getItem('aman_hist_v3') || "[]");
+            let hist = JSON.parse(localStorage.getItem('aman_hist_final') || "[]");
             hist.unshift(`${dateStr} | ${tmt} TMT`);
-            localStorage.setItem('aman_hist_v3', JSON.stringify(hist.slice(0,5)));
+            localStorage.setItem('aman_hist_final', JSON.stringify(hist.slice(0,5)));
             loadHistory();
 
-            window.location.href = `https://wa.me/99364041065?text=🧾 *TÖLEG*%0A📞 ${phone}%0A💰 ${tmt} TMT%0A💵 ${tl} TL%0A🆔 ${id}%0A📅 ${dateStr}`;
+            window.location.href = `https://wa.me/99364041065?text=🧾 *DEKONT*%0A📞 ${phone}%0A💰 ${tmt} TMT%0A💵 ${tl} TL%0A🆔 ${id}%0A📅 ${dateStr}`;
         }
 
         function loadHistory() {
-            let h = JSON.parse(localStorage.getItem('aman_hist_v3') || "[]");
+            let h = JSON.parse(localStorage.getItem('aman_hist_final') || "[]");
             document.getElementById('history-list').innerHTML = h.length ? h.join('<br>') : "Töleg ýok.";
         }
 
@@ -193,7 +195,6 @@
 
         setInterval(() => {
             const n = new Date();
-            // Gün.Aý.Ýyl formaty (Goýy we uly)
             const day = String(n.getDate()).padStart(2, '0');
             const month = String(n.getMonth() + 1).padStart(2, '0');
             const year = n.getFullYear();
