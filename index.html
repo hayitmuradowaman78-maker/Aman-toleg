@@ -3,58 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altyn Asyr - Aman</title>
+    <title>Altyn Asyr - Aman (Täze Ýyl)</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-        
-        .marquee-banner { background: #0056b3; color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
+        /* Täze ýyl fon dizaýny */
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: #011627; /* Garaňky gijeki gök */
+            color: #333;
+            margin: 0; 
+            padding: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/snow.png'); /* Gar effekti */
+        }
+
+        /* Ýanyp öçýän çyrajyklar */
+        .lights {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 10px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 1000;
+        }
+        .light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: flash 1s infinite alternate;
+        }
+        @keyframes flash {
+            from { opacity: 0.3; box-shadow: 0 0 0px white; }
+            to { opacity: 1; box-shadow: 0 0 10px white; }
+        }
+
+        /* Arça suraty fon üçin */
+        .tree-bg {
+            position: fixed;
+            bottom: 0;
+            left: 10px;
+            font-size: 50px;
+            opacity: 0.5;
+        }
+        .tree-right {
+            position: fixed;
+            bottom: 0;
+            right: 10px;
+            font-size: 50px;
+            opacity: 0.5;
+        }
+
+        .marquee-banner { background: #d00000; color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; border-bottom: 3px solid #ffcc00; }
         .marquee-text { display: inline-block; animation: scroll-left 15s linear infinite; font-weight: bold; }
         @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .container { max-width: 420px; margin: 10px auto; padding: 10px; }
+        .container { max-width: 420px; margin: 10px auto; padding: 15px; position: relative; z-index: 10; }
 
-        /* Diller we Sagat (History) bölümi */
-        .top-controls { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .top-controls { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px; }
         .lang-btn { background: #fff; border: 1.5px solid #0056b3; padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold; color: #0056b3; }
-        
-        /* Sagat şekili (History düwmesi) */
-        .history-btn { background: #ffc107; border: 1.5px solid #d39e00; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 20px; display: flex; align-items: center; }
+        .history-btn { background: #ffc107; border: 1.5px solid #d39e00; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 20px; }
 
-        .profile-card { background: white; padding: 25px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid #0056b3; }
-        .profile-card h2 { margin: 0; color: #222; font-size: 24px; }
-        
-        .iban-style { 
-            display: block; margin-top: 15px; color: #000; font-family: 'Courier New', monospace; 
-            font-weight: 900; font-size: 19px; padding: 12px; background: #f9f9f9;
-            border: 2px solid #333; border-radius: 8px; word-break: break-all;
-        }
+        .profile-card { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center; border: 2px solid #0056b3; }
+        .profile-card h2 { margin: 0; color: #222; }
+        .iban-style { display: block; margin-top: 10px; color: #000; font-family: 'Courier New', monospace; font-weight: 900; font-size: 18px; padding: 10px; background: #eee; border-radius: 8px; border: 2px solid #333; }
 
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         .card-header { background: #0056b3; color: white; padding: 20px; text-align: center; }
-        .card-body { padding: 25px; }
+        .card-body { padding: 20px; }
 
-        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold; color: #555; }
-        input { width: 100%; padding: 15px; margin-bottom: 20px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 18px; box-sizing: border-box; outline: none; }
+        input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 18px; box-sizing: border-box; }
 
-        .calc-display { background: #e7f3ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold; color: #0056b3; font-size: 18px; border: 1px solid #b3d7ff; }
+        .pay-btn { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
 
-        .pay-btn { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        /* WhatsApp Dekont Düwmesi */
+        .wa-btn { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; }
 
-        /* Taryh (Modal) - Sagada basanda açylýan ýer */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 15% auto; padding: 20px; border-radius: 15px; width: 85%; max-width: 350px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .close { cursor: pointer; font-size: 24px; font-weight: bold; color: #999; }
-        .history-list { margin-top: 15px; max-height: 300px; overflow-y: auto; }
-        .history-item { padding: 10px; border-bottom: 1px solid #f1f1f1; font-size: 13px; line-height: 1.5; }
-        .history-item b { color: #28a745; display: block; }
-        .history-item i { font-size: 11px; color: #888; }
+        /* Modal stil */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+        .modal-content { background: white; margin: 20% auto; padding: 20px; border-radius: 15px; width: 85%; max-width: 350px; }
     </style>
 </head>
 <body>
 
+    <div class="lights">
+        <div class="light" style="background: red; animation-delay: 0.1s;"></div>
+        <div class="light" style="background: yellow; animation-delay: 0.2s;"></div>
+        <div class="light" style="background: blue; animation-delay: 0.3s;"></div>
+        <div class="light" style="background: green; animation-delay: 0.4s;"></div>
+        <div class="light" style="background: pink; animation-delay: 0.5s;"></div>
+    </div>
+
+    <div class="tree-bg">🎄</div>
+    <div class="tree-right">🎄</div>
+
     <div class="marquee-banner">
-        <div class="marquee-text">🎄 Täze ýylyňyz gutly bolsun! Aman Hayitmuradow, işleriňizde rowaçlyk! 🎅</div>
+        <div class="marquee-text">🎄 Täze ýylyňyz gutly bolsun! Aman Hayitmuradow bilen amatly tölegler! 🎅</div>
     </div>
 
     <div class="container">
@@ -77,68 +119,54 @@
                 <small id="sub-title">Hasaby doldurmak</small>
             </div>
             <div class="card-body">
-                <label id="lbl-phone">Telefon belgi:</label>
                 <input type="tel" value="+993 6" id="phone">
+                <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
 
-                <label id="lbl-amount">Geçirilmeli mukdar (TMT):</label>
-                <input type="number" id="tmt_input" placeholder="0.00" oninput="calculate()">
-
-                <div class="calc-display" id="calc-res">Awtomatiki: 0.00 TL</div>
+                <div id="calc-res" style="text-align:center; font-weight:bold; color:#0056b3; margin-bottom:15px; font-size:20px;">0.00 TL</div>
 
                 <button class="pay-btn" id="btn-pay">TÖLEG ET</button>
+
+                <a href="https://wa.me/99364041065?text=Salam%20Aman%2C%20töleg%20etdim.%20Dekonty%20şu%20ýerde." class="wa-btn">
+                    💬 Dekont ugrat (WhatsApp)
+                </a>
             </div>
         </div>
     </div>
 
     <div id="historyModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="hist-title">Töleg Taryhy</h3>
-                <span class="close" onclick="closeHistory()">&times;</span>
+            <h3 id="hist-title">Töleg Taryhy</h3>
+            <div id="hist-items" style="font-size: 13px;">
+                <p>29.12.2025 | 21:30:05 - <b>20 TMT</b></p>
+                <p>27.12.2025 | 10:15:42 - <b>50 TMT</b></p>
             </div>
-            <div class="history-list">
-                <div class="history-item">
-                    <b>+20.00 TMT</b>
-                    <i>Sene: 29.12.2025 | Sagat: 21:30:05</i>
-                </div>
-                <div class="history-item">
-                    <b>+50.00 TMT</b>
-                    <i>Sene: 27.12.2025 | Sagat: 10:15:42</i>
-                </div>
-                <div class="history-item">
-                    <b>+10.00 TMT</b>
-                    <i>Sene: 20.12.2025 | Sagat: 14:05:12</i>
-                </div>
-            </div>
+            <button onclick="closeHistory()" style="width:100%; padding:10px; margin-top:10px;">Ýap</button>
         </div>
     </div>
 
     <script>
         function openHistory() { document.getElementById('historyModal').style.display = "block"; }
         function closeHistory() { document.getElementById('historyModal').style.display = "none"; }
-        window.onclick = function(event) { if (event.target == document.getElementById('historyModal')) closeHistory(); }
-
-        const translations = {
-            'tk': { 'header': 'ALTYN ASYR', 'sub': 'Hasaby doldurmak', 'phone': 'Telefon belgi:', 'amt': 'Geçirilmeli mukdar (TMT):', 'btn': 'TÖLEG ET', 'hist': 'Töleg Taryhy' },
-            'tr': { 'header': 'ALTIN ASIR', 'sub': 'Hesap Doldurma', 'phone': 'Telefon Numarası:', 'amt': 'Miktar (TMT):', 'btn': 'ÖDEME YAP', 'hist': 'Ödeme Geçmişi' },
-            'ru': { 'header': 'АЛТЫН АСЫР', 'sub': 'Пополнение счета', 'phone': 'Номер телефона:', 'amt': 'Сумма (TMT):', 'btn': 'ОПЛАТИТЬ', 'hist': 'История платежей' },
-            'en': { 'header': 'ALTYN ASYR', 'sub': 'Top up balance', 'phone': 'Phone number:', 'amt': 'Amount (TMT):', 'btn': 'PAY NOW', 'hist': 'Payment History' }
-        };
-
-        function translatePage(lang) {
-            document.getElementById('header-title').innerText = translations[lang].header;
-            document.getElementById('sub-title').innerText = translations[lang].sub;
-            document.getElementById('lbl-phone').innerText = translations[lang].phone;
-            document.getElementById('lbl-amount').innerText = translations[lang].amt;
-            document.getElementById('btn-pay').innerText = translations[lang].btn;
-            document.getElementById('hist-title').innerText = translations[lang].hist;
-        }
-
+        
         function calculate() {
             let tmt = document.getElementById('tmt_input').value;
             let res = document.getElementById('calc-res');
             if(tmt > 0) { res.innerText = (tmt * 10.5).toFixed(2) + " TL"; } 
             else { res.innerText = "0.00 TL"; }
+        }
+
+        const translations = {
+            'tk': { 'header': 'ALTYN ASYR', 'sub': 'Hasaby doldurmak', 'btn': 'TÖLEG ET', 'wa': '💬 Dekont ugrat (WhatsApp)' },
+            'tr': { 'header': 'ALTIN ASIR', 'sub': 'Hesap Doldurma', 'btn': 'ÖDEME YAP', 'wa': '💬 Dekont Gönder (WhatsApp)' },
+            'ru': { 'header': 'АЛТЫН АСЫР', 'sub': 'Пополнение счета', 'btn': 'ОПЛАТИТЬ', 'wa': '💬 Отправить чек (WhatsApp)' },
+            'en': { 'header': 'ALTYN ASYR', 'sub': 'Top up balance', 'btn': 'PAY NOW', 'wa': '💬 Send Receipt (WhatsApp)' }
+        };
+
+        function translatePage(lang) {
+            document.getElementById('header-title').innerText = translations[lang].header;
+            document.getElementById('sub-title').innerText = translations[lang].sub;
+            document.getElementById('btn-pay').innerText = translations[lang].btn;
+            document.querySelector('.wa-btn').innerText = translations[lang].wa;
         }
     </script>
 </body>
