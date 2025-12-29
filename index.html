@@ -3,43 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altyn Asyr - Aman Hayitmuradow</title>
+    <title>Töleg Hyzmaty - Aman Hayitmuradow</title>
     <style>
-        :root { --bg: #f4f4f4; --card: #ffffff; --text: #333; --main: #0056b3; }
-        .night-mode { --bg: #011627; --card: #1e2a38; --text: #ffffff; --main: #003d80; }
+        :root { --bg: #f4f4f4; --card: #ffffff; --text: #333; --main: #d00000; --accent: #28a745; }
+        .night-mode { --bg: #011627; --card: #1e2a38; --text: #ffffff; --main: #ff4d4d; }
+        
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5s; overflow-x: hidden; }
         #snow-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 100; }
+        
+        /* Akan ýazgy */
+        .marquee-container { background: var(--main); color: white; padding: 10px 0; font-weight: bold; overflow: hidden; white-space: nowrap; border-bottom: 3px solid #ffc107; }
+        .marquee-text { display: inline-block; animation: scroll-left 20s linear infinite; }
+        @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
         .container { max-width: 420px; margin: auto; padding: 15px; position: relative; z-index: 10; }
         
-        .lang-bar { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
-        .lang-btn { cursor: pointer; border: 2px solid transparent; padding: 8px; border-radius: 8px; background: var(--card); font-size: 14px; font-weight: bold; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .active-lang { border-color: #28a745 !important; }
+        .header-tools { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .clock-box { font-weight: bold; color: #ffc107; background: #333; padding: 5px 10px; border-radius: 8px; font-family: monospace; font-size: 14px; }
 
-        .profile-card { background: var(--card); padding: 20px; border-radius: 15px; text-align: center; border-top: 5px solid var(--main); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .iban-container { position: relative; background: #eee; padding: 10px; border-radius: 8px; border: 1px solid #333; color: #000; font-family: monospace; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        .copy-badge { position: absolute; top: -10px; right: -5px; background: #28a745; color: white; font-size: 10px; padding: 2px 6px; border-radius: 5px; }
+        .lang-bar { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; }
+        .lang-btn { cursor: pointer; border: 2px solid transparent; padding: 6px; border-radius: 8px; background: var(--card); font-size: 13px; font-weight: bold; transition: 0.3s; }
+        .active-lang { border-color: var(--accent) !important; box-shadow: 0 0 10px var(--accent); }
 
-        .card { background: var(--card); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        .profile-card { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; border-top: 5px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .iban-box { background: #eee; padding: 10px; border-radius: 8px; border: 1px dashed #333; color: #000; font-family: monospace; font-size: 14px; margin-top: 10px; cursor: pointer; position: relative; }
+
+        .card { background: var(--card); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.2); }
         .card-header { background: var(--main); color: white; padding: 15px; text-align: center; }
         .card-body { padding: 20px; }
         
         input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 18px; box-sizing: border-box; background: #fff; color: #000; }
-        .pay-btn { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; }
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; }
 
-        .admin-section { background: #333; color: #fff; padding: 15px; border-radius: 10px; margin-top: 20px; display: none; }
-        .history-box { background: var(--card); padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 12px; max-height: 150px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
+        #receipt-box { display: none; background: #fff; color: #000; padding: 20px; border: 2px dashed #333; border-radius: 10px; margin-top: 20px; font-family: monospace; line-height: 1.6; }
+        .history-section { background: var(--card); padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 12px; }
         
-        #receipt-box { display: none; background: #fff; color: #000; padding: 20px; border: 2px dashed #333; border-radius: 10px; margin-top: 20px; font-family: monospace; }
-        #loader { display: none; text-align: center; padding: 20px; }
-        .spinner { width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--main); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .admin-trigger { text-align: center; margin-top: 30px; color: gray; cursor: pointer; font-size: 18px; opacity: 0.3; }
+        .admin-panel { background: #222; color: #fff; padding: 15px; border-radius: 10px; margin-top: 10px; display: none; }
     </style>
 </head>
 <body onload="initSnow(); drawSnow(); loadSettings();">
 
     <canvas id="snow-canvas"></canvas>
 
+    <div class="marquee-container">
+        <div class="marquee-text" id="marquee-content">
+            🎄 Täze ýylyňyz gutly bolsun! • С Новым Годом! • Happy New Year! • Mutlu Yıllar! 🎅
+        </div>
+    </div>
+
     <div class="container">
+        <div class="header-tools">
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:none; font-size:20px; cursor:pointer;">🌗</button>
+            <div id="full-date" style="font-size: 11px; font-weight: bold;">00.00.2025</div>
+            <div class="clock-box" id="clock">00:00:00</div>
+        </div>
+
         <div class="lang-bar">
             <button class="lang-btn active-lang" id="btn-tk" onclick="changeLang('tk')">🇹🇲 TK</button>
             <button class="lang-btn" id="btn-ru" onclick="changeLang('ru')">🇷🇺 RU</button>
@@ -48,38 +67,39 @@
         </div>
 
         <div class="profile-card">
-            <h2 style="margin:0;">Hayitmuradow Aman</h2>
-            <div class="iban-container" onclick="copyIban()">
-                <span id="iban-text">TR15 0015 7000 0000 0201 4581 78</span>
-                <span class="copy-badge">COPY</span>
+            <h2 style="margin:0; font-size: 18px;">Aman Hayitmuradow</h2>
+            <div class="iban-box" onclick="copyIban()">
+                <span id="iban-num">TR15 0015 7000 0000 0201 4581 78</span>
+                <div style="font-size:9px; color:green;">(GÖÇÜRMEK ÜÇIN BAS)</div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header"><h2 id="title-as">ALTYN ASYR</h2></div>
+            <div class="card-header"><h2 id="title-as" style="margin:0;">ALTYN ASYR</h2></div>
             <div class="card-body">
                 <input type="tel" value="+993 6" id="phone">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
-                <div id="calc-res" style="text-align:center; font-weight:bold; color:#0056b3; margin-bottom:15px; font-size:26px;">0.00 TL</div>
+                <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:15px; font-size:26px;">0.00 TL</div>
                 <button class="pay-btn" id="pay-btn" onclick="processPayment()">TÖLEG ET</button>
                 
-                <div id="loader"><div class="spinner"></div><p id="loading-text">...</p></div>
                 <div id="receipt-box">
-                    <h3 id="rc-title" style="text-align:center;">ÇEK</h3>
+                    <h3 style="text-align:center; margin:0;">🧾 TÖLEG ÇEKI</h3>
+                    <hr>
                     <div id="receipt-details"></div>
                 </div>
             </div>
         </div>
 
-        <div class="history-box">
-            <b>Geçmiş:</b>
-            <div id="history-list">Töleg ýok.</div>
+        <div class="history-section">
+            <b id="hist-title">Geçmiş (History):</b>
+            <div id="history-list" style="margin-top:5px; color: gray;">Töleg ýok.</div>
         </div>
 
-        <button onclick="toggleAdmin()" style="margin-top:20px; background:none; border:none; color:gray; font-size:10px; cursor:pointer;">Admin</button>
-        <div class="admin-section" id="admin-panel">
-            Kurs: <input type="number" id="rate-input" step="0.1" value="10.5" style="width:80px; padding:5px;">
-            <button onclick="saveSettings()">OK</button>
+        <div class="admin-trigger" onclick="openAdmin()">⚙️</div>
+        <div class="admin-panel" id="admin-panel">
+            <b>Admin Paneli</b><br>
+            Kurs: <input type="number" id="rate-input" step="0.1" style="width:70px; font-size:14px; padding:5px; margin:10px 0;">
+            <button onclick="saveSettings()" style="padding:5px 15px; background:green; color:white; border:none; border-radius:5px;">Ýatda sakla</button>
         </div>
     </div>
 
@@ -87,10 +107,10 @@
         let currentRate = 10.5;
         let currentLang = 'tk';
         const langs = {
-            tk: { pay: "TÖLEG ET", receipt: "TÖLEG ÇEKI", alert: "Mukdary giriziň!", copied: "Göçürildi!" },
-            ru: { pay: "ОПЛАТИТЬ", receipt: "ЧЕК ОПЛАТЫ", alert: "Введите сумму!", copied: "Скопировано!" },
-            tr: { pay: "ÖDEME YAP", receipt: "ÖDEME FİŞİ", alert: "Miktarı giriniz!", copied: "Kopyalandı!" },
-            en: { pay: "PAY NOW", receipt: "RECEIPT", alert: "Enter amount!", copied: "Copied!" }
+            tk: { pay: "TÖLEG ET", receipt: "TÖLEG ÇEKI", alert: "Mukdary giriziň!", copied: "Iban göçürildi!", history: "Geçmiş:" },
+            ru: { pay: "ОПЛАТИТЬ", receipt: "ЧЕК ОПЛАТЫ", alert: "Введите сумму!", copied: "Ибан скопирован!", history: "История:" },
+            tr: { pay: "ÖDEME YAP", receipt: "ÖDEME FİŞİ", alert: "Miktarı giriniz!", copied: "Iban kopyalandı!", history: "Geçmiş:" },
+            en: { pay: "PAY NOW", receipt: "PAYMENT RECEIPT", alert: "Enter amount!", copied: "Iban copied!", history: "History:" }
         };
 
         function calculate() {
@@ -100,30 +120,25 @@
         }
 
         function copyIban() {
-            const iban = document.getElementById('iban-text').innerText;
-            navigator.clipboard.writeText(iban).then(() => {
-                alert(langs[currentLang].copied);
-            });
+            navigator.clipboard.writeText(document.getElementById('iban-num').innerText);
+            alert(langs[currentLang].copied);
         }
 
-        function toggleAdmin() {
-            let pass = prompt("Parol:");
-            if(pass === "1234") document.getElementById('admin-panel').style.display = "block";
+        function openAdmin() {
+            let p = prompt("Gizlin Parol:");
+            if(p === "30012001") document.getElementById('admin-panel').style.display = "block";
         }
 
         function saveSettings() {
             currentRate = document.getElementById('rate-input').value;
-            localStorage.setItem('rate', currentRate);
+            localStorage.setItem('aman_rate', currentRate);
             alert("Kurs täzelendi!");
             calculate();
         }
 
         function loadSettings() {
-            let savedRate = localStorage.getItem('rate');
-            if(savedRate) {
-                currentRate = parseFloat(savedRate);
-                document.getElementById('rate-input').value = savedRate;
-            }
+            let r = localStorage.getItem('aman_rate');
+            if(r) { currentRate = r; document.getElementById('rate-input').value = r; }
             loadHistory();
         }
 
@@ -131,31 +146,34 @@
             const tmt = document.getElementById('tmt_input').value;
             if(!tmt || tmt <= 0) { alert(langs[currentLang].alert); return; }
 
+            const phone = document.getElementById('phone').value;
+            const tl = (tmt * currentRate).toFixed(2);
+            const id = Math.floor(Math.random() * 899999) + 111111;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + " " + now.toLocaleTimeString();
+
             document.getElementById('pay-btn').style.display = "none";
-            document.getElementById('loader').style.display = "block";
+            document.getElementById('receipt-box').style.display = "block";
+            document.getElementById('receipt-details').innerHTML = `
+                <b>ID:</b> #${id}<br>
+                <b>Tel:</b> ${phone}<br>
+                <b>TMT:</b> ${tmt} TMT<br>
+                <b>TL:</b> ${tl} TL<br>
+                <b>Sene:</b> ${dateStr}
+            `;
 
-            setTimeout(() => {
-                const phone = document.getElementById('phone').value;
-                const tl = (tmt * currentRate).toFixed(2);
-                const id = Math.floor(Math.random() * 900000) + 100000;
-                const date = new Date().toLocaleString();
+            let hist = JSON.parse(localStorage.getItem('aman_hist') || "[]");
+            hist.unshift(`${dateStr} | ${tmt} TMT`);
+            localStorage.setItem('aman_hist', JSON.stringify(hist.slice(0,5)));
+            loadHistory();
 
-                document.getElementById('loader').style.display = "none";
-                document.getElementById('receipt-box').style.display = "block";
-                document.getElementById('receipt-details').innerHTML = `ID: #${id}<br>Tel: ${phone}<br>TMT: ${tmt}<br>TL: ${tl}<br>${date}`;
-
-                let history = JSON.parse(localStorage.getItem('history') || "[]");
-                history.unshift(`${date}: ${tmt} TMT -> ${tl} TL`);
-                localStorage.setItem('history', JSON.stringify(history.slice(0, 5)));
-                loadHistory();
-
-                window.location.href = `https://wa.me/99364041065?text=🧾 *TÖLEG*%0A📞 ${phone}%0A💰 ${tmt} TMT%0A💵 ${tl} TL%0A🆔 ${id}`;
-            }, 1500);
+            window.location.href = `https://wa.me/99364041065?text=🧾 *${langs[currentLang].receipt}*%0A📱 *Tel:* ${phone}%0A💰 *Mukdar:* ${tmt} TMT%0A💵 *TL:* ${tl} TL%0A🆔 *ID:* ${id}%0A📅 *Sene:* ${dateStr}`;
         }
 
         function loadHistory() {
-            let history = JSON.parse(localStorage.getItem('history') || "[]");
-            document.getElementById('history-list').innerHTML = history.length > 0 ? history.join('<br>') : "Töleg ýok.";
+            let h = JSON.parse(localStorage.getItem('aman_hist') || "[]");
+            document.getElementById('history-list').innerHTML = h.length ? h.join('<br>') : "Töleg ýok.";
+            document.getElementById('hist-title').innerText = langs[currentLang].history;
         }
 
         function changeLang(lang) {
@@ -163,22 +181,28 @@
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
             document.getElementById('btn-'+lang).classList.add('active-lang');
             document.getElementById('pay-btn').innerText = langs[lang].pay;
+            loadHistory();
         }
 
+        setInterval(() => {
+            const n = new Date();
+            document.getElementById('clock').innerText = n.toLocaleTimeString();
+            document.getElementById('full-date').innerText = n.toLocaleDateString();
+        }, 1000);
+
+        // Snow effect
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
-        let p = [];
+        let snow = [];
         function initSnow() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            p = [];
-            for(let i=0; i<40; i++) p.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2+1, v:Math.random()*0.5+0.5});
+            for(let i=0; i<50; i++) snow.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*3+1, v:Math.random()*1+0.5});
         }
         function drawSnow() {
             ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="white"; ctx.beginPath();
-            p.forEach(s => { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); s.y+=s.v; if(s.y>canvas.height) s.y=-10; });
+            snow.forEach(s => { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); s.y+=s.v; if(s.y>canvas.height) s.y=-10; });
             ctx.fill(); requestAnimationFrame(drawSnow);
         }
-        window.onresize = initSnow;
     </script>
 </body>
 </html>
