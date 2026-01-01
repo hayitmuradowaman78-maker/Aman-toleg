@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Hayitmuradow - Dekont</title>
+    <title>Aman Hayitmuradow - Töleg</title>
     <style>
         :root { --bg: #f4f4f4; --card: #ffffff; --text: #333; --main: #d00000; --accent: #28a745; }
         .night-mode { --bg: #011627; --card: #1e2a38; --text: #ffffff; --main: #ff4d4d; }
         
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5s; overflow-x: hidden; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5; overflow-x: hidden; }
         #snow-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 100; }
         
         .marquee-container { background: var(--main); color: white; padding: 12px 0; font-weight: bold; overflow: hidden; white-space: nowrap; border-bottom: 3px solid #ffc107; }
@@ -17,38 +17,26 @@
 
         .container { max-width: 420px; margin: auto; padding: 15px; position: relative; z-index: 10; }
         
-        .time-box { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background: #222; 
-            color: #ffc107; 
-            padding: 15px; 
-            border-radius: 12px; 
-            font-family: 'Courier New', Courier, monospace; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-            border: 2px solid #444;
-        }
-        #full-date { font-size: 18px; letter-spacing: 2px; margin-bottom: 5px; text-transform: uppercase; }
+        .time-box { display: flex; flex-direction: column; align-items: center; background: #222; color: #ffc107; padding: 15px; border-radius: 12px; font-family: 'Courier New', monospace; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 20px; border: 2px solid #444; }
         #clock { font-size: 32px; font-weight: bold; border-top: 1px solid #444; padding-top: 5px; }
 
         .lang-bar { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
         .lang-btn { cursor: pointer; border: 2px solid transparent; padding: 10px; border-radius: 10px; background: var(--card); font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .active-lang { border-color: var(--accent) !important; background: #e8f5e9; }
 
-        .profile-card { background: var(--card); padding: 20px; border-radius: 15px; text-align: center; border-top: 5px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        .iban-box { background: #eee; padding: 12px; border-radius: 8px; border: 1px dashed #333; color: #000; font-family: monospace; font-size: 15px; margin-top: 10px; cursor: pointer; font-weight: bold; }
+        /* TÄZE: Menýu Setkasy */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .menu-item { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; border: 2px solid transparent; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
+        .menu-item:active { transform: scale(0.95); border-color: var(--main); }
+        .menu-item i { font-size: 28px; display: block; margin-bottom: 5px; }
+        .menu-item b { font-size: 13px; }
 
-        .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-        .card-header { background: var(--main); color: white; padding: 15px; text-align: center; }
-        .card-body { padding: 20px; }
+        .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none; }
+        .card-header { background: var(--main); color: white; padding: 15px; text-align: center; position: relative; }
+        .back-btn { position: absolute; left: 15px; top: 15px; background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
         
         input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 18px; box-sizing: border-box; background: #fff; color: #000; outline: none; }
-        
-        /* Dekont Ugrat Düwmesi */
-        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 22px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(40,167,69,0.3); }
-        .pay-btn:active { transform: scale(0.97); }
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 22px; font-weight: bold; cursor: pointer; }
 
         #receipt-box { display: none; background: #fff; color: #000; padding: 20px; border: 2px dashed #333; border-radius: 10px; margin-top: 20px; font-family: monospace; }
         .history-section { background: var(--card); padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 13px; }
@@ -62,49 +50,41 @@
     <canvas id="snow-canvas"></canvas>
 
     <div class="marquee-container">
-        <div class="marquee-text">
-            🎄 Täze ýylyňyz gutly bolsun! • С Новым Годом! • Happy New Year! • Mutlu Yıllar! 🎅
-        </div>
+        <div class="marquee-text">🎄 Täze ýylyňyz gutly bolsun! • С Новым Годом! • Happy New Year! 🎅</div>
     </div>
 
     <div class="container">
-        <div style="display: flex; justify-content: flex-start; margin-bottom: 10px;">
-            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:none; font-size:24px; cursor:pointer;">🌗</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:none; font-size:24px;">🌗</button>
+            <h3 id="app-title" style="margin:0; color:var(--main);">AMAN TÖLEG</h3>
         </div>
 
         <div class="time-box">
-            <div id="full-date">30.12.2025</div>
+            <div id="full-date">01.01.2026</div>
             <div id="clock">00:00:00</div>
         </div>
 
-        <div class="lang-bar">
-            <button class="lang-btn active-lang" id="btn-tk" onclick="changeLang('tk')">🇹🇲 TK</button>
-            <button class="lang-btn" id="btn-ru" onclick="changeLang('ru')">🇷🇺 RU</button>
-            <button class="lang-btn" id="btn-tr" onclick="changeLang('tr')">🇹🇷 TR</button>
-            <button class="lang-btn" id="btn-en" onclick="changeLang('en')">🇺🇸 EN</button>
+        <div id="menu-section" class="menu-grid">
+            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', '📱')"><i>📱</i><b>Altyn Asyr</b></div>
+            <div class="menu-item" onclick="openService('Alem TV', '', '📺')"><i>📺</i><b>Alem TV</b></div>
+            <div class="menu-item" onclick="openService('Wi-Fi Telekom', '+993 ', '🌐')"><i>🌐</i><b>Wi-Fi</b></div>
+            <div class="menu-item" onclick="openService('Öý Telefony', '+993 ', '☎️')"><i>☎️</i><b>Öý Telefon</b></div>
         </div>
 
-        <div class="profile-card">
-            <h2 style="margin:0; font-size: 18px; color: var(--main);">Aman Hayitmuradow</h2>
-            <div class="iban-box" onclick="copyIban()">
-                <span id="iban-num">TR15 0015 7000 0000 0201 4581 78</span>
-                <div style="font-size:10px; color:var(--accent); margin-top:5px;">(GÖÇÜRMEK ÜÇIN BAS)</div>
+        <div class="card" id="payment-card">
+            <div class="card-header">
+                <button class="back-btn" onclick="closeService()">🔙</button>
+                <h2 style="margin:0;" id="service-title">ALTYN ASYR</h2>
             </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header"><h2 style="margin:0;">ALTYN ASYR</h2></div>
             <div class="card-body">
-                <input type="tel" value="+993 6" id="phone">
+                <input type="tel" id="phone">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:15px; font-size:28px;">0.00 TL</div>
-                
-                <button class="pay-btn" id="pay-btn" onclick="processPayment()">DEKONT UGRAT</button>
+                <button class="pay-btn" id="pay-btn" onclick="processPayment()">TÖLEG ET</button>
                 
                 <div id="receipt-box">
-                    <h3 style="text-align:center; margin:0;">🧾 DEKONT ÇEKI</h3>
-                    <hr>
-                    <div id="receipt-details"></div>
+                    <h3 style="text-align:center; margin:0;">🧾 TÖLEG ÇEKI</h3>
+                    <hr><div id="receipt-details"></div>
                 </div>
             </div>
         </div>
@@ -117,30 +97,34 @@
         <div class="admin-trigger" onclick="openAdmin()">⚙️</div>
         <div class="admin-panel" id="admin-panel">
             Kurs: <input type="number" id="rate-input" step="0.1" style="width:80px; padding:5px;">
-            <button onclick="saveSettings()" style="padding:5px 15px;">OK</button>
+            <button onclick="saveSettings()">OK</button>
         </div>
     </div>
 
     <script>
-        let currentRate = 2.5; 
-        let currentLang = 'tk';
-        
-        const langs = {
-            tk: { pay: "DEKONT UGRAT", receipt: "DEKONT ÇEKI", alert: "Mukdary giriziň!", copied: "Göçürildi!" },
-            ru: { pay: "ОТПРАВИТЬ ЧЕК", receipt: "ЧЕК ОПЛАТЫ", alert: "Введите сумму!", copied: "Скопировано!" },
-            tr: { pay: "DEKONT GÖNDER", receipt: "ÖDEME FİŞİ", alert: "Miktarı giriniz!", copied: "Kopyalandı!" },
-            en: { pay: "SEND RECEIPT", receipt: "RECEIPT", alert: "Enter amount!", copied: "Copied!" }
-        };
+        let currentRate = 2.5;
+        let selectedService = "";
+
+        function openService(name, prefix, icon) {
+            selectedService = name;
+            document.getElementById('menu-section').style.display = 'none';
+            document.getElementById('payment-card').style.display = 'block';
+            document.getElementById('service-title').innerText = icon + " " + name;
+            document.getElementById('phone').value = prefix;
+            document.getElementById('phone').placeholder = name + " belgisi";
+        }
+
+        function closeService() {
+            document.getElementById('menu-section').style.display = 'grid';
+            document.getElementById('payment-card').style.display = 'none';
+            document.getElementById('receipt-box').style.display = 'none';
+            document.getElementById('pay-btn').style.display = 'block';
+        }
 
         function calculate() {
             let tmt = document.getElementById('tmt_input').value;
             let tl = (tmt * currentRate).toFixed(2);
             document.getElementById('calc-res').innerText = (tmt > 0 ? tl : "0.00") + " TL";
-        }
-
-        function copyIban() {
-            navigator.clipboard.writeText(document.getElementById('iban-num').innerText);
-            alert(langs[currentLang].copied);
         }
 
         function openAdmin() {
@@ -149,20 +133,14 @@
 
         function saveSettings() {
             currentRate = document.getElementById('rate-input').value;
-            localStorage.setItem('aman_rate_final', currentRate);
+            localStorage.setItem('aman_rate_v3', currentRate);
             alert("Kurs täzelendi!");
             calculate();
         }
 
-        function loadSettings() {
-            let r = localStorage.getItem('aman_rate_final');
-            if(r) { currentRate = r; document.getElementById('rate-input').value = r; }
-            loadHistory();
-        }
-
         function processPayment() {
             const tmt = document.getElementById('tmt_input').value;
-            if(!tmt || tmt <= 0) { alert(langs[currentLang].alert); return; }
+            if(!tmt || tmt <= 0) { alert("Mukdary giriziň!"); return; }
             const phone = document.getElementById('phone').value;
             const tl = (tmt * currentRate).toFixed(2);
             const id = Math.floor(Math.random() * 899999) + 111111;
@@ -171,34 +149,30 @@
 
             document.getElementById('pay-btn').style.display = "none";
             document.getElementById('receipt-box').style.display = "block";
-            document.getElementById('receipt-details').innerHTML = `ID: #${id}<br>Tel: ${phone}<br>TMT: ${tmt}<br>TL: ${tl}<br>${dateStr}`;
+            document.getElementById('receipt-details').innerHTML = `Hyzmat: ${selectedService}<br>ID: #${id}<br>Tel/ID: ${phone}<br>TMT: ${tmt}<br>TL: ${tl}<br>${dateStr}`;
 
-            let hist = JSON.parse(localStorage.getItem('aman_hist_final') || "[]");
-            hist.unshift(`${dateStr} | ${tmt} TMT`);
-            localStorage.setItem('aman_hist_final', JSON.stringify(hist.slice(0,5)));
+            let hist = JSON.parse(localStorage.getItem('aman_hist_v3') || "[]");
+            hist.unshift(`${dateStr} | ${selectedService} | ${tmt} TMT`);
+            localStorage.setItem('aman_hist_v3', JSON.stringify(hist.slice(0,5)));
             loadHistory();
 
-            window.location.href = `https://wa.me/99364041065?text=🧾 *DEKONT*%0A📞 ${phone}%0A💰 ${tmt} TMT%0A💵 ${tl} TL%0A🆔 ${id}%0A📅 ${dateStr}`;
+            window.location.href = `https://wa.me/99364041065?text=🧾 *TÖLEG*%0A🛠 Hyzmat: ${selectedService}%0A📞 ${phone}%0A💰 ${tmt} TMT%0A💵 ${tl} TL%0A🆔 ${id}%0A📅 ${dateStr}`;
         }
 
         function loadHistory() {
-            let h = JSON.parse(localStorage.getItem('aman_hist_final') || "[]");
+            let h = JSON.parse(localStorage.getItem('aman_hist_v3') || "[]");
             document.getElementById('history-list').innerHTML = h.length ? h.join('<br>') : "Töleg ýok.";
         }
 
-        function changeLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
-            document.getElementById('btn-'+lang).classList.add('active-lang');
-            document.getElementById('pay-btn').innerText = langs[lang].pay;
+        function loadSettings() {
+            let r = localStorage.getItem('aman_rate_v3');
+            if(r) { currentRate = r; document.getElementById('rate-input').value = r; }
+            loadHistory();
         }
 
         setInterval(() => {
             const n = new Date();
-            const day = String(n.getDate()).padStart(2, '0');
-            const month = String(n.getMonth() + 1).padStart(2, '0');
-            const year = n.getFullYear();
-            document.getElementById('full-date').innerText = `${day}.${month}.${year}`;
+            document.getElementById('full-date').innerText = n.toLocaleDateString();
             document.getElementById('clock').innerText = n.toLocaleTimeString();
         }, 1000);
 
