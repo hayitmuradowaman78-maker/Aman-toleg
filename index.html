@@ -25,18 +25,20 @@
         .iban-box { background: #fdf2f2; padding: 10px; border-radius: 8px; border: 1px dashed var(--main); color: #000; font-family: monospace; font-size: 14px; cursor: pointer; font-weight: bold; }
 
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .menu-item { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .menu-item { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
+        .menu-item:active { transform: scale(0.95); }
         .menu-item i { font-size: 24px; display: block; font-style: normal; margin-bottom: 5px; }
 
-        .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none; }
+        .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
         .card-header { background: var(--main); color: white; padding: 15px; text-align: center; position: relative; }
         .back-btn { position: absolute; left: 15px; top: 15px; background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
         
         .card-body { padding: 20px; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 18px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--main); }
         .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; }
-
-        @keyframes scroll-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
 <body onload="updateTime(); setInterval(updateTime, 1000);">
@@ -86,62 +88,72 @@
                 <input type="tel" id="phone" placeholder="Belgi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:15px; font-size:28px;">0.00 TL</div>
-                <button class="pay-btn" id="pay-btn-text" data-key="pay_btn" onclick="alert('OK!')">TÖLEG ET</button>
+                <button class="pay-btn" id="pay-btn-text" data-key="pay_btn" onclick="alert('Töleg kabul edildi!')">TÖLEG ET</button>
             </div>
         </div>
     </div>
 
     <script>
         const translations = {
-            tk: { copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!" },
-            ru: { copy_hint: "(NAZHMIT' DLYA KOPIROVANIYA)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", pay_btn: "ОПLATIT'", copied: "SKOPIROVANO!" },
-            tr: { copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!" },
-            en: { copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", pay_btn: "PAY NOW", copied: "COPIED!" }
+            tk: { copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!", phone_ph: "Belgi ýazyň" },
+            ru: { copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер" },
+            tr: { copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin" },
+            en: { copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number" }
         };
 
         function changeLang(lang, btn) {
-            // Aktiw düwmäni üýtgetmek
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
             btn.classList.add('active-lang');
 
-            // Tekstleri täzelemek
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
-                el.innerText = translations[lang][key];
+                if (translations[lang][key]) el.innerText = translations[lang][key];
             });
+
+            document.getElementById('phone').placeholder = translations[lang].phone_ph;
         }
 
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('full-date').innerText = now.toLocaleDateString('tk-TM');
-            document.getElementById('clock').innerText = now.toLocaleTimeString('tk-TM');
+        function calculate() {
+            const tmtValue = document.getElementById('tmt_input').value;
+            const rate = 2.5; // Kurs: 100 TMT = 250 TRY (1 TMT = 2.5 TL)
+            const res = tmtValue * rate;
+            document.getElementById('calc-res').innerText = (res > 0 ? res.toFixed(2) : "0.00") + " TL";
         }
 
         function copyIban() {
-            const iban = "TR910015700000000201151163";
+            const iban = document.getElementById('iban-num').innerText;
             navigator.clipboard.writeText(iban);
-            const activeLang = document.querySelector('.active-lang').innerText.split(' ')[1].toLowerCase();
+            
             const copyHint = document.getElementById('copy-text');
-            const oldText = copyHint.innerText;
-            copyHint.innerText = translations[activeLang].copied;
-            setTimeout(() => { copyHint.innerText = oldText; }, 2000);
+            const lang = document.querySelector('.active-lang').innerText.split(' ')[1].toLowerCase();
+            const originalText = translations[lang].copy_hint;
+            
+            copyHint.innerText = translations[lang].copied;
+            copyHint.style.color = "var(--accent)";
+            setTimeout(() => {
+                copyHint.innerText = originalText;
+                copyHint.style.color = "var(--main)";
+            }, 2000);
         }
 
         function openService(name, prefix, icon) {
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
-            document.getElementById('service-title').innerText = name;
+            document.getElementById('service-title').innerText = icon + " " + name;
             document.getElementById('phone').value = prefix;
         }
 
         function closeService() {
             document.getElementById('menu-section').style.display = 'grid';
             document.getElementById('payment-card').style.display = 'none';
+            document.getElementById('tmt_input').value = "";
+            document.getElementById('calc-res').innerText = "0.00 TL";
         }
 
-        function calculate() {
-            const tmt = document.getElementById('tmt_input').value;
-            document.getElementById('calc-res').innerText = (tmt * 6.5).toFixed(2) + " TL";
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('tk-TM', { hour12: false });
+            document.getElementById('full-date').innerText = now.toLocaleDateString('ru-RU');
         }
     </script>
 </body>
