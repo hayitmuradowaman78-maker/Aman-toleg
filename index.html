@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Hayitmuradow - Töleg</title>
+    <title>AMAN HAYITMURADOV - Töleg</title>
     <style>
         :root { --bg: #f4f4f4; --card: #ffffff; --text: #333; --main: #d00000; --accent: #28a745; }
         .night-mode { --bg: #011627; --card: #1e2a38; --text: #ffffff; --main: #ff4d4d; }
@@ -17,12 +17,10 @@
 
         .container { max-width: 420px; margin: auto; padding: 15px; position: relative; z-index: 10; }
         
-        /* Kiçeldilen Sagat we Sene */
         .time-box { display: flex; justify-content: space-around; align-items: center; background: #222; color: #ffc107; padding: 8px; border-radius: 10px; font-family: 'Courier New', monospace; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 15px; border: 1px solid #444; }
         #full-date { font-size: 14px; }
         #clock { font-size: 18px; font-weight: bold; }
 
-        /* Owadanlanan Profil we IBAN */
         .profile-card { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; border-left: 5px solid var(--main); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; }
         .profile-card h2 { margin: 0 0 8px 0; font-size: 18px; letter-spacing: 1px; }
         .iban-box { background: #fdf2f2; padding: 10px; border-radius: 8px; border: 1px dashed var(--main); color: #000; font-family: monospace; font-size: 14px; cursor: pointer; font-weight: bold; }
@@ -31,29 +29,23 @@
         .lang-btn { cursor: pointer; border: 1px solid #ddd; padding: 8px 10px; border-radius: 8px; background: var(--card); font-size: 12px; font-weight: bold; }
         .active-lang { border-color: var(--accent) !important; background: #e8f5e9; }
 
-        /* Menýu Setkasy */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .menu-item { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; border: 2px solid transparent; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
         .menu-item:active { transform: scale(0.95); border-color: var(--main); }
-        .menu-item i { font-size: 24px; display: block; margin-bottom: 5px; }
+        .menu-item i { font-size: 24px; display: block; margin-bottom: 5px; font-style: normal; }
 
         .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none; }
         .card-header { background: var(--main); color: white; padding: 15px; text-align: center; position: relative; }
         .back-btn { position: absolute; left: 15px; top: 15px; background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
         
+        .card-body { padding: 20px; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 18px; box-sizing: border-box; background: #fff; color: #000; outline: none; }
         .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 22px; font-weight: bold; cursor: pointer; }
 
         #receipt-box { display: none; background: #fff; color: #000; padding: 20px; border: 2px dashed #333; border-radius: 10px; margin-top: 20px; font-family: monospace; }
-        .history-section { background: var(--card); padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 13px; }
-        
-        .admin-trigger { text-align: center; margin-top: 30px; color: gray; cursor: pointer; font-size: 20px; opacity: 0.2; }
-        .admin-panel { background: #222; color: #fff; padding: 15px; border-radius: 12px; margin-top: 10px; display: none; }
     </style>
 </head>
-<body onload="initSnow(); drawSnow(); loadSettings();">
-
-    <canvas id="snow-canvas"></canvas>
+<body onload="updateTime(); setInterval(updateTime, 1000);">
 
     <div class="marquee-container">
         <div class="marquee-text" id="marquee">🎄 Täze ýylyňyz gutly bolsun! • С Новым Годом! • Happy New Year! 🎅</div>
@@ -61,7 +53,7 @@
 
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:none; font-size:24px;">🌗</button>
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:none; font-size:24px; cursor:pointer;">🌗</button>
             <div class="time-box">
                 <span id="full-date">01.01.2026</span>
                 <span style="margin: 0 10px;">|</span>
@@ -70,16 +62,16 @@
         </div>
 
         <div class="lang-bar">
-            <button class="lang-btn active-lang" id="btn-tk" onclick="changeLang('tk')">🇹🇲 TK</button>
-            <button class="lang-btn" id="btn-ru" onclick="changeLang('ru')">🇷🇺 RU</button>
-            <button class="lang-btn" id="btn-tr" onclick="changeLang('tr')">🇹🇷 TR</button>
-            <button class="lang-btn" id="btn-en" onclick="changeLang('en')">🇺🇸 EN</button>
+            <button class="lang-btn active-lang">🇹🇲 TK</button>
+            <button class="lang-btn">🇷🇺 RU</button>
+            <button class="lang-btn">🇹🇷 TR</button>
+            <button class="lang-btn">🇺🇸 EN</button>
         </div>
 
         <div class="profile-card">
-            <h2>Aman Hayitmuradow</h2>
+            <h2>AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
-                <span id="iban-num">TR15 0015 7000 0000 0201 4581 78</span>
+                <span id="iban-num">TR91 0015 7000 0000 0201 1511 63</span>
                 <div style="font-size:10px; color:var(--main); margin-top:5px;" id="copy-text">(GÖÇÜRMEK ÜÇIN BASYŇ)</div>
             </div>
         </div>
@@ -97,139 +89,57 @@
                 <h2 style="margin:0;" id="service-title">HYZMAT</h2>
             </div>
             <div class="card-body">
-                <input type="tel" id="phone">
+                <input type="tel" id="phone" placeholder="Belgi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--accent); margin-bottom:15px; font-size:28px;">0.00 TL</div>
-                <button class="pay-btn" id="pay-btn" onclick="processPayment()">TÖLEG ET</button>
-                
-                <div id="receipt-box">
-                    <h3 style="text-align:center; margin:0;" id="rec-title">🧾 TÖLEG ÇEKI</h3>
-                    <hr><div id="receipt-details"></div>
-                </div>
+                <button class="pay-btn" onclick="processPayment()">TÖLEG ET</button>
             </div>
-        </div>
-
-        <div class="history-section">
-            <b id="hist-title">Geçmiş:</b>
-            <div id="history-list" style="margin-top:8px; color: #666;">Töleg ýok.</div>
-        </div>
-
-        <div class="admin-trigger" onclick="openAdmin()">⚙️</div>
-        <div class="admin-panel" id="admin-panel">
-            Kurs: <input type="number" id="rate-input" step="0.1" style="width:80px; padding:5px;">
-            <button onclick="saveSettings()">OK</button>
         </div>
     </div>
 
     <script>
-        let currentRate = 2.5;
-        let selectedService = "";
-        let currentLang = 'tk';
-
-        const langs = {
-            tk: { pay: "TÖLEG ET", copy: "(GÖÇÜRMEK ÜÇIN BASYŇ)", copied: "Göçürildi!", hist: "Geçmiş:", alert: "Mukdary giriziň!" },
-            ru: { pay: "ОПЛАТИТЬ", copy: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", copied: "Скопировано!", hist: "История:", alert: "Введите сумму!" },
-            tr: { pay: "ÖDEME YAP", copy: "(KOPYALAMAK İÇİN TIKLAYIN)", copied: "Kopyalandı!", hist: "Geçmiş:", alert: "Miktarı giriniz!" },
-            en: { pay: "PAY NOW", copy: "(CLICK TO COPY)", copied: "Copied!", hist: "History:", alert: "Enter amount!" }
-        };
-
-        function changeLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
-            document.getElementById('btn-'+lang).classList.add('active-lang');
-            document.getElementById('pay-btn').innerText = langs[lang].pay;
-            document.getElementById('copy-text').innerText = langs[lang].copy;
-            document.getElementById('hist-title').innerText = langs[lang].hist;
+        function updateTime() {
+            const now = new Date();
+            const dateStr = now.getDate().toString().padStart(2, '0') + '.' + 
+                          (now.getMonth() + 1).toString().padStart(2, '0') + '.' + 
+                          now.getFullYear();
+            document.getElementById('full-date').innerText = dateStr;
+            document.getElementById('clock').innerText = now.toLocaleTimeString('tk-TM');
         }
 
         function copyIban() {
-            navigator.clipboard.writeText(document.getElementById('iban-num').innerText);
-            alert(langs[currentLang].copied);
+            const iban = "TR910015700000000201151163";
+            navigator.clipboard.writeText(iban);
+            const copyHint = document.getElementById('copy-text');
+            copyHint.innerText = "GÖÇÜRILDI!";
+            copyHint.style.color = "#28a745";
+            setTimeout(() => {
+                copyHint.innerText = "(GÖÇÜRMEK ÜÇIN BASYŇ)";
+                copyHint.style.color = "var(--main)";
+            }, 2000);
         }
 
         function openService(name, prefix, icon) {
-            selectedService = name;
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
-            document.getElementById('service-title').innerText = icon + " " + name;
+            document.getElementById('service-title').innerText = name;
             document.getElementById('phone').value = prefix;
         }
 
         function closeService() {
             document.getElementById('menu-section').style.display = 'grid';
             document.getElementById('payment-card').style.display = 'none';
-            document.getElementById('receipt-box').style.display = 'none';
-            document.getElementById('pay-btn').style.display = 'block';
-            document.getElementById('tmt_input').value = "";
-            document.getElementById('calc-res').innerText = "0.00 TL";
         }
 
         function calculate() {
-            let tmt = document.getElementById('tmt_input').value;
-            let tl = (tmt * currentRate).toFixed(2);
-            document.getElementById('calc-res').innerText = (tmt > 0 ? tl : "0.00") + " TL";
-        }
-
-        function openAdmin() {
-            if(prompt("Parol:") === "30012001") document.getElementById('admin-panel').style.display = "block";
-        }
-
-        function saveSettings() {
-            currentRate = document.getElementById('rate-input').value;
-            localStorage.setItem('aman_rate_v3', currentRate);
-            alert("Kurs täzelendi!");
-            calculate();
+            const tmt = document.getElementById('tmt_input').value;
+            const rate = 6.5; // Kursy şu ýerden üýtgedip bilersiňiz
+            const tl = (tmt * rate).toFixed(2);
+            document.getElementById('calc-res').innerText = tl + " TL";
         }
 
         function processPayment() {
-            const tmt = document.getElementById('tmt_input').value;
-            if(!tmt || tmt <= 0) { alert(langs[currentLang].alert); return; }
-            const phone = document.getElementById('phone').value;
-            const tl = (tmt * currentRate).toFixed(2);
-            const id = Math.floor(Math.random() * 899999) + 111111;
-            const now = new Date();
-            const dateStr = now.toLocaleDateString() + " " + now.toLocaleTimeString();
-
-            document.getElementById('pay-btn').style.display = "none";
-            document.getElementById('receipt-box').style.display = "block";
-            document.getElementById('receipt-details').innerHTML = `ID: #${id}<br>Hyzmat: ${selectedService}<br>Tel: ${phone}<br>TMT: ${tmt}<br>TL: ${tl}<br>${dateStr}`;
-
-            let hist = JSON.parse(localStorage.getItem('aman_hist_v3') || "[]");
-            hist.unshift(`${dateStr} | ${selectedService} | ${tmt} TMT`);
-            localStorage.setItem('aman_hist_v3', JSON.stringify(hist.slice(0,5)));
-            loadHistory();
-
-            window.location.href = `https://wa.me/99364041065?text=🧾 *TÖLEG*%0A🛠 ${selectedService}%0A📞 ${phone}%0A💰 ${tmt} TMT%0A💵 ${tl} TL%0A🆔 ${id}%0A📅 ${dateStr}`;
-        }
-
-        function loadHistory() {
-            let h = JSON.parse(localStorage.getItem('aman_hist_v3') || "[]");
-            document.getElementById('history-list').innerHTML = h.length ? h.join('<br>') : (currentLang == 'tk' ? "Töleg ýok." : "No history.");
-        }
-
-        function loadSettings() {
-            let r = localStorage.getItem('aman_rate_v3');
-            if(r) { currentRate = r; document.getElementById('rate-input').value = r; }
-            loadHistory();
-        }
-
-        setInterval(() => {
-            const n = new Date();
-            document.getElementById('full-date').innerText = n.toLocaleDateString();
-            document.getElementById('clock').innerText = n.toLocaleTimeString();
-        }, 1000);
-
-        const canvas = document.getElementById('snow-canvas');
-        const ctx = canvas.getContext('2d');
-        let snow = [];
-        function initSnow() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            for(let i=0; i<50; i++) snow.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2+1, v:Math.random()*0.8+0.5});
-        }
-        function drawSnow() {
-            ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="white"; ctx.beginPath();
-            snow.forEach(s => { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); s.y+=s.v; if(s.y>canvas.height) s.y=-10; });
-            ctx.fill(); requestAnimationFrame(drawSnow);
+            alert("Töleg amala aşyrylýar... Lütfen garaşyň!");
         }
     </script>
 </body>
