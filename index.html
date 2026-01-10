@@ -62,11 +62,9 @@
             background: var(--card); padding: 15px; border-radius: 20px; text-align: center; 
             cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
         }
-        .menu-item:active { transform: scale(0.95); }
         
-        /* Suratlar üçin ýörite stil */
         .menu-icon {
-            width: 55px; height: 55px; 
+            width: 50px; height: 50px; 
             object-fit: contain; margin-bottom: 8px;
             display: block; margin-left: auto; margin-right: auto;
         }
@@ -75,12 +73,9 @@
         @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
         .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; }
-        
         .card-body { padding: 25px; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; background: #fafafa; }
-        input:focus { border-color: var(--asyr-blue); background: #fff; }
-        
-        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4); }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; }
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body onload="updateTime(); setInterval(updateTime, 1000);">
@@ -105,7 +100,7 @@
         </div>
 
         <div class="profile-card">
-            <h2 style="margin-top:0; font-size: 22px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
+            <h2 style="margin-top:0; font-size: 20px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
                 <span id="iban-num">TR91 0015 7000 0000 0201 1511 63</span>
                 <div style="font-size:11px; color:var(--asyr-blue); margin-top:8px;" id="copy-text" data-key="copy_hint">(GÖÇÜRMEK ÜÇIN BASYŇ)</div>
@@ -114,22 +109,22 @@
 
         <div id="menu-section" class="menu-grid">
             <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', 'service1')">
-                <img src="asyr.png" class="menu-icon"><b data-key="service1">Altyn Asyr</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/3616/3616550.png" class="menu-icon"><b data-key="service1">Altyn Asyr</b>
             </div>
             <div class="menu-item" onclick="openService('Belet Video', '', 'service5')">
-                <img src="belet_video.png" class="menu-icon"><b data-key="service5">Belet Video</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/4406/4406124.png" class="menu-icon"><b data-key="service5">Belet Video</b>
             </div>
             <div class="menu-item" onclick="openService('Alem TV', '', 'service2')">
-                <img src="alem.png" class="menu-icon"><b data-key="service2">Alem TV</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/716/716429.png" class="menu-icon"><b data-key="service2">Alem TV</b>
             </div>
             <div class="menu-item" onclick="openService('Wi-Fi', '+993 ', 'service3')">
-                <img src="wifi.png" class="menu-icon"><b data-key="service3">Wi-Fi</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/93/93158.png" class="menu-icon"><b data-key="service3">Wi-Fi</b>
             </div>
             <div class="menu-item" onclick="openService('Belet Wi-Fi', '', 'service6')">
-                <img src="belet_wifi.png" class="menu-icon"><b data-key="service6">Belet Wi-Fi</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/3300/3300624.png" class="menu-icon"><b data-key="service6">Belet Wi-Fi</b>
             </div>
             <div class="menu-item" onclick="openService('Öý Telefon', '+993 ', 'service4')">
-                <img src="telekom.png" class="menu-icon"><b data-key="service4">Öý Telefon</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="menu-icon"><b data-key="service4">Öý Telefon</b>
             </div>
         </div>
 
@@ -169,14 +164,9 @@
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
             btn.classList.add('active-lang');
             document.getElementById('top-title').innerText = translations[lang].title;
-            document.getElementById('phone').placeholder = translations[lang].phone_ph;
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                el.innerText = translations[lang][key];
-            });
+            document.querySelectorAll('[data-key]').forEach(el => { el.innerText = translations[lang][el.getAttribute('data-key')]; });
         }
 
-        // BACK DÜWMESI ÜÇIN
         window.onpopstate = function() { if (isPaymentOpen) closeService(); };
 
         function openService(name, prefix, key) {
@@ -197,15 +187,13 @@
         function copyIban() {
             const iban = document.getElementById('iban-num').innerText;
             navigator.clipboard.writeText(iban);
-            const copyText = document.getElementById('copy-text');
-            copyText.innerText = translations[currentLang].copied;
-            setTimeout(() => { copyText.innerText = translations[currentLang].copy_hint; }, 2000);
+            document.getElementById('copy-text').innerText = translations[currentLang].copied;
+            setTimeout(() => { document.getElementById('copy-text').innerText = translations[currentLang].copy_hint; }, 2000);
         }
 
         function calculate() {
             const tmt = document.getElementById('tmt_input').value;
-            const res = tmt * kurs;
-            document.getElementById('calc-res').innerText = res.toFixed(2) + " TL";
+            document.getElementById('calc-res').innerText = (tmt * kurs).toFixed(2) + " TL";
         }
     </script>
 </body>
