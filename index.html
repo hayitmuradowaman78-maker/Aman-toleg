@@ -6,63 +6,77 @@
     <title>AMAN HAYITMURADOV - Onlaýn Töleg</title>
     <style>
         :root { 
-            --bg: #f4f7f6; 
-            --card: #ffffff; 
+            --bg-gradient: linear-gradient(135deg, #138808 0%, #d00000 100%); /* Türkmenistan we Türkiýe baýdak reňkleri */
+            --card: rgba(255, 255, 255, 0.95); /* Kartlaryň arkasy dury ak */
             --text: #333; 
             --asyr-blue: #0056b3; 
             --main-gold: #ffc107; 
             --accent: #28a745; 
         }
-        .night-mode { --bg: #011627; --card: #1e2a38; --text: #ffffff; --asyr-blue: #4d94ff; }
+        .night-mode { 
+            --bg-gradient: linear-gradient(135deg, #053002 0%, #4a0000 100%);
+            --card: rgba(30, 42, 56, 0.95); 
+            --text: #ffffff; 
+            --asyr-blue: #4d94ff; 
+        }
         
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5s; }
-        .container { max-width: 420px; margin: auto; padding: 15px; }
-        
-        .header-bar { 
-            background: var(--asyr-blue); 
-            color: white; padding: 15px; text-align: center; 
-            font-weight: bold; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            /* Arka tarapa baýdak reňkli owadan fon goşuldy */
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text); 
+            margin: 0; 
+            transition: 0.5s; 
+            min-height: 100vh;
         }
 
-        .time-box { display: flex; justify-content: space-around; background: #222; color: var(--main-gold); padding: 8px; border-radius: 10px; font-family: 'Courier New', monospace; margin: 15px 0; border: 1px solid #444; }
+        .container { max-width: 420px; margin: auto; padding: 15px; position: relative; }
+        
+        .header-bar { 
+            background: rgba(0, 86, 179, 0.9); /* Gök bar azajyk dury */
+            color: white; padding: 15px; text-align: center; 
+            font-weight: bold; font-size: 18px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .time-box { display: flex; justify-content: space-around; background: rgba(34, 34, 34, 0.8); color: var(--main-gold); padding: 8px; border-radius: 10px; font-family: 'Courier New', monospace; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
         
         .lang-bar { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; }
-        .lang-btn { cursor: pointer; border: 1px solid #ddd; padding: 8px; border-radius: 8px; background: var(--card); font-size: 12px; font-weight: bold; color: var(--text); }
-        .active-lang { border-color: var(--asyr-blue) !important; background: #eef5ff; color: #000; }
+        .lang-btn { cursor: pointer; border: none; padding: 8px 12px; border-radius: 8px; background: var(--card); font-size: 12px; font-weight: bold; color: var(--text); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .active-lang { background: var(--asyr-blue); color: white; }
 
         .profile-card { 
-            background: var(--card); padding: 15px; border-radius: 15px; text-align: center; 
-            border-top: 5px solid var(--asyr-blue); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; 
+            background: var(--card); padding: 15px; border-radius: 20px; text-align: center; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15); margin-bottom: 15px; 
+            backdrop-filter: blur(10px); /* Aýna ýaly dury effekt */
         }
 
         .iban-box { 
-            background: #f0f7ff; padding: 10px; border-radius: 8px; border: 1px dashed var(--asyr-blue); 
+            background: #f0f7ff; padding: 12px; border-radius: 12px; border: 1px dashed var(--asyr-blue); 
             color: #000; font-family: monospace; font-size: 14px; cursor: pointer; font-weight: bold; 
         }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item { 
-            background: var(--card); padding: 15px; border-radius: 15px; text-align: center; 
-            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s;
-            border: 1px solid transparent;
+            background: var(--card); padding: 20px; border-radius: 20px; text-align: center; 
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
         }
-        .menu-item:hover { border-color: var(--asyr-blue); }
         .menu-item:active { transform: scale(0.95); }
-        .menu-item i { font-size: 28px; display: block; margin-bottom: 5px; font-style: normal; }
+        .menu-item i { font-size: 32px; display: block; margin-bottom: 5px; }
 
-        .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        .card-header { background: var(--asyr-blue); color: white; padding: 15px; text-align: center; position: relative; }
-        .back-btn { position: absolute; left: 15px; top: 15px; background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+        .card { background: var(--card); border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); display: none; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; }
+        .card-body { padding: 25px; }
         
-        .card-body { padding: 20px; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 18px; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--asyr-blue); }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; background: #fafafa; }
+        input:focus { border-color: var(--asyr-blue); background: #fff; }
         
-        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 12px; font-size: 20px; font-weight: bold; cursor: pointer; }
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4); }
     </style>
 </head>
 <body onload="updateTime(); setInterval(updateTime, 1000);">
@@ -71,7 +85,7 @@
 
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:none; font-size:24px; cursor:pointer;">🌗</button>
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:rgba(255,255,255,0.2); border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; color:white;">🌗</button>
             <div class="time-box">
                 <span id="full-date">01.01.2026</span>
                 <span style="margin: 0 5px;">|</span>
@@ -87,10 +101,10 @@
         </div>
 
         <div class="profile-card">
-            <h2 style="margin-top:0; font-size: 20px;">AMAN HAYITMURADOV</h2>
+            <h2 style="margin-top:0; font-size: 22px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
                 <span id="iban-num">TR91 0015 7000 0000 0201 1511 63</span>
-                <div style="font-size:10px; color:var(--asyr-blue); margin-top:5px;" id="copy-text" data-key="copy_hint">(GÖÇÜRMEK ÜÇIN BASYŇ)</div>
+                <div style="font-size:11px; color:var(--asyr-blue); margin-top:8px; font-weight: normal;" id="copy-text" data-key="copy_hint">(GÖÇÜRMEK ÜÇIN BASYŇ)</div>
             </div>
         </div>
 
@@ -105,13 +119,12 @@
 
         <div class="card" id="payment-card">
             <div class="card-header">
-                <button class="back-btn" onclick="closeService()">🔙</button>
                 <h2 style="margin:0;" id="service-title">HYZMAT</h2>
             </div>
             <div class="card-body">
                 <input type="tel" id="phone" placeholder="Belgi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
-                <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--asyr-blue); margin-bottom:15px; font-size:28px;">0.00 TL</div>
+                <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--asyr-blue); margin-bottom:15px; font-size:32px;">0.00 TL</div>
                 <button class="pay-btn" id="pay-btn-text" data-key="pay_btn">TÖLEG ET</button>
             </div>
         </div>
@@ -127,6 +140,7 @@
 
         let currentLang = 'tk';
         const kurs = 1.15;
+        let isPaymentOpen = false;
 
         function updateTime() {
             const now = new Date();
@@ -138,25 +152,19 @@
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
             btn.classList.add('active-lang');
-            
             document.getElementById('top-title').innerText = translations[lang].title;
             document.getElementById('phone').placeholder = translations[lang].phone_ph;
-
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 el.innerText = translations[lang][key];
             });
         }
 
-        function copyIban() {
-            const iban = document.getElementById('iban-num').innerText;
-            navigator.clipboard.writeText(iban);
-            const copyText = document.getElementById('copy-text');
-            copyText.innerText = translations[currentLang].copied;
-            setTimeout(() => { copyText.innerText = translations[currentLang].copy_hint; }, 2000);
-        }
+        window.onpopstate = function() { if (isPaymentOpen) closeService(); };
 
         function openService(name, prefix, icon, key) {
+            isPaymentOpen = true;
+            history.pushState({page: "payment"}, "payment", "");
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
             document.getElementById('service-title').innerText = icon + " " + translations[currentLang][key];
@@ -164,8 +172,21 @@
         }
 
         function closeService() {
+            isPaymentOpen = false;
             document.getElementById('menu-section').style.display = 'grid';
             document.getElementById('payment-card').style.display = 'none';
+        }
+
+        function copyIban() {
+            const iban = document.getElementById('iban-num').innerText;
+            navigator.clipboard.writeText(iban);
+            const copyText = document.getElementById('copy-text');
+            copyText.innerText = translations[currentLang].copied;
+            copyText.style.color = "green";
+            setTimeout(() => { 
+                copyText.innerText = translations[currentLang].copy_hint; 
+                copyText.style.color = "var(--asyr-blue)";
+            }, 2000);
         }
 
         function calculate() {
