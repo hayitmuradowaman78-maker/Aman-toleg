@@ -3,86 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMAN HAYITMURADOV - Professional Töleg</title>
+    <title>Tiz Töle ⚡</title>
     <style>
         :root { 
             --bg-gradient: linear-gradient(135deg, #138808 0%, #d00000 100%); 
-            --card: rgba(255, 255, 255, 0.98); 
+            --card: rgba(255, 255, 255, 0.96); 
             --text: #000000; 
-            --asyr-blue: #004085; 
+            --asyr-blue: #002752; 
             --main-gold: #ffc107; 
             --accent: #1e7e34; 
         }
         .night-mode { 
             --bg-gradient: linear-gradient(135deg, #053002 0%, #4a0000 100%);
-            --card: rgba(25, 35, 45, 0.98); 
+            --card: rgba(30, 40, 50, 0.98); 
             --text: #ffffff; 
         }
         
-        body { font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text); margin: 0; min-height: 100vh; transition: 0.4s; }
-        .container { max-width: 440px; margin: auto; padding: 20px; }
-        .header-bar { background: rgba(0, 64, 133, 0.95); color: white; padding: 18px; text-align: center; font-weight: 800; font-size: 22px; border-radius: 0 0 20px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); letter-spacing: 1px; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text); margin: 0; min-height: 100vh; transition: 0.4s; }
+        .container { max-width: 400px; margin: auto; padding: 10px; }
+        
+        .header-bar { 
+            background: rgba(0, 39, 82, 0.95); color: white; padding: 18px; 
+            text-align: center; font-weight: 900; font-size: 26px; 
+            border-radius: 0 0 20px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
 
         .time-box { 
             display: flex; justify-content: space-between; 
             background: rgba(0, 0, 0, 0.85); color: var(--main-gold); 
-            padding: 12px 20px; border-radius: 15px; margin: 20px 0; 
-            font-weight: 900; font-family: 'Courier New', monospace; font-size: 16px; border: 2px solid var(--main-gold);
+            padding: 10px 15px; border-radius: 12px; margin: 10px 0; 
+            font-weight: bold; font-family: monospace; font-size: 15px; border: 1px solid var(--main-gold);
         }
-        
+
+        .lang-bar { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; }
+        .lang-btn { cursor: pointer; border: none; padding: 8px 10px; border-radius: 8px; background: var(--card); font-size: 12px; font-weight: bold; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .active-lang { background: var(--asyr-blue); color: white !important; }
+
         .profile-card { 
-            background: var(--card); padding: 25px; border-radius: 25px; text-align: center; 
-            margin-bottom: 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.05);
+            background: var(--card); padding: 15px; border-radius: 20px; text-align: center; 
+            margin-bottom: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-left: 5px solid var(--asyr-blue);
         }
-        .profile-card h2 { margin: 0; font-size: 24px; color: var(--asyr-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .profile-card h2 { margin: 0; font-size: 19px; color: var(--asyr-blue); font-weight: 800; }
         .iban-box { 
-            background: #f8f9fa; padding: 15px; border-radius: 15px; border: 2px dashed var(--asyr-blue); 
-            color: #000; cursor: pointer; font-weight: 800; font-size: 15px; margin-top: 15px;
+            background: #f0f5ff; padding: 10px; border-radius: 12px; border: 2px dashed var(--asyr-blue); 
+            color: #000; cursor: pointer; font-weight: 800; font-size: 13px; margin-top: 8px;
         }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .menu-item { 
-            background: var(--card); padding: 30px 15px; border-radius: 25px; text-align: center; 
+            background: var(--card); padding: 20px 10px; border-radius: 20px; text-align: center; 
             cursor: pointer; display: flex; flex-direction: column; align-items: center; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
         }
-        .menu-item:active { transform: scale(0.95); }
-        .menu-item span { font-size: 45px; margin-bottom: 10px; }
-        .menu-item b { font-size: 20px; font-weight: 900; color: var(--asyr-blue); letter-spacing: 0.5px; }
+        .menu-item span { font-size: 32px; margin-bottom: 5px; }
+        .menu-item b { font-size: 19px; font-weight: 900; color: var(--asyr-blue); }
 
-        .card { background: var(--card); border-radius: 30px; overflow: hidden; display: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; font-size: 22px; font-weight: bold; }
-        .card-body { padding: 30px; }
+        .card { background: var(--card); border-radius: 25px; display: none; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .card-header { background: var(--asyr-blue); color: white; padding: 15px; text-align: center; font-weight: bold; border-radius: 25px 25px 0 0; }
+        .card-body { padding: 20px; }
 
-        select, input { 
-            width: 100%; padding: 18px; margin-bottom: 15px; border: 2px solid #eee; 
-            border-radius: 18px; font-size: 18px; font-weight: 600; box-sizing: border-box; 
-            outline: none; background: #fff; color: #000;
-        }
-        select:focus, input:focus { border-color: var(--asyr-blue); }
+        select, input { width: 100%; padding: 14px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 17px; box-sizing: border-box; outline: none; color: #000; }
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: 900; cursor: pointer; }
 
-        .pay-btn { 
-            width: 100%; padding: 20px; background: var(--accent); color: white; 
-            border: none; border-radius: 20px; font-size: 24px; font-weight: 900; 
-            cursor: pointer; box-shadow: 0 10px 20px rgba(30, 126, 52, 0.3);
-        }
-
-        #error-modal { 
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: #fff; padding: 30px; border-radius: 25px; z-index: 11000; width: 85%; 
-            text-align: center; border: 3px solid red; color: #000; font-weight: bold;
-        }
+        #offline-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
+        #error-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 20px; z-index: 11000; width: 80%; text-align: center; border: 2px solid red; color: #000; }
     </style>
 </head>
-<body onload="updateDateTime(); setInterval(updateDateTime, 1000);">
+<body onload="checkInternet(); updateDateTime(); setInterval(updateDateTime, 1000);">
 
-    <div id="modal-overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:10000;"></div>
-    <div id="error-modal">
-        <div id="error-text" style="font-size: 18px;">Maglumatlary dolduryň!</div>
-        <button onclick="closeModal()" style="margin-top:20px; padding:12px 30px; background:black; color:white; border-radius:12px; font-weight:bold; border:none;">OK</button>
+    <div id="offline-overlay">
+        <div style="font-size: 60px;">📡❌</div>
+        <h2 style="color:red">Internet ýok!</h2>
+        <button onclick="location.reload()" style="padding:10px 20px; background:#002752; color:white; border:none; border-radius:10px;">Täzeden barla</button>
     </div>
 
-    <div class="header-bar">AMAN HAYITMURADOV</div>
+    <div id="modal-overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000;"></div>
+    <div id="error-modal">
+        <div id="error-text" style="font-weight:bold;">Maglumatlary dolduryň!</div>
+        <button onclick="closeModal()" style="margin-top:15px; padding:10px 20px; background:black; color:white; border:none; border-radius:10px;">OK</button>
+    </div>
+
+    <div class="header-bar" id="main-title">Tiz töle ⚡</div>
 
     <div class="container">
         <div class="time-box">
@@ -90,25 +91,30 @@
             <span id="time-now">00:00:00</span>
         </div>
 
-        <div style="margin-bottom: 15px; text-align: right;">
-            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:rgba(255,255,255,0.3); border-radius:50%; width:45px; height:45px; font-size:22px; cursor:pointer; color:white;">🌗</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:rgba(0,0,0,0.1); border-radius:50%; width:40px; height:40px; cursor:pointer; font-size:20px;">🌗</button>
+            <div class="lang-bar">
+                <button class="lang-btn active-lang" onclick="changeLang('tk', this)">TM</button>
+                <button class="lang-btn" onclick="changeLang('ru', this)">RU</button>
+                <button class="lang-btn" onclick="changeLang('en', this)">EN</button>
+            </div>
         </div>
 
         <div class="profile-card">
             <h2>AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
-                <div style="font-size:12px; color:var(--asyr-blue); margin-bottom:5px;">IBAN (GÖÇÜRMEK ÜÇIN BASYŇ)</div>
+                <span style="font-size: 10px; display: block; color: #555;">KOPÝALAMAK ÜÇIN BASYŇ</span>
                 <span>TR91 0015 7000 0000 0201 1511 63</span>
             </div>
         </div>
 
         <div id="menu-section" class="menu-grid">
-            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6')"><span>📱</span><b>Altyn Asyr</b></div>
-            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi')"><span>🌐</span><b>Wi-Fi</b></div>
-            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom')"><span>☎️</span><b>Öý Telefon</b></div>
-            <div class="menu-item" onclick="openService('Alem TV', '')"><span>📺</span><b>Alem TV</b></div>
-            <div class="menu-item" onclick="openService('Belet Video', '')"><span>🎬</span><b>Belet</b></div>
-            <div class="menu-item" onclick="window.open('https://wa.me/99364041065')"><span>💬</span><b>Admin</b></div>
+            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', 's1')"><span>📱</span><b data-key="s1">Altyn Asyr</b></div>
+            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi', 's3')"><span>🌐</span><b data-key="s3">Wi-Fi</b></div>
+            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom', 's4')"><span>☎️</span><b data-key="s4">Öý Telefon</b></div>
+            <div class="menu-item" onclick="openService('Alem TV', '', 's2')"><span>📺</span><b data-key="s2">Alem TV</b></div>
+            <div class="menu-item" onclick="openService('Belet', '', 's5')"><span>🎬</span><b data-key="s5">Belet</b></div>
+            <div class="menu-item" onclick="window.open('https://wa.me/99364041065')"><span>💬</span><b data-key="adm">Admin</b></div>
         </div>
 
         <div class="card" id="payment-card">
@@ -116,19 +122,19 @@
             <div class="card-body">
                 <div id="region-box" style="display:none;">
                     <select id="welayat" onchange="updateCities()">
-                        <option value="">Welaýaty saýlaň</option>
-                        <option value="ahal">Ahal welaýaty</option>
-                        <option value="mary">Mary welaýaty</option>
-                        <option value="lebap">Lebap welaýaty</option>
-                        <option value="dashoguz">Daşoguz welaýaty</option>
-                        <option value="balkan">Balkan welaýaty</option>
+                        <option value="">Welaýat saýlaň</option>
+                        <option value="ahal">Ahal</option>
+                        <option value="mary">Mary</option>
+                        <option value="lebap">Lebap</option>
+                        <option value="dashoguz">Daşoguz</option>
+                        <option value="balkan">Balkan</option>
                     </select>
                     <select id="saher" style="display:none;"></select>
                 </div>
                 <input type="tel" id="client_phone" placeholder="Belgiňizi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
-                <div id="calc-res" style="text-align:center; font-weight:900; color:var(--asyr-blue); margin-bottom:20px; font-size:36px;">0.00 TL</div>
-                <button class="pay-btn" onclick="sendToWhatsapp()">TÖLEG ET</button>
+                <div id="calc-res" style="text-align:center; font-weight:900; color:var(--asyr-blue); margin-bottom:15px; font-size:32px;">0.00 TL</div>
+                <button class="pay-btn" onclick="sendToWhatsapp()" data-key="pay_btn">TÖLEG ET</button>
             </div>
         </div>
     </div>
@@ -136,19 +142,25 @@
     <script>
         const cityData = {
             ahal: { "Änew": "137", "Tejen": "135", "Bäherden": "131", "Gökdepe": "132", "Kaka": "133", "Sarahs": "134" },
-            mary: { "Mary şäheri": "522", "Baýramaly": "564", "Ýolöten": "560", "Murgap": "565", "Sakarchäge": "566", "Türkmengala": "569", "Tagtabazar": "568" },
-            lebap: { "Türkmenabat": "422", "Kerki": "444", "Dostluk": "449", "Gazojak": "462", "Seýdi": "465", "Farap": "442", "Halaç": "441" },
-            dashoguz: { "Daşoguz şäheri": "322", "Köneürgenç": "347", "Akdepe": "341", "Boldumsaz": "346", "Gubadag": "345" },
+            mary: { "Mary ş.": "522", "Baýramaly": "564", "Ýolöten": "560", "Murgap": "565", "Sakarchäge": "566", "Türkmengala": "569", "Tagtabazar": "568" },
+            lebap: { "Türkmenabat": "422", "Kerki": "444", "Dostluk": "449", "Gazojak": "462", "Seýdi": "465", "Farap": "442", "Halaç": "441", "Hojambaz": "440", "Köýtendag": "448", "Saýat": "447" },
+            dashoguz: { "Daşoguz ş.": "322", "Köneürgenç": "347", "Akdepe": "341", "Boldumsaz": "346", "Gubadag": "345" },
             balkan: { "Balkanabat": "222", "Türkmenbaşy": "243", "Garabogaz": "243", "Hazar": "240", "Gumdag": "241", "Serdar": "245" }
+        };
+
+        const translations = {
+            tk: { main: "Tiz töle ⚡", s1: "Altyn Asyr", s2: "Alem TV", s3: "Wi-Fi", s4: "Öý Telefon", s5: "Belet", adm: "Admin", pay_btn: "TÖLEG ET" },
+            ru: { main: "Быстрая оплата ⚡", s1: "Алтын Асыр", s2: "Алем ТВ", s3: "Wi-Fi", s4: "Домашний", s5: "Белет", adm: "Админ", pay_btn: "ОПЛАТИТЬ" },
+            en: { main: "Fast Pay ⚡", s1: "Altyn Asyr", s2: "Alem TV", s3: "Wi-Fi", s4: "Home Phone", s5: "Belet", adm: "Admin", pay_btn: "PAY NOW" }
         };
 
         function updateCities() {
             const welayat = document.getElementById('welayat').value;
             const saherSelect = document.getElementById('saher');
-            saherSelect.innerHTML = '<option value="">Şäher saýlaň</option>';
+            saherSelect.innerHTML = '<option value="">Şäher kody saýlaň</option>';
             if(welayat && cityData[welayat]) {
                 const names = Object.keys(cityData[welayat]).sort();
-                for(let name of names) saherSelect.innerHTML += `<option value="${cityData[welayat][name]}">${name}</option>`;
+                for(let name of names) saherSelect.innerHTML += `<option value="${cityData[welayat][name]}">${name} (${cityData[welayat][name]})</option>`;
                 saherSelect.style.display = 'block';
             } else saherSelect.style.display = 'none';
         }
@@ -167,6 +179,13 @@
             document.getElementById('payment-card').style.display = 'none';
         };
 
+        function changeLang(lang, btn) {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
+            btn.classList.add('active-lang');
+            document.getElementById('main-title').innerText = translations[lang].main;
+            document.querySelectorAll('[data-key]').forEach(el => { el.innerText = translations[lang][el.getAttribute('data-key')]; });
+        }
+
         function calculate() {
             const tmt = document.getElementById('tmt_input').value;
             document.getElementById('calc-res').innerText = (tmt * 2.5).toFixed(2) + " TL";
@@ -175,8 +194,8 @@
         function sendToWhatsapp() {
             const tmt = document.getElementById('tmt_input').value;
             const phone = document.getElementById('client_phone').value;
-            if (!tmt || tmt <= 0 || phone.length < 5) { showError("Maglumatlary dogry ýazyň!"); return; }
-            const msg = `✅ *TÖLEG* ✅%0A%0A👤 *Admin:* AMAN HAYITMURADOV%0A🌐 *Hyzmat:* ${document.getElementById('service-title').innerText}%0A📞 *Nomer:* ${phone}%0A💰 *Mukdar:* ${tmt} TMT%0A💳 *Tölenen:* ${(tmt * 2.5).toFixed(2)} TL%0A📅 *Sene:* ${document.getElementById('date-now').innerText}`;
+            if (!tmt || tmt <= 0) { showError("Mukdary ýazyň!"); return; }
+            const msg = `✅ *TIZ TÖLEG* ✅%0A%0A👤 *Admin:* AMAN HAYITMURADOV%0A🌐 *Hyzmat:* ${document.getElementById('service-title').innerText}%0A📞 *Nomer:* ${phone}%0A💰 *Mukdar:* ${tmt} TMT%0A💳 *Tölenen:* ${(tmt * 2.5).toFixed(2)} TL%0A📅 *Sene:* ${document.getElementById('date-now').innerText}`;
             window.open(`https://wa.me/99364041065?text=${msg}`);
         }
 
@@ -185,6 +204,10 @@
             document.getElementById('date-now').innerText = now.toLocaleDateString('tk-TM');
             document.getElementById('time-now').innerText = now.toLocaleTimeString('tk-TM');
         }
+
+        function checkInternet() { if (!navigator.onLine) document.getElementById('offline-overlay').style.display = 'flex'; }
+        window.addEventListener('offline', checkInternet);
+        window.addEventListener('online', () => { document.getElementById('offline-overlay').style.display = 'none'; });
 
         function copyIban() { navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63"); alert("IBAN göçürildi!"); }
         function showError(t) { document.getElementById('error-text').innerText = t; document.getElementById('modal-overlay').style.display = 'block'; document.getElementById('error-modal').style.display = 'block'; }
