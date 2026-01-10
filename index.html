@@ -59,15 +59,13 @@
 
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item { 
-            background: var(--card); padding: 15px; border-radius: 20px; text-align: center; 
+            background: var(--card); padding: 20px; border-radius: 20px; text-align: center; 
             cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         
-        .menu-icon {
-            width: 50px; height: 50px; 
-            object-fit: contain; margin-bottom: 8px;
-            display: block; margin-left: auto; margin-right: auto;
-        }
+        .menu-icon { font-size: 40px; margin-bottom: 8px; display: block; }
+        .menu-img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px; }
 
         .card { background: var(--card); border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); display: none; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -76,6 +74,8 @@
         .card-body { padding: 25px; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; }
         .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; }
+        
+        .admin-btn { background: #25D366 !important; color: white !important; }
     </style>
 </head>
 <body onload="updateTime(); setInterval(updateTime, 1000);">
@@ -109,22 +109,27 @@
 
         <div id="menu-section" class="menu-grid">
             <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', 'service1')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3616/3616550.png" class="menu-icon"><b data-key="service1">Altyn Asyr</b>
+                <span class="menu-icon">📱</span><b data-key="service1">Altyn Asyr</b>
             </div>
+            
             <div class="menu-item" onclick="openService('Belet Video', '', 'service5')">
-                <img src="https://cdn-icons-png.flaticon.com/512/4406/4406124.png" class="menu-icon"><b data-key="service5">Belet Video</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/4406/4406124.png" class="menu-img"><b data-key="service5">Belet Video</b>
             </div>
+            
             <div class="menu-item" onclick="openService('Alem TV', '', 'service2')">
-                <img src="https://cdn-icons-png.flaticon.com/512/716/716429.png" class="menu-icon"><b data-key="service2">Alem TV</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/716/716429.png" class="menu-img"><b data-key="service2">Alem TV</b>
             </div>
+            
             <div class="menu-item" onclick="openService('Wi-Fi', '+993 ', 'service3')">
-                <img src="https://cdn-icons-png.flaticon.com/512/93/93158.png" class="menu-icon"><b data-key="service3">Wi-Fi</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/93/93158.png" class="menu-img"><b data-key="service3">Wi-Fi</b>
             </div>
-            <div class="menu-item" onclick="openService('Belet Wi-Fi', '', 'service6')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3300/3300624.png" class="menu-icon"><b data-key="service6">Belet Wi-Fi</b>
-            </div>
+            
             <div class="menu-item" onclick="openService('Öý Telefon', '+993 ', 'service4')">
-                <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="menu-icon"><b data-key="service4">Öý Telefon</b>
+                <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="menu-img"><b data-key="service4">Öý Telefon</b>
+            </div>
+
+            <div class="menu-item admin-btn" onclick="contactAdmin()">
+                <span class="menu-icon">💬</span><b data-key="admin_btn">Admin</b>
             </div>
         </div>
 
@@ -143,10 +148,10 @@
 
     <script>
         const translations = {
-            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!", phone_ph: "Belgi ýazyň" },
-            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", service6: "Белет Wi-Fi", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер" },
-            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin" },
-            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number" }
+            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", admin_btn: "Admin", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!", phone_ph: "Belgi ýazyň", wa_msg: "Salam Admin, tölegde nasazlyk bar." },
+            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", admin_btn: "Админ", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер", wa_msg: "Здравствуйте Админ, возникла проблема с оплатой." },
+            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", admin_btn: "Admin", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin", wa_msg: "Merhaba Admin, ödemede bir sorun oluştu." },
+            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", admin_btn: "Admin", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number", wa_msg: "Hello Admin, there is an issue with the payment." }
         };
 
         let currentLang = 'tk';
@@ -182,6 +187,11 @@
             isPaymentOpen = false;
             document.getElementById('menu-section').style.display = 'grid';
             document.getElementById('payment-card').style.display = 'none';
+        }
+
+        function contactAdmin() {
+            const msg = encodeURIComponent(translations[currentLang].wa_msg);
+            window.open(`https://wa.me/99364041065?text=${msg}`, '_blank');
         }
 
         function copyIban() {
