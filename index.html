@@ -19,81 +19,92 @@
             --text: #ffffff; 
         }
         
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); color: var(--text); margin: 0; min-height: 100vh; transition: 0.5s; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); background-attachment: fixed; background-size: cover; color: var(--text); margin: 0; min-height: 100vh; transition: 0.5s; }
         .container { max-width: 420px; margin: auto; padding: 15px; }
-        .header-bar { background: rgba(0, 86, 179, 0.9); color: white; padding: 15px; text-align: center; font-weight: bold; border-radius: 0 0 15px 15px; }
+        .header-bar { background: rgba(0, 86, 179, 0.9); color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; border-radius: 0 0 15px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        .time-box { display: flex; justify-content: space-between; background: rgba(34, 34, 34, 0.9); color: var(--main-gold); padding: 10px 15px; border-radius: 12px; margin: 15px 0; font-weight: bold; font-family: monospace; }
+        .time-box { display: flex; justify-content: space-between; background: rgba(34, 34, 34, 0.9); color: var(--main-gold); padding: 10px 15px; border-radius: 12px; margin: 15px 0; font-weight: bold; font-family: monospace; border: 1px solid rgba(255,255,255,0.2); }
         
-        .profile-card { background: var(--card); padding: 15px; border-radius: 20px; text-align: center; margin-bottom: 15px; }
+        .lang-bar { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; }
+        .lang-btn { cursor: pointer; border: none; padding: 8px 12px; border-radius: 8px; background: var(--card); font-size: 12px; font-weight: bold; color: #333; }
+        .active-lang { background: var(--asyr-blue); color: white !important; }
+
+        .profile-card { background: var(--card); padding: 15px; border-radius: 20px; text-align: center; margin-bottom: 15px; backdrop-filter: blur(10px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
         .iban-box { background: #f0f7ff; padding: 12px; border-radius: 12px; border: 1px dashed var(--asyr-blue); color: #000; cursor: pointer; font-weight: bold; }
 
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .menu-item { background: var(--card); padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-        .menu-item b { font-size: 16px; font-weight: 800; color: #000; margin-top: 5px; }
+        .menu-item { background: var(--card); padding: 20px; border-radius: 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .menu-item b { font-size: 17px; font-weight: 800; color: #000; margin-top: 5px; }
 
-        .card { background: var(--card); border-radius: 25px; overflow: hidden; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .card-header { background: var(--asyr-blue); color: white; padding: 15px; text-align: center; }
-        .card-body { padding: 20px; }
+        .card { background: var(--card); border-radius: 25px; overflow: hidden; display: none; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; }
+        .card-body { padding: 25px; }
 
-        /* Saýlaw meýdançalary (Dropdowns) */
-        select, input { 
-            width: 100%; padding: 15px; margin-bottom: 12px; border: 1px solid #ddd; 
-            border-radius: 12px; font-size: 16px; outline: none; box-sizing: border-box; background: white; color: black;
-        }
+        select, input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; color: #000; background: white; }
+        
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; }
 
-        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 20px; font-weight: bold; cursor: pointer; }
-
-        #offline-overlay, #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; }
-        #offline-overlay { background: white; flex-direction: column; align-items: center; justify-content: center; }
-        #error-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 25px; border-radius: 20px; z-index: 10000; width: 80%; max-width: 300px; text-align: center; border: 2px solid red; }
+        #offline-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 10000; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        #error-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 25px; border-radius: 20px; z-index: 2000; width: 80%; max-width: 300px; text-align: center; border: 2px solid red; }
+        #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
     </style>
 </head>
-<body onload="updateDateTime(); setInterval(updateDateTime, 1000); checkInternet();">
+<body onload="checkInternet(); updateDateTime(); setInterval(updateDateTime, 1000);">
 
     <div id="offline-overlay">
-        <h1 style="color:red">📡 Internet ýok!</h1>
-        <button onclick="location.reload()">Täzeden barla</button>
+        <div style="font-size: 80px;">📡❌</div>
+        <h2 id="off-t" style="color: #d00000;">Internet ýok!</h2>
+        <button onclick="location.reload()" style="padding: 12px 30px; background: #0056b3; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">Täzeden barla</button>
     </div>
 
-    <div id="modal-overlay" style="background:rgba(0,0,0,0.5)"></div>
+    <div id="modal-overlay" onclick="closeModal()"></div>
     <div id="error-modal">
         <div style="font-size: 40px;">⚠️</div>
-        <div id="error-text" style="color:black; font-weight:bold; margin:10px 0;">Maglumatlary dolduryň!</div>
-        <button onclick="closeModal()" style="padding:10px 20px; background:black; color:white; border-radius:10px;">OK</button>
+        <div id="error-text" style="font-weight: bold; color: #000;">Belgiňizi we tölegiňizi ýazyň!</div>
+        <button onclick="closeModal()" style="padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 10px; cursor: pointer; margin-top:15px;">OK</button>
     </div>
 
-    <div class="header-bar">ONLAÝN TÖLEG</div>
+    <div class="header-bar" id="top-title">ONLAÝN TÖLEG</div>
 
     <div class="container">
-        <div class="time-box">
-            <span id="full-date">11.01.2026</span>
-            <span id="clock">00:00:00</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:rgba(255,255,255,0.2); border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; color:white;">🌗</button>
+            <div class="time-box">
+                <span id="full-date">11.01.2026</span>
+                <span id="clock">00:00:00</span>
+            </div>
+        </div>
+
+        <div class="lang-bar">
+            <button class="lang-btn active-lang" onclick="changeLang('tk', this)">🇹🇲 TK</button>
+            <button class="lang-btn" onclick="changeLang('ru', this)">🇷🇺 RU</button>
+            <button class="lang-btn" onclick="changeLang('tr', this)">🇹🇷 TR</button>
+            <button class="lang-btn" onclick="changeLang('en', this)">🇺🇸 EN</button>
         </div>
 
         <div class="profile-card">
-            <h2 style="margin:0; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
+            <h2 style="margin:0; font-size: 22px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
                 <span id="iban-num">TR91 0015 7000 0000 0201 1511 63</span>
-                <div style="font-size:11px; color:var(--asyr-blue); margin-top:5px;">(GÖCHÜRMEK ÜCHIN BASYŇ)</div>
+                <div style="font-size:11px; color:var(--asyr-blue); margin-top:8px;" id="copy-text">(GÖCHÜRMEK ÜCHIN BASYŇ)</div>
             </div>
         </div>
 
         <div id="menu-section" class="menu-grid">
-            <div class="menu-item" onclick="openService('Altyn Asyr', '+9936')"><span>📱</span><b>Altyn Asyr</b></div>
-            <div class="menu-item" onclick="openService('Belet Video', '')"><span>🎬</span><b>Belet Video</b></div>
-            <div class="menu-item" onclick="openService('Alem TV', '')"><span>📺</span><b>Alem TV</b></div>
-            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi')"><span>🌐</span><b>Wi-Fi</b></div>
-            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom')"><span>☎️</span><b>Öý Telefon</b></div>
-            <div class="menu-item" onclick="location.href='https://wa.me/99364041065'"><span>💬</span><b>Admin</b></div>
+            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', 'service1')"><span>📱</span><b data-key="service1">Altyn Asyr</b></div>
+            <div class="menu-item" onclick="openService('Belet Video', '', 'service5')"><span>🎬</span><b data-key="service5">Belet Video</b></div>
+            <div class="menu-item" onclick="openService('Alem TV', '', 'service2')"><span>📺</span><b data-key="service2">Alem TV</b></div>
+            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi', 'service3')"><span>🌐</span><b data-key="service3">Wi-Fi</b></div>
+            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom', 'service4')"><span>☎️</span><b data-key="service4">Öý Telefon</b></div>
+            <div class="menu-item" onclick="contactAdmin()"><span>💬</span><b data-key="admin_btn">Admin</b></div>
         </div>
 
         <div class="card" id="payment-card">
-            <div class="card-header"><h3 id="service-title" style="margin:0;">HYZMAT</h3></div>
+            <div class="card-header"><h2 style="margin:0;" id="service-title">HYZMAT</h2></div>
             <div class="card-body">
                 <div id="region-box" style="display:none;">
                     <select id="welayat" onchange="updateCities()">
-                        <option value="">Welayatyňyzy saýlaň</option>
+                        <option value="">Welayaty saýlaň</option>
                         <option value="ashgabat">Aşgabat şäheri</option>
                         <option value="ahal">Ahal welayaty</option>
                         <option value="mary">Mary welayaty</option>
@@ -103,11 +114,10 @@
                     </select>
                     <select id="saher" style="display:none;"></select>
                 </div>
-
                 <input type="tel" id="client_phone" placeholder="Belgiňizi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
-                <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--asyr-blue); font-size:30px; margin-bottom:10px;">0.00 TL</div>
-                <button class="pay-btn" onclick="sendToWhatsapp()">TÖLEG ET</button>
+                <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--asyr-blue); margin-bottom:15px; font-size:32px;">0.00 TL</div>
+                <button class="pay-btn" onclick="sendToWhatsapp()" data-key="pay_btn">TÖLEG ET</button>
             </div>
         </div>
     </div>
@@ -115,29 +125,35 @@
     <script>
         const cityData = {
             ashgabat: { "Aşgabat": "12" },
-            ahal: { "Änew": "137", "Tejen": "135", "Bäherden": "131", "Gökdepe": "132" },
-            mary: { "Mary ş.": "522", "Baýramaly": "564", "Ýolöten": "560", "Murgap": "565", "Sakarchäge": "566" },
-            lebap: { "Türkmenabat": "422", "Kerki": "444", "Farap": "442", "Saýat": "447" },
-            dashoguz: { "Daşoguz ş.": "322", "Köneürgenç": "347", "Akdepe": "341", "Gurbansoltan": "344" },
-            balkan: { "Balkanabat": "222", "Türkmenbaşy": "243", "Gumdag": "241", "Hazar": "240" }
+            ahal: { "Änew": "137", "Tejen": "135", "Bäherden": "131", "Gökdepe": "132", "Kaka": "133", "Sarahs": "134", "Ak bugdaý": "137", "Babadaýhan": "136" },
+            mary: { "Mary ş.": "522", "Baýramaly": "564", "Ýolöten": "560", "Murgap": "565", "Sakarchäge": "566", "Türkmengala": "569", "Wekilbazar": "558", "Sakar": "557" },
+            lebap: { "Türkmenabat": "422", "Kerki": "444", "Farap": "442", "Saýat": "447", "Darganata": "461", "Dänew": "446", "Hojambaz": "440", "Köýtendag": "448" },
+            dashoguz: { "Daşoguz ş.": "322", "Köneürgenç": "347", "Akdepe": "341", "Gurbansoltan": "344", "Boldumsaz": "346", "Gubadag": "345", "Saparmyrat Türkmenbaşy": "343" },
+            balkan: { "Balkanabat": "222", "Türkmenbaşy": "243", "Gumdag": "241", "Hazar": "240", "Bereket": "246", "Magtymguly": "248", "Serdar": "245", "Etrek": "242", "Esenguly": "247" }
         };
+
+        const translations = {
+            tk: { title: "ONLAÝN TÖLEG", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", admin_btn: "Admin", pay_btn: "TÖLEG ET", error: "Belgiňizi we tölegiňizi ýazyň!" },
+            ru: { title: "ОНЛАЙН ОПЛАТА", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", admin_btn: "Админ", pay_btn: "ОПЛАТИТЬ", error: "Введите номер и сумму!" },
+            tr: { title: "ONLİNE ÖDEME", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", admin_btn: "Admin", pay_btn: "ÖDEME YAP", error: "Numaranızı ve miktarı girin!" },
+            en: { title: "ONLINE PAYMENT", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", admin_btn: "Admin", pay_btn: "PAY NOW", error: "Enter number and amount!" }
+        };
+
+        let currentLang = 'tk';
 
         function updateCities() {
             const welayat = document.getElementById('welayat').value;
             const saherSelect = document.getElementById('saher');
             saherSelect.innerHTML = '<option value="">Şäher/Etrap saýlaň</option>';
-            
             if(welayat && cityData[welayat]) {
-                for(let city in cityData[welayat]) {
-                    saherSelect.innerHTML += `<option value="${cityData[welayat][city]}">${city} (${cityData[welayat][city]})</option>`;
-                }
+                for(let city in cityData[welayat]) saherSelect.innerHTML += `<option value="${cityData[welayat][city]}">${city} (${cityData[welayat][city]})</option>`;
                 saherSelect.style.display = 'block';
-            } else {
-                saherSelect.style.display = 'none';
-            }
+            } else saherSelect.style.display = 'none';
         }
 
-        function openService(name, type) {
+        function openService(name, type, key) {
+            checkInternet();
+            if(!navigator.onLine) return;
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
             document.getElementById('service-title').innerText = name;
@@ -158,18 +174,24 @@
 
         function sendToWhatsapp() {
             const tmt = document.getElementById('tmt_input').value;
-            let phone = document.getElementById('client_phone').value;
+            const phone = document.getElementById('client_phone').value;
             const code = document.getElementById('saher').value;
-            const regionBox = document.getElementById('region-box').style.display;
+            const isRegion = document.getElementById('region-box').style.display === 'block';
 
-            if (regionBox === 'block' && (!code || !phone)) { showError("Welayat we şäher saýlaň!"); return; }
-            if (!tmt || tmt <= 0 || phone.length < 5) { showError("Belgi we mukdary dogry ýazyň!"); return; }
+            if (isRegion && (!code || !phone)) { showError("Welayat we etraby saýlaň!"); return; }
+            if (!tmt || tmt <= 0 || phone.length < 5) { showError(translations[currentLang].error); return; }
 
-            // Wi-Fi we Öý telefon bolsa koduny öňüne goşýar
-            const finalPhone = (regionBox === 'block') ? `+993 ${code} ${phone}` : phone;
-
-            const msg = `✅ *TÖLEG ÇEKI* ✅%0A%0A🌐 *Hyzmat:* ${document.getElementById('service-title').innerText}%0A📞 *Nomer:* ${finalPhone}%0A💰 *Mukdar:* ${tmt} TMT%0A💳 *Tölenen:* ${(tmt * 2.5).toFixed(2)} TL%0A📅 *Sene:* ${document.getElementById('full-date').innerText}%0A%0A*Admin:* AMAN HAYITMURADOV`;
+            const finalPhone = isRegion ? `+993 ${code} ${phone}` : phone;
+            const msg = `✅ *TÖLEG ÇEKI* ✅%0A%0A🌐 *Hyzmat:* ${document.getElementById('service-title').innerText}%0A📞 *Nomer:* ${finalPhone}%0A💰 *Mukdar:* ${tmt} TMT%0A💳 *Tölenen:* ${(tmt * 2.5).toFixed(2)} TL%0A📅 *Sene:* ${document.getElementById('full-date').innerText}%0A⏰ *Wagt:* ${document.getElementById('clock').innerText}%0A%0A*Admin:* AMAN HAYITMURADOV`;
             window.open(`https://wa.me/99364041065?text=${msg}`);
+        }
+
+        function changeLang(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
+            btn.classList.add('active-lang');
+            document.getElementById('top-title').innerText = translations[lang].title;
+            document.querySelectorAll('[data-key]').forEach(el => { el.innerText = translations[lang][el.getAttribute('data-key')]; });
         }
 
         function updateDateTime() {
@@ -181,22 +203,24 @@
         function checkInternet() { 
             document.getElementById('offline-overlay').style.display = navigator.onLine ? 'none' : 'flex'; 
         }
-        window.addEventListener('online', checkInternet);
-        window.addEventListener('offline', checkInternet);
+
+        function copyIban() {
+            navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63");
+            alert("IBAN göçürildi!");
+        }
 
         function showError(text) {
             document.getElementById('error-text').innerText = text;
             document.getElementById('modal-overlay').style.display = 'block';
             document.getElementById('error-modal').style.display = 'block';
         }
+
         function closeModal() {
             document.getElementById('modal-overlay').style.display = 'none';
             document.getElementById('error-modal').style.display = 'none';
         }
-        function copyIban() {
-            navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63");
-            alert("IBAN göçürildi!");
-        }
+
+        function contactAdmin() { window.open(`https://wa.me/99364041065`, '_blank'); }
     </script>
 </body>
 </html>
