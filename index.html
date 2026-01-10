@@ -8,7 +8,7 @@
         :root { 
             --bg-gradient: linear-gradient(135deg, #138808 0%, #d00000 100%); 
             --card: rgba(255, 255, 255, 0.95); 
-            --text: #000000; /* Yazgylar doly gara bolar ýaly */
+            --text: #000000; 
             --asyr-blue: #0056b3; 
             --main-gold: #ffc107; 
             --accent: #28a745; 
@@ -64,28 +64,15 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         
-        /* Hyzmat atlarynyň stilini üýtgetdik (Uly, goýy we gara) */
-        .menu-item b { 
-            font-size: 17px; 
-            font-weight: 800; 
-            color: #000000; 
-            display: block; 
-            margin-top: 5px;
-        }
-        
-        .menu-icon { font-size: 45px; margin-bottom: 8px; display: block; }
+        .menu-item b { font-size: 17px; font-weight: 800; color: #000000; margin-top: 5px; }
+        .menu-icon { font-size: 45px; margin-bottom: 8px; }
         .menu-img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 8px; }
 
-        /* Admin düwmesiniň stilini beýlekiler bilen birmeňzeş etdik */
-        .admin-btn { background: var(--card) !important; }
-        .admin-btn b { color: #000000 !important; font-size: 17px; text-transform: none; }
-
-        .card { background: var(--card); border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); display: none; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
+        .card { background: var(--card); border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); display: none; }
         .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; }
         .card-body { padding: 25px; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; color: #000; }
+        
         .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
@@ -98,7 +85,6 @@
             <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:rgba(255,255,255,0.2); border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; color:white;">🌗</button>
             <div class="time-box">
                 <span id="full-date">--.--.----</span>
-                <span style="margin: 0 5px;">|</span>
                 <span id="clock">00:00:00</span>
             </div>
         </div>
@@ -111,7 +97,7 @@
         </div>
 
         <div class="profile-card">
-            <h2 style="margin-top:0; font-size: 22px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
+            <h2 style="margin:0; font-size: 22px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
                 <span id="iban-num">TR91 0015 7000 0000 0201 1511 63</span>
                 <div style="font-size:11px; color:var(--asyr-blue); margin-top:8px;" id="copy-text" data-key="copy_hint">(GÖCHÜRMEK ÜCHIN BASYŇ)</div>
@@ -122,51 +108,45 @@
             <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', 'service1')">
                 <span class="menu-icon">📱</span><b data-key="service1">Altyn Asyr</b>
             </div>
-            
             <div class="menu-item" onclick="openService('Belet Video', '', 'service5')">
                 <img src="https://cdn-icons-png.flaticon.com/512/4406/4406124.png" class="menu-img"><b data-key="service5">Belet Video</b>
             </div>
-            
             <div class="menu-item" onclick="openService('Alem TV', '', 'service2')">
                 <img src="https://cdn-icons-png.flaticon.com/512/716/716429.png" class="menu-img"><b data-key="service2">Alem TV</b>
             </div>
-            
             <div class="menu-item" onclick="openService('Wi-Fi', '+993 ', 'service3')">
                 <img src="https://cdn-icons-png.flaticon.com/512/93/93158.png" class="menu-img"><b data-key="service3">Wi-Fi</b>
             </div>
-            
             <div class="menu-item" onclick="openService('Öý Telefon', '+993 ', 'service4')">
                 <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="menu-img"><b data-key="service4">Öý Telefon</b>
             </div>
-
-            <div class="menu-item admin-btn" onclick="contactAdmin()">
+            <div class="menu-item" onclick="contactAdmin()">
                 <span class="menu-icon">💬</span><b data-key="admin_btn">Admin</b>
             </div>
         </div>
 
         <div class="card" id="payment-card">
-            <div class="card-header">
-                <h2 style="margin:0;" id="service-title">HYZMAT</h2>
-            </div>
+            <div class="card-header"><h2 style="margin:0;" id="service-title">HYZMAT</h2></div>
             <div class="card-body">
-                <input type="tel" id="phone" placeholder="Belgi ýazyň">
+                <input type="tel" id="client_phone" placeholder="Belgi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--asyr-blue); margin-bottom:15px; font-size:32px;">0.00 TL</div>
-                <button class="pay-btn" id="pay-btn-text" data-key="pay_btn">TÖLEG ET</button>
+                <button class="pay-btn" onclick="sendToWhatsapp()" data-key="pay_btn">TÖLEG ET</button>
             </div>
         </div>
     </div>
 
     <script>
         const translations = {
-            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖCHÜRMEK ÜCHIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", admin_btn: "Admin", pay_btn: "TÖLEG ET", copied: "GÖCHÜRILDI!", phone_ph: "Belgi ýazyň", wa_msg: "Salam Admin, tölegde nasazlyk bar." },
-            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", admin_btn: "Админ", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер", wa_msg: "Здравствуйте Админ, возникла проблема с оплатой." },
-            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", admin_btn: "Admin", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin", wa_msg: "Merhaba Admin, ödemede bir sorun oluştu." },
-            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", admin_btn: "Admin", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number", wa_msg: "Hello Admin, there is an issue with the payment." }
+            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖCHÜRMEK ÜCHIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", admin_btn: "Admin", pay_btn: "TÖLEG ET", copied: "GÖCHÜRILDI!", phone_ph: "Belgi ýazyň", wa_msg: "Salam Admin, tölegde nasazlyk bar.", receipt: "TÖLEG ÇEKI" },
+            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", admin_btn: "Админ", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер", wa_msg: "Здравствуйте Админ, проблема с оплатой.", receipt: "ЧЕК ОПЛАТЫ" },
+            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", admin_btn: "Admin", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin", wa_msg: "Merhaba Admin, ödemede sorun var.", receipt: "ÖDEME FİŞİ" },
+            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", admin_btn: "Admin", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number", wa_msg: "Hello Admin, payment issue.", receipt: "PAYMENT RECEIPT" }
         };
 
         let currentLang = 'tk';
-        const kurs = 1.15;
+        const kurs = 2.5; // 100 Manat = 250 TL (1 Manat = 2.5 TL)
+        let selectedServiceName = "";
         let isPaymentOpen = false;
 
         function updateTime() {
@@ -183,21 +163,53 @@
             document.querySelectorAll('[data-key]').forEach(el => { el.innerText = translations[lang][el.getAttribute('data-key')]; });
         }
 
-        window.onpopstate = function() { if (isPaymentOpen) closeService(); };
-
         function openService(name, prefix, key) {
             isPaymentOpen = true;
+            selectedServiceName = translations[currentLang][key];
             history.pushState({page: "payment"}, "payment", "");
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
-            document.getElementById('service-title').innerText = translations[currentLang][key];
-            document.getElementById('phone').value = prefix;
+            document.getElementById('service-title').innerText = selectedServiceName;
+            document.getElementById('client_phone').value = prefix;
         }
 
         function closeService() {
             isPaymentOpen = false;
             document.getElementById('menu-section').style.display = 'grid';
             document.getElementById('payment-card').style.display = 'none';
+        }
+
+        window.onpopstate = function() { if (isPaymentOpen) closeService(); };
+
+        function calculate() {
+            const tmt = document.getElementById('tmt_input').value;
+            document.getElementById('calc-res').innerText = (tmt * kurs).toFixed(2) + " TL";
+        }
+
+        function sendToWhatsapp() {
+            const phone = document.getElementById('client_phone').value;
+            const tmt = document.getElementById('tmt_input').value;
+            const tl = (tmt * kurs).toFixed(2);
+            const date = document.getElementById('full-date').innerText;
+            const time = document.getElementById('clock').innerText;
+
+            if(!phone || !tmt || tmt <= 0) {
+                alert("Sene we Manat ýazyň!");
+                return;
+            }
+
+            // WhatsApp Çek Formaty
+            const message = `✅ *${translations[currentLang].receipt}* ✅%0A%0A` +
+                            `🌐 *Hyzmat:* ${selectedServiceName}%0A` +
+                            `📞 *Nomer:* ${phone}%0A` +
+                            `💰 *Mukdar:* ${tmt} TMT%0A` +
+                            `💳 *Tölenen:* ${tl} TL%0A` +
+                            `📅 *Sene:* ${date}%0A` +
+                            `⏰ *Wagt:* ${time}%0A%0A` +
+                            `--------------------------%0A` +
+                            `*Admin:* AMAN HAYITMURADOV`;
+
+            window.open(`https://wa.me/99364041065?text=${message}`, '_blank');
         }
 
         function contactAdmin() {
@@ -210,11 +222,6 @@
             navigator.clipboard.writeText(iban);
             document.getElementById('copy-text').innerText = translations[currentLang].copied;
             setTimeout(() => { document.getElementById('copy-text').innerText = translations[currentLang].copy_hint; }, 2000);
-        }
-
-        function calculate() {
-            const tmt = document.getElementById('tmt_input').value;
-            document.getElementById('calc-res').innerText = (tmt * kurs).toFixed(2) + " TL";
         }
     </script>
 </body>
