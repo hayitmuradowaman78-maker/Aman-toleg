@@ -9,7 +9,7 @@
             --bg: #f4f7f6; 
             --card: #ffffff; 
             --text: #333; 
-            --asyr-blue: #0056b3; /* Altyn Asyr Gök reňki */
+            --asyr-blue: #0056b3; 
             --main-gold: #ffc107; 
             --accent: #28a745; 
         }
@@ -18,7 +18,6 @@
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.5s; }
         .container { max-width: 420px; margin: auto; padding: 15px; }
         
-        /* Ýokarky Gök Bar */
         .header-bar { 
             background: var(--asyr-blue); 
             color: white; padding: 15px; text-align: center; 
@@ -47,9 +46,11 @@
         .menu-item { 
             background: var(--card); padding: 15px; border-radius: 15px; text-align: center; 
             cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s;
+            border: 1px solid transparent;
         }
+        .menu-item:hover { border-color: var(--asyr-blue); }
         .menu-item:active { transform: scale(0.95); }
-        .menu-item i { font-size: 24px; display: block; margin-bottom: 5px; font-style: normal; }
+        .menu-item i { font-size: 28px; display: block; margin-bottom: 5px; font-style: normal; }
 
         .card { background: var(--card); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: none; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -95,8 +96,10 @@
 
         <div id="menu-section" class="menu-grid">
             <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', '📱', 'service1')"><i>📱</i><b data-key="service1">Altyn Asyr</b></div>
+            <div class="menu-item" onclick="openService('Belet Video', '', '🎬', 'service5')"><i>🎬</i><b data-key="service5">Belet Video</b></div>
             <div class="menu-item" onclick="openService('Alem TV', '', '📺', 'service2')"><i>📺</i><b data-key="service2">Alem TV</b></div>
             <div class="menu-item" onclick="openService('Wi-Fi', '+993 ', '🌐', 'service3')"><i>🌐</i><b data-key="service3">Wi-Fi</b></div>
+            <div class="menu-item" onclick="openService('Belet Wi-Fi', '', '📡', 'service6')"><i>📡</i><b data-key="service6">Belet Wi-Fi</b></div>
             <div class="menu-item" onclick="openService('Öý Telefon', '+993 ', '☎️', 'service4')"><i>☎️</i><b data-key="service4">Öý Telefon</b></div>
         </div>
 
@@ -116,10 +119,10 @@
 
     <script>
         const translations = {
-            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!", phone_ph: "Belgi ýazyň" },
-            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер" },
-            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin" },
-            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number" }
+            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!", phone_ph: "Belgi ýazyň" },
+            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", service6: "Белет Wi-Fi", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер" },
+            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin" },
+            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number" }
         };
 
         let currentLang = 'tk';
