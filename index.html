@@ -10,7 +10,13 @@
             --card: rgba(255, 255, 255, 0.95); 
             --text: #333; 
             --asyr-blue: #0056b3; 
+            --main-gold: #ffc107; 
             --accent: #28a745; 
+        }
+        .night-mode { 
+            --bg-gradient: linear-gradient(135deg, #053002 0%, #4a0000 100%);
+            --card: rgba(30, 42, 56, 0.95); 
+            --text: #ffffff; 
         }
         
         body { 
@@ -21,6 +27,7 @@
             color: var(--text); 
             margin: 0; 
             min-height: 100vh;
+            transition: 0.5s;
         }
 
         .container { max-width: 420px; margin: auto; padding: 15px; }
@@ -33,37 +40,47 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
+        .time-box { display: flex; justify-content: space-around; background: rgba(34, 34, 34, 0.8); color: var(--main-gold); padding: 8px; border-radius: 10px; font-family: 'Courier New', monospace; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .lang-bar { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; }
+        .lang-btn { cursor: pointer; border: none; padding: 8px 12px; border-radius: 8px; background: var(--card); font-size: 12px; font-weight: bold; color: var(--text); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .active-lang { background: var(--asyr-blue); color: white; }
+
         .profile-card { 
             background: var(--card); padding: 15px; border-radius: 20px; text-align: center; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15); margin: 15px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15); margin-bottom: 15px; 
             backdrop-filter: blur(10px);
         }
 
-        /* Menýu Suratlary (Logotipler) üçin stil */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .iban-box { 
+            background: #f0f7ff; padding: 12px; border-radius: 12px; border: 1px dashed var(--asyr-blue); 
+            color: #000; font-family: monospace; font-size: 14px; cursor: pointer; font-weight: bold; 
+        }
+
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item { 
             background: var(--card); padding: 15px; border-radius: 20px; text-align: center; 
             cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
         }
+        .menu-item:active { transform: scale(0.95); }
         
+        /* Suratlar üçin ýörite stil */
         .menu-icon {
-            width: 60px; 
-            height: 60px; 
-            object-fit: contain; 
-            margin-bottom: 8px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 10px; /* Suratyň gyralaryny azajyk ýumşatmak üçin */
+            width: 55px; height: 55px; 
+            object-fit: contain; margin-bottom: 8px;
+            display: block; margin-left: auto; margin-right: auto;
         }
 
-        .menu-item b { font-size: 14px; display: block; color: #333; }
-
-        .card { background: var(--card); border-radius: 25px; overflow: hidden; display: none; }
+        .card { background: var(--card); border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); display: none; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
         .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; }
+        
         .card-body { padding: 25px; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; }
-        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 15px; font-size: 18px; box-sizing: border-box; outline: none; background: #fafafa; }
+        input:focus { border-color: var(--asyr-blue); background: #fff; }
+        
+        .pay-btn { width: 100%; padding: 18px; background: var(--accent); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4); }
     </style>
 </head>
 <body onload="updateTime(); setInterval(updateTime, 1000);">
@@ -71,56 +88,95 @@
     <div class="header-bar" id="top-title">ONLAÝN TÖLEG</div>
 
     <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:rgba(255,255,255,0.2); border-radius:50%; width:40px; height:40px; font-size:20px; cursor:pointer; color:white;">🌗</button>
+            <div class="time-box">
+                <span id="full-date">--.--.----</span>
+                <span style="margin: 0 5px;">|</span>
+                <span id="clock">00:00:00</span>
+            </div>
+        </div>
+
+        <div class="lang-bar">
+            <button class="lang-btn active-lang" onclick="changeLang('tk', this)">🇹🇲 TK</button>
+            <button class="lang-btn" onclick="changeLang('ru', this)">🇷🇺 RU</button>
+            <button class="lang-btn" onclick="changeLang('tr', this)">🇹🇷 TR</button>
+            <button class="lang-btn" onclick="changeLang('en', this)">🇺🇸 EN</button>
+        </div>
+
         <div class="profile-card">
-            <h2 style="margin:0; font-size: 20px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
-            <div style="background: #f0f7ff; padding: 12px; border-radius: 12px; border: 1px dashed var(--asyr-blue); margin-top: 10px; font-weight: bold; cursor: pointer;" onclick="copyIban()">
+            <h2 style="margin-top:0; font-size: 22px; color: var(--asyr-blue);">AMAN HAYITMURADOV</h2>
+            <div class="iban-box" onclick="copyIban()">
                 <span id="iban-num">TR91 0015 7000 0000 0201 1511 63</span>
-                <div style="font-size:10px; color:gray; margin-top:5px;" id="copy-text">(GÖÇÜRMEK ÜÇIN BASYŇ)</div>
+                <div style="font-size:11px; color:var(--asyr-blue); margin-top:8px;" id="copy-text" data-key="copy_hint">(GÖÇÜRMEK ÜÇIN BASYŇ)</div>
             </div>
         </div>
 
         <div id="menu-section" class="menu-grid">
             <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6', 'service1')">
-                <img src="asyr.png" class="menu-icon" alt="Altyn Asyr">
-                <b data-key="service1">Altyn Asyr</b>
+                <img src="asyr.png" class="menu-icon"><b data-key="service1">Altyn Asyr</b>
             </div>
             <div class="menu-item" onclick="openService('Belet Video', '', 'service5')">
-                <img src="belet_video.png" class="menu-icon" alt="Belet Video">
-                <b data-key="service5">Belet Video</b>
+                <img src="belet_video.png" class="menu-icon"><b data-key="service5">Belet Video</b>
             </div>
             <div class="menu-item" onclick="openService('Alem TV', '', 'service2')">
-                <img src="alem.png" class="menu-icon" alt="Alem TV">
-                <b data-key="service2">Alem TV</b>
+                <img src="alem.png" class="menu-icon"><b data-key="service2">Alem TV</b>
             </div>
             <div class="menu-item" onclick="openService('Wi-Fi', '+993 ', 'service3')">
-                <img src="wifi.png" class="menu-icon" alt="Wi-Fi">
-                <b data-key="service3">Wi-Fi</b>
+                <img src="wifi.png" class="menu-icon"><b data-key="service3">Wi-Fi</b>
             </div>
             <div class="menu-item" onclick="openService('Belet Wi-Fi', '', 'service6')">
-                <img src="belet_wifi.png" class="menu-icon" alt="Belet Wi-Fi">
-                <b data-key="service6">Belet Wi-Fi</b>
+                <img src="belet_wifi.png" class="menu-icon"><b data-key="service6">Belet Wi-Fi</b>
             </div>
             <div class="menu-item" onclick="openService('Öý Telefon', '+993 ', 'service4')">
-                <img src="telekom.png" class="menu-icon" alt="Öý Telefon">
-                <b data-key="service4">Öý Telefon</b>
+                <img src="telekom.png" class="menu-icon"><b data-key="service4">Öý Telefon</b>
             </div>
         </div>
 
         <div class="card" id="payment-card">
-            <div class="card-header"><h2 style="margin:0;" id="service-title">HYZMAT</h2></div>
+            <div class="card-header">
+                <h2 style="margin:0;" id="service-title">HYZMAT</h2>
+            </div>
             <div class="card-body">
                 <input type="tel" id="phone" placeholder="Belgi ýazyň">
                 <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()">
                 <div id="calc-res" style="text-align:center; font-weight:bold; color:var(--asyr-blue); margin-bottom:15px; font-size:32px;">0.00 TL</div>
-                <button class="pay-btn">TÖLEG ET</button>
+                <button class="pay-btn" id="pay-btn-text" data-key="pay_btn">TÖLEG ET</button>
             </div>
         </div>
     </div>
 
     <script>
-        let isPaymentOpen = false;
-        const kurs = 1.15;
+        const translations = {
+            tk: { title: "ONLAÝN TÖLEG", copy_hint: "(GÖÇÜRMEK ÜÇIN BASYŇ)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Öý Telefon", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "TÖLEG ET", copied: "GÖÇÜRILDI!", phone_ph: "Belgi ýazyň" },
+            ru: { title: "ОНЛАЙН ОПЛАТА", copy_hint: "(НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ)", service1: "Алтын Асыр", service2: "Алем ТВ", service3: "Wi-Fi", service4: "Домашний", service5: "Белет Видео", service6: "Белет Wi-Fi", pay_btn: "ОПЛАТИТЬ", copied: "СКОПИРОВАНО!", phone_ph: "Введите номер" },
+            tr: { title: "ONLİNE ÖDEME", copy_hint: "(KOPYALAMAK İÇİN TIKLA)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Ev Telefonu", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "ÖDEME YAP", copied: "KOPYALANDI!", phone_ph: "Numara girin" },
+            en: { title: "ONLINE PAYMENT", copy_hint: "(CLICK TO COPY)", service1: "Altyn Asyr", service2: "Alem TV", service3: "Wi-Fi", service4: "Home Phone", service5: "Belet Video", service6: "Belet Wi-Fi", pay_btn: "PAY NOW", copied: "COPIED!", phone_ph: "Enter number" }
+        };
 
+        let currentLang = 'tk';
+        const kurs = 1.15;
+        let isPaymentOpen = false;
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+            document.getElementById('full-date').innerText = now.toLocaleDateString();
+        }
+
+        function changeLang(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
+            btn.classList.add('active-lang');
+            document.getElementById('top-title').innerText = translations[lang].title;
+            document.getElementById('phone').placeholder = translations[lang].phone_ph;
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                el.innerText = translations[lang][key];
+            });
+        }
+
+        // BACK DÜWMESI ÜÇIN
         window.onpopstate = function() { if (isPaymentOpen) closeService(); };
 
         function openService(name, prefix, key) {
@@ -128,7 +184,7 @@
             history.pushState({page: "payment"}, "payment", "");
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
-            document.getElementById('service-title').innerText = name;
+            document.getElementById('service-title').innerText = translations[currentLang][key];
             document.getElementById('phone').value = prefix;
         }
 
@@ -138,16 +194,18 @@
             document.getElementById('payment-card').style.display = 'none';
         }
 
-        function calculate() {
-            const tmt = document.getElementById('tmt_input').value;
-            document.getElementById('calc-res').innerText = (tmt * kurs).toFixed(2) + " TL";
-        }
-
         function copyIban() {
             const iban = document.getElementById('iban-num').innerText;
             navigator.clipboard.writeText(iban);
-            document.getElementById('copy-text').innerText = "GÖÇÜRILDI!";
-            setTimeout(() => { document.getElementById('copy-text').innerText = "(GÖÇÜRMEK ÜÇIN BASYŇ)"; }, 2000);
+            const copyText = document.getElementById('copy-text');
+            copyText.innerText = translations[currentLang].copied;
+            setTimeout(() => { copyText.innerText = translations[currentLang].copy_hint; }, 2000);
+        }
+
+        function calculate() {
+            const tmt = document.getElementById('tmt_input').value;
+            const res = tmt * kurs;
+            document.getElementById('calc-res').innerText = res.toFixed(2) + " TL";
         }
     </script>
 </body>
