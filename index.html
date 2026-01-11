@@ -65,13 +65,13 @@
 
     <div id="offline-overlay">
         <div style="font-size: 80px;">⚠️</div>
-        <h1 style="font-weight: 900; color: #d32f2f;">INTERNET KESILDI!</h1>
-        <button onclick="location.reload()" style="padding:18px 40px; background:#002752; color:white; border:none; border-radius:15px; font-weight: 900; font-size: 20px;">TÄZEDEN BARLA</button>
+        <h1 id="off-title" style="font-weight: 900; color: #d32f2f;">INTERNET KESILDI!</h1>
+        <button id="off-btn" onclick="location.reload()" style="padding:18px 40px; background:#002752; color:white; border:none; border-radius:15px; font-weight: 900; font-size: 20px;">TÄZEDEN BARLA</button>
     </div>
 
     <div id="history-panel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="font-weight: 900; color: var(--asyr-blue);">Töleg Taryhy</h2>
+            <h2 id="hist-title" style="font-weight: 900; color: var(--asyr-blue);">Töleg Taryhy</h2>
             <button onclick="closeHistory()" style="background:red; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:900;">X</button>
         </div>
         <div id="history-list"></div>
@@ -81,7 +81,7 @@
     <div id="error-modal">
         <div style="font-size: 50px;">⚠️</div>
         <div id="error-text" style="font-weight: 900; margin: 20px 0; font-size: 20px;">Duýduryş!</div>
-        <button onclick="closeModal()" style="padding:15px; background:var(--asyr-blue); color:white; border:none; border-radius:15px; width: 100%; font-weight: 900; font-size: 18px;">Bolýar</button>
+        <button onclick="closeModal()" id="modal-ok" style="padding:15px; background:var(--asyr-blue); color:white; border:none; border-radius:15px; width: 100%; font-weight: 900; font-size: 18px;">Bolýar</button>
     </div>
 
     <div class="header-bar" id="main-title">Tiz töle ⚡</div>
@@ -126,11 +126,11 @@
                 <div id="region-section" style="display:none;">
                     <select id="welayat" onchange="updateCities()">
                         <option value="" id="opt-wel">Welaýat saýlaň</option>
-                        <option value="ahal">Ahal</option>
-                        <option value="mary">Mary</option>
-                        <option value="lebap">Lebap</option>
-                        <option value="dashoguz">Daşoguz</option>
-                        <option value="balkan">Balkan</option>
+                        <option value="ahal" id="w-ahal">Ahal</option>
+                        <option value="mary" id="w-mary">Mary</option>
+                        <option value="lebap" id="w-lebap">Lebap</option>
+                        <option value="dashoguz" id="w-dashoguz">Daşoguz</option>
+                        <option value="balkan" id="w-balkan">Balkan</option>
                     </select>
                     <select id="saher" onchange="applyCityCode()" style="display:none;"></select>
                 </div>
@@ -143,6 +143,13 @@
     </div>
 
     <script>
+        const translations = {
+            tk: { main: "Tiz töle ⚡", asyr: "Altyn Asyr", wifi: "Wi-Fi", phone: "Öý Telefon", tv: "Alem TV", belet: "Belet", admin: "Admin", copy: "KOPÝALAMAK ÜÇIN BASYŇ", pay: "TÖLEG ET", placeholder: "Belgiňizi ýazyň", err_wel: "Welaýat saýlaň!", err_sah: "Şäher saýlaň!", err_ph: "Belgiňizi ýazyň!", err_m: "Manat giriziň!", sel_sah: "Şäher saýlaň", sel_wel: "Welaýat saýlaň", ahal: "Ahal", mary: "Mary", lebap: "Lebap", dashoguz: "Daşoguz", balkan: "Balkan", off: "INTERNET KESILDI!", reload: "TÄZEDEN BARLA", hist: "Töleg Taryhy", ok: "Bolýar", empty: "Heniz töleg edilmedi." },
+            tr: { main: "Hızlı Öde ⚡", asyr: "Altyn Asyr", wifi: "Wi-Fi", phone: "Ev Telefonu", tv: "Alem TV", belet: "Belet", admin: "Destek", copy: "KOPYALAMAK İÇİN TIKLAYIN", pay: "ÖDEME YAP", placeholder: "Numaranızı yazın", err_wel: "Bölge seçin!", err_sah: "Şehir seçin!", err_ph: "Numaranızı yazın!", err_m: "Miktarı girin!", sel_sah: "Şehir seçin", sel_wel: "Bölge seçin", ahal: "Ahal", mary: "Mary", lebap: "Lebap", dashoguz: "Daşoğuz", balkan: "Balkan", off: "İNTERNET KESİLDİ!", reload: "TEKRAR DENE", hist: "Ödeme Geçmişi", ok: "Tamam", empty: "Henüz ödeme yapılmadı." },
+            ru: { main: "Быстрая оплата ⚡", asyr: "Алтын Асыр", wifi: "Wi-Fi", phone: "Домашний", tv: "Alem TV", belet: "Belet", admin: "Админ", copy: "НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ", pay: "ОПЛАТИТЬ", placeholder: "Введите номер", err_wel: "Выберите велаят!", err_sah: "Выберите город!", err_ph: "Введите номер!", err_m: "Введите сумму!", sel_sah: "Выберите город", sel_wel: "Выберите велаят", ahal: "Ахал", mary: "Мары", lebap: "Лебап", dashoguz: "Дашогуз", balkan: "Балкан", off: "НЕТ ИНТЕРНЕТА!", reload: "ПЕРЕЗАГРУЗИТЬ", hist: "История платежей", ok: "Хорошо", empty: "Платежей еще нет." },
+            en: { main: "Fast Pay ⚡", asyr: "Altyn Asyr", wifi: "Wi-Fi", phone: "Home Phone", tv: "Alem TV", belet: "Belet", admin: "Admin", copy: "CLICK TO COPY", pay: "PAY NOW", placeholder: "Enter number", err_wel: "Select Region!", err_sah: "Select City!", err_ph: "Enter number!", err_m: "Enter amount!", sel_sah: "Select City", sel_wel: "Select Region", ahal: "Ahal", mary: "Mary", lebap: "Lebap", dashoguz: "Dashoguz", balkan: "Balkan", off: "NO INTERNET!", reload: "RELOAD", hist: "Payment History", ok: "OK", empty: "No payments yet." }
+        };
+
         const cityData = { 
             ahal: { "Änew": "137", "Tejen": "135", "Bäherden": "131", "Akbugdaý": "137", "Kaka": "132", "Sarahs": "134", "Gökdepe": "133" },
             mary: { "Mary ş.": "522", "Baýramaly": "564", "Murgap": "565", "Ýolöten": "560", "Türkmengala": "569", "Sakarçäge": "566" },
@@ -150,6 +157,38 @@
             dashoguz: { "Daşoguz ş.": "322", "Köneürgenç": "347", "S.Türkmenbaşy": "343", "Gurbansoltan": "345", "Gubadag": "346" },
             balkan: { "Balkanabat": "222", "Türkmenbaşy": "243", "Gumdag": "241", "Hazar": "240", "Bereket": "246", "Magtymguly": "248" }
         };
+
+        let curLang = 'tk';
+
+        function applyLang(l) {
+            curLang = l;
+            const t = translations[l];
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
+            document.getElementById('btn-' + l).classList.add('active-lang');
+            
+            document.getElementById('main-title').innerText = t.main;
+            document.getElementById('m-asyr').innerText = t.asyr;
+            document.getElementById('m-wifi').innerText = t.wifi;
+            document.getElementById('m-phone').innerText = t.phone;
+            document.getElementById('m-tv').innerText = t.tv;
+            document.getElementById('m-belet').innerText = t.belet;
+            document.getElementById('m-admin').innerText = t.admin;
+            document.getElementById('copy-text').innerText = t.copy;
+            document.getElementById('pay-btn-text').innerText = t.pay;
+            document.getElementById('client_phone').placeholder = t.placeholder;
+            document.getElementById('opt-wel').innerText = t.sel_wel;
+            document.getElementById('w-ahal').innerText = t.ahal;
+            document.getElementById('w-mary').innerText = t.mary;
+            document.getElementById('w-lebap').innerText = t.lebap;
+            document.getElementById('w-dashoguz').innerText = t.dashoguz;
+            document.getElementById('w-balkan').innerText = t.balkan;
+            document.getElementById('off-title').innerText = t.off;
+            document.getElementById('off-btn').innerText = t.reload;
+            document.getElementById('hist-title').innerText = t.hist;
+            document.getElementById('modal-ok').innerText = t.ok;
+            
+            if(document.getElementById('saher').style.display === 'block') updateCities();
+        }
 
         function checkInternet() {
             const overlay = document.getElementById('offline-overlay');
@@ -162,29 +201,14 @@
             updateDateTime();
             setInterval(updateDateTime, 1000);
             applyLang('tk');
-            // ESASY: Programmadan çykyşy dolandyrmak
             window.history.pushState({page: "home"}, "");
         }
 
-        // TELEFONYŇ YZA DÜWMESI (BACK BUTTON)
-        window.onpopstate = function(event) {
-            const payCard = document.getElementById('payment-card');
-            const historyPanel = document.getElementById('history-panel');
-
-            if (payCard.style.display === 'block' || historyPanel.style.display === 'block') {
-                // Eger töleg ýa-da taryh açyk bolsa, esasy menýua gaýt
-                document.getElementById('menu-section').style.display = 'grid';
-                payCard.style.display = 'none';
-                historyPanel.style.display = 'none';
-                window.history.pushState({page: "home"}, "");
-            } else {
-                // Eger eýýäm esasy menýuda bolsa, hakykatdan hem çykmak isleýändigini sora
-                if (confirm("Programmadan çykmak isleýärsiňizmi?")) {
-                    window.history.back();
-                } else {
-                    window.history.pushState({page: "home"}, "");
-                }
-            }
+        window.onpopstate = function() {
+            document.getElementById('menu-section').style.display = 'grid';
+            document.getElementById('payment-card').style.display = 'none';
+            document.getElementById('history-panel').style.display = 'none';
+            window.history.pushState({page: "home"}, "");
         };
 
         function openService(n, type) {
@@ -192,9 +216,13 @@
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('payment-card').style.display = 'block';
             document.getElementById('service-title-display').innerText = n;
+            document.getElementById('tmt_input').value = "";
+            document.getElementById('calc-res').innerText = "0.00 TL";
             if (type === 'wifi' || type === 'telecom') { 
                 document.getElementById('region-section').style.display = 'block'; 
                 document.getElementById('client_phone').value = ""; 
+                document.getElementById('welayat').value = "";
+                document.getElementById('saher').style.display = 'none';
             } else { 
                 document.getElementById('client_phone').value = type; 
                 document.getElementById('region-section').style.display = 'none'; 
@@ -204,24 +232,27 @@
         function updateCities() {
             const w = document.getElementById('welayat').value;
             const s = document.getElementById('saher');
-            s.innerHTML = `<option value="">Şäher saýlaň</option>`;
-            if(w && cityData[w]) { for(let n in cityData[w]) s.innerHTML += `<option value="${cityData[w][n]}">${n}</option>`; s.style.display = 'block'; } 
-            else s.style.display = 'none';
+            s.innerHTML = `<option value="">${translations[curLang].sel_sah}</option>`;
+            if(w && cityData[w]) { 
+                for(let n in cityData[w]) s.innerHTML += `<option value="${cityData[w][n]}">${n}</option>`; 
+                s.style.display = 'block'; 
+            } else s.style.display = 'none';
         }
 
         function applyCityCode() { const code = document.getElementById('saher').value; if(code) document.getElementById('client_phone').value = code; }
 
         function validateAndSend() {
+            const t = translations[curLang];
             const phone = document.getElementById('client_phone').value.trim();
             const amount = document.getElementById('tmt_input').value;
             const service = document.getElementById('service-title-display').innerText;
 
             if (document.getElementById('region-section').style.display === 'block') {
-                if (!document.getElementById('welayat').value) { showError("Welaýaty saýlaň!"); return; }
-                if (!document.getElementById('saher').value) { showError("Şäheri saýlaň!"); return; }
+                if (!document.getElementById('welayat').value) { showError(t.err_wel); return; }
+                if (!document.getElementById('saher').value) { showError(t.err_sah); return; }
             }
-            if (!phone || phone === '+993 6' || phone === 'ID: ') { showError("Belgiňizi ýazyň!"); return; }
-            if (!amount || amount <= 0) { showError("Mukdary (manat) ýazyň!"); return; }
+            if (!phone || phone === '+993 6' || phone === 'ID: ') { showError(t.err_ph); return; }
+            if (!amount || amount <= 0) { showError(t.err_m); return; }
 
             const payData = { service: service, phone: phone, amount: amount, date: new Date().toLocaleString() };
             let history = JSON.parse(localStorage.getItem('pay_history') || '[]');
@@ -237,7 +268,7 @@
             const list = document.getElementById('history-list');
             list.innerHTML = "";
             let history = JSON.parse(localStorage.getItem('pay_history') || '[]');
-            if (history.length === 0) { list.innerHTML = "<p style='text-align:center; font-weight:900;'>Heniz töleg edilmedi.</p>"; } 
+            if (history.length === 0) { list.innerHTML = `<p style='text-align:center; font-weight:900;'>${translations[curLang].empty}</p>`; } 
             else {
                 history.forEach(item => {
                     list.innerHTML += `<div class="history-item"><b>${item.service}</b><br>Nomer: ${item.phone}<br>Mukdar: ${item.amount} TMT<br><small style="color:gray;">Sene: ${item.date}</small></div>`;
@@ -251,8 +282,7 @@
         function updateDateTime() { const now = new Date(); document.getElementById('date-now').innerText = now.toLocaleDateString('tk-TM'); document.getElementById('time-now').innerText = now.toLocaleTimeString('tk-TM'); }
         function showError(m) { document.getElementById('error-text').innerText = m; document.getElementById('modal-overlay').style.display = 'block'; document.getElementById('error-modal').style.display = 'block'; }
         function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; document.getElementById('error-modal').style.display = 'none'; }
-        function copyIban() { navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63"); const btnText = document.getElementById('copy-text'); btnText.innerText = "KOPÝALANDY! ✅"; btnText.style.color = "#28a745"; setTimeout(() => { btnText.innerText = "KOPÝALAMAK ÜÇIN BASYŇ"; btnText.style.color = "#555"; }, 2000); }
-        function applyLang(l) { /* Diller öňküsi ýaly */ }
+        function copyIban() { navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63"); const btnText = document.getElementById('copy-text'); btnText.innerText = "KOPÝALANDY! ✅"; btnText.style.color = "#28a745"; setTimeout(() => { btnText.innerText = translations[curLang].copy; btnText.style.color = "#555"; }, 2000); }
     </script>
 </body>
 </html>
