@@ -31,7 +31,7 @@
         .time-box { display: flex; justify-content: space-between; background: rgba(0, 0, 0, 0.8); color: var(--main-gold); padding: 12px 18px; border-radius: 15px; margin: 15px 0; font-weight: 900; border: 1px solid var(--main-gold); }
 
         .lang-bar { display: flex; gap: 4px; justify-content: center; }
-        .lang-btn { cursor: pointer; border: 1px solid #ccc; padding: 6px 6px; border-radius: 8px; background: var(--card); font-size: 11px; font-weight: 900; color: #000; display: flex; align-items: center; gap: 2px; }
+        .lang-btn { cursor: pointer; border: 1px solid #ccc; padding: 6px; border-radius: 8px; background: var(--card); font-size: 11px; font-weight: 900; color: #000; display: flex; align-items: center; gap: 2px; }
         .active-lang { background: var(--asyr-blue); color: white !important; }
 
         .profile-card { background: var(--card); padding: 25px; border-radius: 25px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); border: 2px solid var(--asyr-blue); }
@@ -45,12 +45,13 @@
 
         .card { background: var(--card); border-radius: 25px; display: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; font-weight: 900; font-size: 22px; border-radius: 25px 25px 0 0; }
-        .card-body { padding: 25px; }
+        .card-body { padding: 25px; overflow-y: auto; max-height: 400px; }
 
         select, input { width: 100%; padding: 18px; margin-bottom: 15px; border: 2px solid #cbd5e1; border-radius: 15px; font-size: 18px; font-weight: 700; box-sizing: border-box; color: #000; }
         .pay-btn { width: 100%; padding: 20px; background: var(--accent); color: white; border: none; border-radius: 18px; font-size: 22px; font-weight: 900; cursor: pointer; }
 
-        .history-item { background: rgba(0,0,0,0.05); margin-bottom: 10px; padding: 15px; border-radius: 15px; border-left: 5px solid var(--accent); color: var(--text); }
+        .city-list-item { padding: 10px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; font-weight: 900; color: var(--text); }
+        .city-category { background: var(--asyr-blue); color: white; padding: 8px; font-weight: 900; border-radius: 10px; margin-top: 10px; text-align: center; }
 
         #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 12000; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: bold; }
         #toast.show { visibility: visible; animation: fadeInOut 2s; }
@@ -62,7 +63,7 @@
     <div id="offline-overlay">
         <div style="font-size: 70px;">📡❌</div>
         <h2 id="off-title" style="color:red; font-weight: 900;">Internet ýok!</h2>
-        <button id="off-btn" onclick="location.reload()" style="padding:15px 30px; background:#002752; color:white; border:none; border-radius:15px; font-weight: 900;">Täzeden barla</button>
+        <button id="off-btn" onclick="location.reload()">Täzeden barla</button>
     </div>
 
     <div id="toast">Göçürildi! ✅</div>
@@ -70,7 +71,7 @@
     <div id="modal-overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; backdrop-filter: blur(5px);"></div>
     <div id="error-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:35px; border-radius:30px; z-index:11000; width:80%; text-align:center;">
         <div id="error-emoji" style="font-size: 50px;">⚠️</div>
-        <div id="error-text" style="font-weight:900; color: #000; font-size: 20px;">Maglumatlary dolduryň!</div>
+        <div id="error-text" style="font-weight:900;">Maglumatlary dolduryň!</div>
         <button id="err-close" onclick="closeModal()" style="margin-top:25px; padding:15px; background:var(--asyr-blue); color:white; border:none; border-radius:15px; width: 100%; font-weight: 900;">Bolýar</button>
     </div>
 
@@ -85,29 +86,30 @@
         <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px;">
             <button onclick="document.body.classList.toggle('night-mode')" style="border:none; background:var(--card); border-radius:12px; width:44px; height:44px; cursor:pointer; font-size:20px; box-shadow: var(--shadow);">🌗</button>
             <button onclick="openHistory()" style="border:none; background:var(--card); border-radius:12px; width:44px; height:44px; cursor:pointer; font-size:20px; box-shadow: var(--shadow);">🕒</button>
+            <button onclick="openCitiesList()" style="border:none; background:var(--card); border-radius:12px; width:44px; height:44px; cursor:pointer; font-size:20px; box-shadow: var(--shadow);">🏙️</button>
             <div class="lang-bar" style="flex-grow:1; justify-content: flex-end;">
-                <button class="lang-btn active-lang" onclick="changeLang('tk', this)"><span>🇹🇲</span> TM</button>
-                <button class="lang-btn" onclick="changeLang('tr', this)"><span>🇹🇷</span> TR</button>
-                <button class="lang-btn" onclick="changeLang('ru', this)"><span>🇷🇺</span> RU</button>
-                <button class="lang-btn" onclick="changeLang('en', this)"><span>🇺🇸</span> EN</button>
+                <button class="lang-btn active-lang" onclick="changeLang('tk', this)">TM</button>
+                <button class="lang-btn" onclick="changeLang('tr', this)">TR</button>
+                <button class="lang-btn" onclick="changeLang('ru', this)">RU</button>
+                <button class="lang-btn" onclick="changeLang('en', this)">EN</button>
             </div>
         </div>
 
         <div class="profile-card">
             <h2>AMAN HAYITMURADOV</h2>
             <div class="iban-box" onclick="copyIban()">
-                <small id="copy-text" style="display:block; opacity: 0.7; font-size: 11px; margin-bottom: 5px;">KOPÝALAMAK ÜÇIN BASYŇ</small>
+                <small id="copy-text" style="display:block; opacity: 0.7; font-size: 11px;">KOPÝALAMAK ÜÇIN BASYŇ</small>
                 <span>TR91 0015 7000 0000 0201 1511 63</span>
             </div>
         </div>
 
         <div id="menu-section" class="menu-grid">
-            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6')"><span>📱</span><b class="m-text">Altyn Asyr</b></div>
-            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi')"><span>🌐</span><b class="m-text">Wi-Fi</b></div>
-            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom')"><span>☎️</span><b class="m-text" id="m-phone">Öý Telefon</b></div>
-            <div class="menu-item" onclick="openService('Alem TV', 'ID: ')"><span>📺</span><b class="m-text">Alem TV</b></div>
-            <div class="menu-item" onclick="openService('Belet', 'ID: ')"><span>🎬</span><b class="m-text">Belet</b></div>
-            <div class="menu-item" onclick="window.open('https://wa.me/99364041065')"><span>💬</span><b class="m-text" id="m-admin">Admin</b></div>
+            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6')"><span>📱</span><b>Altyn Asyr</b></div>
+            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi')"><span>🌐</span><b>Wi-Fi</b></div>
+            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom')"><span>☎️</span><b id="m-phone">Öý Telefon</b></div>
+            <div class="menu-item" onclick="openService('Alem TV', 'ID: ')"><span>📺</span><b>Alem TV</b></div>
+            <div class="menu-item" onclick="openService('Belet', 'ID: ')"><span>🎬</span><b>Belet</b></div>
+            <div class="menu-item" onclick="window.open('https://wa.me/99364041065')"><span>💬</span><b id="m-admin">Admin</b></div>
         </div>
 
         <div class="card" id="payment-card">
@@ -121,6 +123,7 @@
                         <option value="lebap">Lebap</option>
                         <option value="dashoguz">Daşoguz</option>
                         <option value="balkan">Balkan</option>
+                        <option value="ashgabat">Aşgabat</option>
                     </select>
                     <select id="saher" style="display:none;"></select>
                 </div>
@@ -129,6 +132,11 @@
                 <div id="calc-res" style="text-align:center; font-weight:900; color:var(--asyr-blue); margin-bottom:20px; font-size:40px;">0.00 TL</div>
                 <button class="pay-btn" id="pay-btn-text" onclick="sendToWhatsapp()">TÖLEG ET</button>
             </div>
+        </div>
+
+        <div class="card" id="cities-card">
+            <div class="card-header">ŞÄHER KODLARY 2026</div>
+            <div class="card-body" id="cities-list-content"></div>
         </div>
 
         <div class="card" id="history-card">
@@ -141,11 +149,20 @@
     </div>
 
     <script>
+        const cityData = {
+            ashgabat: { "Aşgabat ş.": "122" },
+            ahal: { "Änew": "137", "Tejen": "135", "Bäherden": "131", "Gökdepe": "132", "Kaka": "133", "Sarahs": "134" },
+            mary: { "Mary ş.": "522", "Baýramaly": "564", "Ýolöten": "560", "Murgap": "565", "Sakarchäge": "566", "Türkmengala": "569", "Tagtabazar": "568" },
+            lebap: { "Türkmenabat": "422", "Kerki": "444", "Dostluk": "449", "Gazojak": "462", "Seýdi": "465", "Farap": "442", "Halaç": "441", "Hojambaz": "440", "Köýtendag": "448", "Saýat": "447" },
+            dashoguz: { "Daşoguz ş.": "322", "Köneürgenç": "347", "Akdepe": "341", "Boldumsaz": "346", "Gubadag": "345" },
+            balkan: { "Balkanabat": "222", "Türkmenbaşy": "243", "Garabogaz": "243", "Hazar": "240", "Gumdag": "241", "Serdar": "245" }
+        };
+
         const translations = {
             tk: { main: "Tiz töle ⚡", pay: "TÖLEG ET", offline: "Bagyşlaň, internetiňiz ýok!", off_btn: "Täzeden barla", copy: "KOPÝALAMAK ÜÇIN BASYŇ", toast: "Göçürildi! ✅", phone: "Öý Telefon", admin: "Admin", hist: "TÖLEG TARYHY", clear: "Taryhy arassala", holder: "Belgiňizi ýazyň", err: "Maglumatlary dolduryň!", ok: "Bolýar", opt: "Welaýat saýlaň" },
-            tr: { main: "Hızlı Öde ⚡", pay: "ÖDEME YAP", offline: "Bağışlayın, internetiniz yok!", off_btn: "Tekrar dene", copy: "KOPYALAMAK İÇİN TIKLAYIN", toast: "Kopyalandı! ✅", phone: "Ev Telefonu", admin: "Yönetici", hist: "ÖDEME GEÇMİŞİ", clear: "Geçmişi temizle", holder: "Numaranızı yazın", err: "Bilgileri doldurun!", ok: "Tamam", opt: "Bölge seçin" },
-            ru: { main: "Быстрая оплата ⚡", pay: "ОПЛАТИТЬ", offline: "Извините, у вас нет интернета!", off_btn: "Повторить", copy: "НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ", toast: "Скопировано! ✅", phone: "Домашний", admin: "Админ", hist: "ИСТОРИЯ ПЛАТЕЖЕЙ", clear: "Очистить историю", holder: "Введите номер", err: "Заполните данные!", ok: "Хорошо", opt: "Выберите регион" },
-            en: { main: "Fast Pay ⚡", pay: "PAY NOW", offline: "Sorry, no internet!", off_btn: "Retry", copy: "CLICK TO COPY", toast: "Copied! ✅", phone: "Home Phone", admin: "Admin", hist: "PAYMENT HISTORY", clear: "Clear history", holder: "Enter number", err: "Fill in the details!", ok: "OK", opt: "Select region" }
+            tr: { main: "Hızlı Öde ⚡", pay: "ÖDEME YAP", offline: "Bağışlayın, internetiniz yok!", off_btn: "Tekrar dene", copy: "KOPYALAMAK İÇİN TIKLAYIN", toast: "Kopyalandı! ✅", phone: "Ev Telefonu", admin: "Yönetici", hist: "GEÇMİŞ", clear: "Temizle", holder: "Numara girin", err: "Bilgileri doldurun!", ok: "Tamam", opt: "Bölge seçin" },
+            ru: { main: "Быстрая оплата ⚡", pay: "ОПЛАТИТЬ", offline: "Извините, у вас нет интернета!", off_btn: "Повторить", copy: "НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ", toast: "Скопировано! ✅", phone: "Домашний", admin: "Админ", hist: "ИСТОРИЯ", clear: "Очистить", holder: "Введите номер", err: "Заполните данные!", ok: "Хорошо", opt: "Выберите регион" },
+            en: { main: "Fast Pay ⚡", pay: "PAY NOW", offline: "Sorry, no internet!", off_btn: "Retry", copy: "CLICK TO COPY", toast: "Copied! ✅", phone: "Home Phone", admin: "Admin", hist: "HISTORY", clear: "Clear", holder: "Enter number", err: "Fill in!", ok: "OK", opt: "Select region" }
         };
 
         let currentLang = 'tk';
@@ -158,6 +175,7 @@
             document.getElementById('menu-section').style.display = 'grid';
             document.getElementById('payment-card').style.display = 'none';
             document.getElementById('history-card').style.display = 'none';
+            document.getElementById('cities-card').style.display = 'none';
         };
 
         function changeLang(lang, btn) {
@@ -168,7 +186,6 @@
             document.getElementById('main-title').innerText = t.main;
             document.getElementById('pay-btn-text').innerText = t.pay;
             document.getElementById('off-title').innerText = t.offline;
-            document.getElementById('off-btn').innerText = t.off_btn;
             document.getElementById('copy-text').innerText = t.copy;
             document.getElementById('m-phone').innerText = t.phone;
             document.getElementById('m-admin').innerText = t.admin;
@@ -189,19 +206,43 @@
             history.pushState({page: 2}, "Toleg");
         }
 
+        function openCitiesList() {
+            document.getElementById('menu-section').style.display = 'none';
+            document.getElementById('cities-card').style.display = 'block';
+            const content = document.getElementById('cities-list-content');
+            content.innerHTML = "";
+            for (let welayat in cityData) {
+                content.innerHTML += `<div class="city-category">${welayat.toUpperCase()}</div>`;
+                for (let saher in cityData[welayat]) {
+                    content.innerHTML += `<div class="city-list-item"><span>${saher}</span><span>${cityData[welayat][saher]}</span></div>`;
+                }
+            }
+            history.pushState({page: 4}, "Cities");
+        }
+
+        function updateCities() {
+            const welayat = document.getElementById('welayat').value;
+            const saherSelect = document.getElementById('saher');
+            saherSelect.innerHTML = '<option value="">Şäher saýlaň</option>';
+            if(welayat && cityData[welayat]) {
+                for(let name in cityData[welayat]) saherSelect.innerHTML += `<option value="${cityData[welayat][name]}">${name}</option>`;
+                saherSelect.style.display = 'block';
+            } else saherSelect.style.display = 'none';
+        }
+
         function openHistory() {
             document.getElementById('menu-section').style.display = 'none';
             document.getElementById('history-card').style.display = 'block';
             const list = document.getElementById('history-list');
             const data = JSON.parse(localStorage.getItem('payments') || '[]');
-            list.innerHTML = data.length ? '' : '<p style="text-align:center">...</p>';
+            list.innerHTML = data.length ? '' : '<p>Taryh boş.</p>';
             data.reverse().forEach(item => {
-                list.innerHTML += `<div class="history-item"><b>${item.service}</b><br><small>${item.phone}</small><br><b>${item.tmt} TMT (${item.tl} TL)</b><br><small>${item.date}</small></div>`;
+                list.innerHTML += `<div class="history-item"><b>${item.service}</b><br>${item.phone}<br><b>${item.tmt} TMT (${item.tl} TL)</b></div>`;
             });
             history.pushState({page: 3}, "History");
         }
 
-        function clearHistory() { if(confirm("Clear?")) { localStorage.removeItem('payments'); openHistory(); } }
+        function clearHistory() { if(confirm("Pozmalymy?")) { localStorage.removeItem('payments'); openHistory(); } }
 
         function calculate() {
             const tmt = document.getElementById('tmt_input').value;
