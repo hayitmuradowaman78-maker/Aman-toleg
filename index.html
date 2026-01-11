@@ -40,7 +40,7 @@
 
         .profile-card { background: var(--card); padding: 25px; border-radius: 25px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); border: 2px solid var(--asyr-blue); }
         .profile-card h2 { margin: 0 0 12px 0; font-size: 24px; color: var(--asyr-blue); font-weight: 900; text-transform: uppercase; }
-        .iban-box { background: #f1f5f9; padding: 15px; border-radius: 15px; border: 3px dashed var(--asyr-blue); color: #000; cursor: pointer; font-weight: 900; font-size: 16px; }
+        .iban-box { background: #f1f5f9; padding: 15px; border-radius: 15px; border: 3px dashed var(--asyr-blue); color: #000; cursor: pointer; font-weight: 900; font-size: 16px; word-break: break-all; }
 
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item { background: var(--card); padding: 15px 5px; border-radius: 22px; text-align: center; cursor: pointer; box-shadow: var(--shadow); }
@@ -48,17 +48,17 @@
         .menu-item b { font-size: 18px; color: var(--asyr-blue); font-weight: 900; display: block; }
 
         .card { background: var(--card); border-radius: 25px; display: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; font-weight: 900; font-size: 22px; border-radius: 25px 25px 0 0; }
+        .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; font-weight: 900; font-size: 22px; border-radius: 25px 25px 0 0; position: relative; }
         .card-body { padding: 25px; }
 
         select, input { width: 100%; padding: 18px; margin-bottom: 15px; border: 2px solid #cbd5e1; border-radius: 15px; font-size: 18px; font-weight: 900; box-sizing: border-box; color: #000; }
         .pay-btn { width: 100%; padding: 20px; background: var(--accent); color: white; border: none; border-radius: 18px; font-size: 22px; font-weight: 900; cursor: pointer; }
 
-        /* MODAL */
+        /* MODAL DUÝDURYŞ */
         #modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; backdrop-filter: blur(5px); }
-        #error-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:30px; border-radius:30px; z-index:11000; width:85%; text-align:center; box-shadow: var(--shadow); }
+        #error-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:30px; border-radius:30px; z-index:11000; width:85%; text-align:center; }
         #error-text { font-weight:900; color:#000; font-size: 20px; margin-top: 10px; }
-        .modal-btn { margin-top:20px; padding:15px; background:var(--asyr-blue); color:white; border:none; border-radius:15px; width: 100%; font-weight: 900; font-size: 18px; cursor: pointer; }
+        .modal-btn { margin-top:20px; padding:15px; background:var(--asyr-blue); color:white; border:none; border-radius:15px; width: 100%; font-weight: 900; cursor: pointer; }
 
         #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 12000; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: bold; }
         #toast.show { visibility: visible; animation: fadeInOut 2s; }
@@ -119,7 +119,10 @@
         </div>
 
         <div class="card" id="payment-card">
-            <div class="card-header" id="service-title">TÖLEG</div>
+            <div class="card-header">
+                <button onclick="goBack()" style="position:absolute; left:15px; background:none; border:none; color:white; font-size:24px; font-weight:bold; cursor:pointer;">←</button>
+                <span id="service-title">TÖLEG</span>
+            </div>
             <div class="card-body">
                 <div id="region-section" style="display:none;">
                     <select id="welayat" onchange="updateCities()">
@@ -140,7 +143,10 @@
         </div>
 
         <div class="card" id="history-card">
-            <div class="card-header">TÖLEG TARYHY</div>
+            <div class="card-header">
+                <button onclick="goBack()" style="position:absolute; left:15px; background:none; border:none; color:white; font-size:24px; font-weight:bold; cursor:pointer;">←</button>
+                <span>TÖLEG TARYHY</span>
+            </div>
             <div class="card-body" id="history-list"></div>
         </div>
     </div>
@@ -163,14 +169,26 @@
 
         let currentLang = 'tk';
 
-        function checkInternet() { document.getElementById('offline-overlay').style.display = navigator.onLine ? 'none' : 'flex'; }
+        function checkInternet() { 
+            if(!navigator.onLine) document.getElementById('offline-overlay').style.display = 'flex';
+            else document.getElementById('offline-overlay').style.display = 'none';
+        }
         window.addEventListener('offline', checkInternet);
+        window.addEventListener('online', checkInternet);
 
-        function changeLang(lang, btn) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
-            btn.classList.add('active-lang');
-            document.getElementById('modal-btn-txt').innerText = msgTrans[lang].ok;
+        // TELEFONDA YZA KNOPKASYNY IŞLEDÝÄN BÖLÜM
+        window.addEventListener('popstate', function(event) {
+            goBackUI();
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function goBackUI() {
+            document.getElementById('menu-section').style.display = 'grid';
+            document.getElementById('payment-card').style.display = 'none';
+            document.getElementById('history-card').style.display = 'none';
         }
 
         function openService(name, type) {
@@ -181,7 +199,15 @@
             document.getElementById('region-section').style.display = (type === 'wifi' || type === 'telecom') ? 'block' : 'none';
             document.getElementById('welayat').value = "";
             document.getElementById('saher').style.display = 'none';
-            history.pushState({page: 2}, "Toleg");
+            
+            // History state goşýarys, şonda telefonyň yza knopkasy işleýär
+            window.history.pushState({page: "payment"}, "");
+        }
+
+        function openHistory() {
+            document.getElementById('menu-section').style.display = 'none';
+            document.getElementById('history-card').style.display = 'block';
+            window.history.pushState({page: "history"}, "");
         }
 
         function updateCities() {
@@ -200,6 +226,7 @@
         }
 
         function validateAndSend() {
+            if (!navigator.onLine) { checkInternet(); return; }
             const welSection = document.getElementById('region-section').style.display !== 'none';
             const welVal = document.getElementById('welayat').value;
             const sahVal = document.getElementById('saher').value;
@@ -213,7 +240,6 @@
             if (!phoneVal || phoneVal.length < 3) { showError(msgTrans[currentLang].err_phone); return; }
             if (!moneyVal || moneyVal <= 0) { showError(msgTrans[currentLang].err_money); return; }
 
-            // Ähli zat dogry bolsa Whatsapp-a ugrat
             const msg = `✅ *TIZ TÖLEG* ✅%0A🌐 *Hyzmat:* ${document.getElementById('service-title').innerText}%0A📞 *Nomer:* ${phoneVal}%0A💰 *Mukdar:* ${moneyVal} TMT`;
             window.open(`https://wa.me/99364041065?text=${msg}`);
         }
@@ -229,9 +255,29 @@
             document.getElementById('error-modal').style.display = 'none';
         }
 
-        function calculate() { document.getElementById('calc-res').innerText = (document.getElementById('tmt_input').value * 2.5).toFixed(2) + " TL"; }
-        function copyIban() { navigator.clipboard.writeText("TR91...").then(() => { /* toast code */ }); }
-        function updateDateTime() { document.getElementById('date-now').innerText = new Date().toLocaleDateString(); document.getElementById('time-now').innerText = new Date().toLocaleTimeString(); }
+        function changeLang(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
+            btn.classList.add('active-lang');
+            document.getElementById('modal-btn-txt').innerText = msgTrans[lang].ok;
+        }
+
+        function calculate() { 
+            const val = document.getElementById('tmt_input').value;
+            document.getElementById('calc-res').innerText = (val * 2.5).toFixed(2) + " TL"; 
+        }
+
+        function copyIban() { 
+            navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63"); 
+            const t = document.getElementById("toast");
+            t.className = "show";
+            setTimeout(() => t.className = "", 2000);
+        }
+
+        function updateDateTime() { 
+            document.getElementById('date-now').innerText = new Date().toLocaleDateString(); 
+            document.getElementById('time-now').innerText = new Date().toLocaleTimeString(); 
+        }
     </script>
 </body>
 </html>
