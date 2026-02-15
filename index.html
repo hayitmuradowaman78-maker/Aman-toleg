@@ -1,288 +1,121 @@
 <!DOCTYPE html>
 <html lang="tk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiz Töle ⚡</title>
-    <style>
-        :root { 
-            --bg-gradient: linear-gradient(135deg, #138808 0%, #1a5e12 100%); 
-            --card: rgba(255, 255, 255, 0.98); 
-            --text: #000000; 
-            --asyr-blue: #002752; 
-            --main-gold: #ffc107; 
-            --accent: #28a745; 
-            --shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .night-mode { 
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --card: #1e293b; 
-            --text: #ffffff; 
-            --asyr-blue: #38bdf8;
-        }
-        
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text); margin: 0; min-height: 100vh; transition: 0.3s; overflow-x: hidden; }
-        .container { max-width: 420px; margin: auto; padding: 15px; }
-        
-        #offline-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #ffffff; z-index: 1000000; flex-direction: column; align-items: center; 
-            justify-content: center; text-align: center; color: #000;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiz Töle ⚡</title>
 
-        .header-bar { background: rgba(0, 39, 82, 0.95); color: white; padding: 22px; text-align: center; font-weight: 900; font-size: 28px; border-radius: 0 0 25px 25px; box-shadow: var(--shadow); }
-        .time-box { display: flex; justify-content: space-between; background: rgba(0, 0, 0, 0.85); color: var(--main-gold); padding: 12px 18px; border-radius: 15px; margin: 15px 0; font-weight: 900; border: 1px solid var(--main-gold); }
-        
-        .lang-bar { display: flex; gap: 4px; justify-content: flex-end; }
-        .lang-btn { cursor: pointer; border: 2px solid #ddd; padding: 8px; border-radius: 10px; background: var(--card); font-size: 13px; font-weight: 900; color: #000; }
-        .active-lang { background: var(--asyr-blue); color: white !important; }
-        
-        .profile-card { background: var(--card); padding: 25px; border-radius: 25px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); border: 3px solid var(--asyr-blue); }
-        .profile-card h2 { margin: 0; font-weight: 900; font-size: 24px; }
+<style>
+:root { 
+--bg-gradient: linear-gradient(135deg, #138808 0%, #1a5e12 100%); 
+--card: rgba(255, 255, 255, 0.98); 
+--text: #000000; 
+--asyr-blue: #002752; 
+--main-gold: #ffc107; 
+--accent: #28a745; 
+--shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
 
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .menu-item { background: var(--card); padding: 20px 5px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.1); }
-        .menu-item b { font-size: 22px; font-weight: 900; display: block; margin-top: 10px; }
+.night-mode { 
+--bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+--card: #1e293b; 
+--text: #ffffff; 
+--asyr-blue: #38bdf8;
+}
 
-        .card { background: var(--card); border-radius: 25px; display: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; font-weight: 900; font-size: 24px; border-radius: 25px 25px 0 0; }
-        
-        .card-body { padding: 20px; }
-        select, input { width: 100%; padding: 18px; margin-bottom: 15px; border: 3px solid #cbd5e1; border-radius: 15px; font-size: 20px; font-weight: 900; box-sizing: border-box; background: white; color: black; }
+body { font-family: 'Segoe UI', sans-serif; background: var(--bg-gradient); background-attachment: fixed; color: var(--text); margin: 0; min-height: 100vh; transition: 0.3s; overflow-x: hidden; }
+.container { max-width: 420px; margin: auto; padding: 15px; }
 
-        .pay-btn { width: 100%; padding: 22px; background: var(--accent); color: white; border: none; border-radius: 18px; font-size: 24px; font-weight: 900; cursor: pointer; }
+#offline-overlay { 
+display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+background: #ffffff; z-index: 1000000; flex-direction: column; align-items: center; 
+justify-content: center; text-align: center; color: #000;
+}
 
-        .action-btn { border:none; background:var(--card); border-radius:12px; width:42px; height:42px; cursor:pointer; font-size:20px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); border: 1px solid var(--asyr-blue); }
+.header-bar { background: rgba(0, 39, 82, 0.95); color: white; padding: 22px; text-align: center; font-weight: 900; font-size: 28px; border-radius: 0 0 25px 25px; box-shadow: var(--shadow); }
+.time-box { display: flex; justify-content: space-between; background: rgba(0, 0, 0, 0.85); color: var(--main-gold); padding: 12px 18px; border-radius: 15px; margin: 15px 0; font-weight: 900; border: 1px solid var(--main-gold); }
 
-        #history-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--card); z-index: 20000; overflow-y: auto; padding: 20px; box-sizing: border-box; }
-        .history-item { background: #f8fafc; border: 2px solid #e2e8f0; padding: 15px; border-radius: 15px; margin-bottom: 10px; color: black; }
+.lang-bar { display: flex; gap: 4px; justify-content: flex-end; }
+.lang-btn { cursor: pointer; border: 2px solid #ddd; padding: 8px; border-radius: 10px; background: var(--card); font-size: 13px; font-weight: 900; color: #000; }
+.active-lang { background: var(--asyr-blue); color: white !important; }
 
-        #modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; backdrop-filter: blur(5px); }
-        #error-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:30px; border-radius:30px; z-index:11000; width:85%; text-align:center; color: black; }
-    </style>
+.profile-card { background: var(--card); padding: 25px; border-radius: 25px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); border: 3px solid var(--asyr-blue); }
+.profile-card h2 { margin: 0; font-weight: 900; font-size: 24px; }
+
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.menu-item { background: var(--card); padding: 20px 5px; border-radius: 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.1); }
+.menu-item b { font-size: 22px; font-weight: 900; display: block; margin-top: 10px; }
+
+.card { background: var(--card); border-radius: 25px; display: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.card-header { background: var(--asyr-blue); color: white; padding: 20px; text-align: center; font-weight: 900; font-size: 24px; border-radius: 25px 25px 0 0; }
+
+.card-body { padding: 20px; }
+select, input { width: 100%; padding: 18px; margin-bottom: 15px; border: 3px solid #cbd5e1; border-radius: 15px; font-size: 20px; font-weight: 900; box-sizing: border-box; background: white; color: black; }
+
+.pay-btn { width: 100%; padding: 22px; background: var(--accent); color: white; border: none; border-radius: 18px; font-size: 24px; font-weight: 900; cursor: pointer; }
+
+.action-btn { border:none; background:var(--card); border-radius:12px; width:42px; height:42px; cursor:pointer; font-size:20px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); border: 1px solid var(--asyr-blue); }
+
+#history-panel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--card); z-index: 20000; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+.history-item { background: #f8fafc; border: 2px solid #e2e8f0; padding: 15px; border-radius: 15px; margin-bottom: 10px; color: black; }
+
+#modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; backdrop-filter: blur(5px); }
+#error-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:30px; border-radius:30px; z-index:11000; width:85%; text-align:center; color: black; }
+
+/* ===== GOŞULAN PROFESSIONAL DIZAÝN ===== */
+
+body, .menu-item, .profile-card, .card, .pay-btn, .action-btn, input, select{
+transition: all .25s ease;
+}
+
+.profile-card, .menu-item, .card, .time-box{
+backdrop-filter: blur(10px);
+}
+
+.header-bar{
+background: linear-gradient(135deg,#002752,#004aad,#0066cc);
+letter-spacing:.5px;
+}
+
+.menu-item:hover{
+transform: translateY(-5px) scale(1.02);
+box-shadow: 0 25px 50px rgba(0,0,0,.35);
+}
+
+.pay-btn{
+background: linear-gradient(135deg,#28a745,#00e676);
+box-shadow: 0 15px 35px rgba(40,167,69,.4);
+}
+
+.pay-btn:hover{
+transform: translateY(-3px);
+box-shadow: 0 25px 45px rgba(40,167,69,.5);
+}
+
+input:focus, select:focus{
+border-color:#002752;
+box-shadow: 0 0 0 3px rgba(0,39,82,.25);
+outline:none;
+}
+
+.action-btn:hover{
+transform: scale(1.1);
+}
+
+.history-item{
+box-shadow: 0 10px 25px rgba(0,0,0,.15);
+border-radius: 18px;
+}
+
+#error-modal{
+box-shadow: 0 30px 60px rgba(0,0,0,.4);
+}
+
+.night-mode .menu-item,
+.night-mode .profile-card,
+.night-mode .card{
+border: 1px solid rgba(255,255,255,.05);
+}
+
+</style>
 </head>
-<body onload="startApp()">
-
-    <div id="offline-overlay">
-        <div style="font-size: 80px;">⚠️</div>
-        <h1 id="off-title" style="font-weight: 900; color: #d32f2f;">INTERNET KESILDI!</h1>
-        <button id="off-btn" onclick="location.reload()" style="padding:18px 40px; background:#002752; color:white; border:none; border-radius:15px; font-weight: 900; font-size: 20px;">TÄZEDEN BARLA</button>
-    </div>
-
-    <div id="history-panel">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 id="hist-title" style="font-weight: 900; color: var(--asyr-blue);">Töleg Taryhy</h2>
-            <button onclick="closeHistory()" style="background:red; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:900;">X</button>
-        </div>
-        <div id="history-list"></div>
-    </div>
-
-    <div id="modal-overlay" onclick="closeModal()"></div>
-    <div id="error-modal">
-        <div style="font-size: 50px;">⚠️</div>
-        <div id="error-text" style="font-weight: 900; margin: 20px 0; font-size: 20px;">Duýduryş!</div>
-        <button onclick="closeModal()" id="modal-ok" style="padding:15px; background:var(--asyr-blue); color:white; border:none; border-radius:15px; width: 100%; font-weight: 900; font-size: 18px;">Bolýar</button>
-    </div>
-
-    <div class="header-bar" id="main-title">Tiz töle ⚡</div>
-
-    <div class="container">
-        <div class="time-box">
-            <span id="date-now">--.--.----</span>
-            <span id="time-now">00:00:00</span>
-        </div>
-
-        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px;">
-            <button class="action-btn" onclick="document.body.classList.toggle('night-mode')">🌗</button>
-            <button class="action-btn" onclick="showHistory()">🕒</button>
-            <div class="lang-bar" style="flex-grow:1;">
-                <button class="lang-btn active-lang" id="btn-tk" onclick="applyLang('tk')">🇹🇲 TM</button>
-                <button class="lang-btn" id="btn-tr" onclick="applyLang('tr')">🇹🇷 TR</button>
-                <button class="lang-btn" id="btn-ru" onclick="applyLang('ru')">🇷🇺 RU</button>
-                <button class="lang-btn" id="btn-en" onclick="applyLang('en')">🇺🇸 EN</button>
-            </div>
-        </div>
-
-        <div class="profile-card">
-            <h2>AMAN HAYITMURADOV</h2>
-            <div onclick="copyIban()" style="background:#f1f5f9; padding:15px; border-radius:15px; margin-top:10px; border:3px dashed #002752; cursor:pointer;">
-                <small id="copy-text" style="font-weight:900; color:#555;">KOPÝALAMAK ÜÇIN BASYŇ</small><br>
-                <span style="font-weight:900; font-size:16px;">TR91 0015 7000 0000 0201 1511 63</span>
-            </div>
-        </div>
-
-        <div id="menu-section" class="menu-grid">
-            <div class="menu-item" onclick="openService('Altyn Asyr', '+993 6')"><span>📱</span><b id="m-asyr">Altyn Asyr</b></div>
-            <div class="menu-item" onclick="openService('Wi-Fi', 'wifi')"><span>🌐</span><b id="m-wifi">Wi-Fi</b></div>
-            <div class="menu-item" onclick="openService('Öý Telefon', 'telecom')"><span>☎️</span><b id="m-phone">Öý Telefon</b></div>
-            <div class="menu-item" onclick="openService('Alem TV', 'ID: ')"><span>📺</span><b id="m-tv">Alem TV</b></div>
-            <div class="menu-item" onclick="openService('Belet', 'ID: ')"><span>🎬</span><b id="m-belet">Belet</b></div>
-            <div class="menu-item" onclick="window.open('https://wa.me/99364041065')"><span>💬</span><b id="m-admin">Admin</b></div>
-        </div>
-
-        <div class="card" id="payment-card">
-            <div class="card-header"><span id="service-title-display">TÖLEG</span></div>
-            <div class="card-body">
-                <div id="region-section" style="display:none;">
-                    <select id="welayat" onchange="updateCities()">
-                        <option value="" id="opt-wel">Welaýat saýlaň</option>
-                        <option value="ahal" id="w-ahal">Ahal</option>
-                        <option value="mary" id="w-mary">Mary</option>
-                        <option value="lebap" id="w-lebap">Lebap</option>
-                        <option value="dashoguz" id="w-dashoguz">Daşoguz</option>
-                        <option value="balkan" id="w-balkan">Balkan</option>
-                    </select>
-                    <select id="saher" onchange="applyCityCode()" style="display:none;"></select>
-                </div>
-                <input type="text" id="client_phone">
-                <input type="number" id="tmt_input" placeholder="0.00 TMT" oninput="calculate()" inputmode="decimal">
-                <div id="calc-res" style="text-align:center; font-weight:900; color:var(--asyr-blue); margin-bottom:20px; font-size:45px;">0.00 TL</div>
-                <button class="pay-btn" id="pay-btn-text" onclick="validateAndSend()">TÖLEG ET</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const translations = {
-            tk: { main: "Tiz töle ⚡", asyr: "Altyn Asyr", wifi: "Wi-Fi", phone: "Öý Telefon", tv: "Alem TV", belet: "Belet", admin: "Admin", copy: "KOPÝALAMAK ÜÇIN BASYŇ", pay: "TÖLEG ET", placeholder: "Belgiňizi ýazyň", err_wel: "Welaýat saýlaň!", err_sah: "Şäher saýlaň!", err_ph: "Belgiňizi ýazyň!", err_m: "Manat giriziň!", sel_sah: "Şäher saýlaň", sel_wel: "Welaýat saýlaň", ahal: "Ahal", mary: "Mary", lebap: "Lebap", dashoguz: "Daşoguz", balkan: "Balkan", off: "INTERNET KESILDI!", reload: "TÄZEDEN BARLA", hist: "Töleg Taryhy", ok: "Bolýar", empty: "Heniz töleg edilmedi." },
-            tr: { main: "Hızlı Öde ⚡", asyr: "Altyn Asyr", wifi: "Wi-Fi", phone: "Ev Telefonu", tv: "Alem TV", belet: "Belet", admin: "Destek", copy: "KOPYALAMAK İÇİN TIKLAYIN", pay: "ÖDEME YAP", placeholder: "Numaranızı yazın", err_wel: "Bölge seçin!", err_sah: "Şehir seçin!", err_ph: "Numaranızı yazın!", err_m: "Miktarı girin!", sel_sah: "Şehir seçin", sel_wel: "Bölge seçin", ahal: "Ahal", mary: "Mary", lebap: "Lebap", dashoguz: "Daşoğuz", balkan: "Balkan", off: "İNTERNET KESİLDİ!", reload: "TEKRAR DENE", hist: "Ödeme Geçmişi", ok: "Tamam", empty: "Henüz ödeme yapılmadı." },
-            ru: { main: "Быстрая оплата ⚡", asyr: "Алтын Асыр", wifi: "Wi-Fi", phone: "Домашний", tv: "Alem TV", belet: "Belet", admin: "Админ", copy: "НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ", pay: "ОПЛАТИТЬ", placeholder: "Введите номер", err_wel: "Выберите велаят!", err_sah: "Выберите город!", err_ph: "Введите номер!", err_m: "Введите сумму!", sel_sah: "Выберите город", sel_wel: "Выберите велаят", ahal: "Ахал", mary: "Мары", lebap: "Лебап", dashoguz: "Дашогуз", balkan: "Балкан", off: "НЕТ ИНТЕРНЕТА!", reload: "ПЕРЕЗАГРУЗИТЬ", hist: "История платежей", ok: "Хорошо", empty: "Платежей еще нет." },
-            en: { main: "Fast Pay ⚡", asyr: "Altyn Asyr", wifi: "Wi-Fi", phone: "Home Phone", tv: "Alem TV", belet: "Belet", admin: "Admin", copy: "CLICK TO COPY", pay: "PAY NOW", placeholder: "Enter number", err_wel: "Select Region!", err_sah: "Select City!", err_ph: "Enter number!", err_m: "Enter amount!", sel_sah: "Select City", sel_wel: "Select Region", ahal: "Ahal", mary: "Mary", lebap: "Lebap", dashoguz: "Dashoguz", balkan: "Balkan", off: "NO INTERNET!", reload: "RELOAD", hist: "Payment History", ok: "OK", empty: "No payments yet." }
-        };
-
-        const cityData = { 
-            ahal: { "Änew": "137", "Tejen": "135", "Bäherden": "131", "Akbugdaý": "137", "Kaka": "132", "Sarahs": "134", "Gökdepe": "133" },
-            mary: { "Mary ş.": "522", "Baýramaly": "564", "Murgap": "565", "Ýolöten": "560", "Türkmengala": "569", "Sakarçäge": "566" },
-            lebap: { "Türkmenabat": "422", "Kerki": "444", "Farap": "425", "Saýat": "445", "Darganata": "462", "Gazojak": "467" },
-            dashoguz: { "Daşoguz ş.": "322", "Köneürgenç": "347", "S.Türkmenbaşy": "343", "Gurbansoltan": "345", "Gubadag": "346" },
-            balkan: { "Balkanabat": "222", "Türkmenbaşy": "243", "Gumdag": "241", "Hazar": "240", "Bereket": "246", "Magtymguly": "248" }
-        };
-
-        let curLang = 'tk';
-
-        function applyLang(l) {
-            curLang = l;
-            const t = translations[l];
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
-            document.getElementById('btn-' + l).classList.add('active-lang');
-            
-            document.getElementById('main-title').innerText = t.main;
-            document.getElementById('m-asyr').innerText = t.asyr;
-            document.getElementById('m-wifi').innerText = t.wifi;
-            document.getElementById('m-phone').innerText = t.phone;
-            document.getElementById('m-tv').innerText = t.tv;
-            document.getElementById('m-belet').innerText = t.belet;
-            document.getElementById('m-admin').innerText = t.admin;
-            document.getElementById('copy-text').innerText = t.copy;
-            document.getElementById('pay-btn-text').innerText = t.pay;
-            document.getElementById('client_phone').placeholder = t.placeholder;
-            document.getElementById('opt-wel').innerText = t.sel_wel;
-            document.getElementById('w-ahal').innerText = t.ahal;
-            document.getElementById('w-mary').innerText = t.mary;
-            document.getElementById('w-lebap').innerText = t.lebap;
-            document.getElementById('w-dashoguz').innerText = t.dashoguz;
-            document.getElementById('w-balkan').innerText = t.balkan;
-            document.getElementById('off-title').innerText = t.off;
-            document.getElementById('off-btn').innerText = t.reload;
-            document.getElementById('hist-title').innerText = t.hist;
-            document.getElementById('modal-ok').innerText = t.ok;
-            
-            if(document.getElementById('saher').style.display === 'block') updateCities();
-        }
-
-        function checkInternet() {
-            const overlay = document.getElementById('offline-overlay');
-            if (!navigator.onLine) { overlay.style.display = 'flex'; } else { overlay.style.display = 'none'; }
-        }
-
-        function startApp() {
-            checkInternet();
-            setInterval(checkInternet, 1000);
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
-            applyLang('tk');
-            window.history.pushState({page: "home"}, "");
-        }
-
-        window.onpopstate = function() {
-            document.getElementById('menu-section').style.display = 'grid';
-            document.getElementById('payment-card').style.display = 'none';
-            document.getElementById('history-panel').style.display = 'none';
-            window.history.pushState({page: "home"}, "");
-        };
-
-        function openService(n, type) {
-            window.history.pushState({page: "service"}, "");
-            document.getElementById('menu-section').style.display = 'none';
-            document.getElementById('payment-card').style.display = 'block';
-            document.getElementById('service-title-display').innerText = n;
-            document.getElementById('tmt_input').value = "";
-            document.getElementById('calc-res').innerText = "0.00 TL";
-            if (type === 'wifi' || type === 'telecom') { 
-                document.getElementById('region-section').style.display = 'block'; 
-                document.getElementById('client_phone').value = ""; 
-                document.getElementById('welayat').value = "";
-                document.getElementById('saher').style.display = 'none';
-            } else { 
-                document.getElementById('client_phone').value = type; 
-                document.getElementById('region-section').style.display = 'none'; 
-            }
-        }
-
-        function updateCities() {
-            const w = document.getElementById('welayat').value;
-            const s = document.getElementById('saher');
-            s.innerHTML = `<option value="">${translations[curLang].sel_sah}</option>`;
-            if(w && cityData[w]) { 
-                for(let n in cityData[w]) s.innerHTML += `<option value="${cityData[w][n]}">${n}</option>`; 
-                s.style.display = 'block'; 
-            } else s.style.display = 'none';
-        }
-
-        function applyCityCode() { const code = document.getElementById('saher').value; if(code) document.getElementById('client_phone').value = code; }
-
-        function validateAndSend() {
-            const t = translations[curLang];
-            const phone = document.getElementById('client_phone').value.trim();
-            const amount = document.getElementById('tmt_input').value;
-            const service = document.getElementById('service-title-display').innerText;
-
-            if (document.getElementById('region-section').style.display === 'block') {
-                if (!document.getElementById('welayat').value) { showError(t.err_wel); return; }
-                if (!document.getElementById('saher').value) { showError(t.err_sah); return; }
-            }
-            if (!phone || phone === '+993 6' || phone === 'ID: ') { showError(t.err_ph); return; }
-            if (!amount || amount <= 0) { showError(t.err_m); return; }
-
-            const payData = { service: service, phone: phone, amount: amount, date: new Date().toLocaleString() };
-            let history = JSON.parse(localStorage.getItem('pay_history') || '[]');
-            history.unshift(payData);
-            localStorage.setItem('pay_history', JSON.stringify(history));
-
-            const msg = `✅ *TIZ TÖLEG*%0A👤 *Admin:* AMAN HAYITMURADOV%0A🌐 *Hyzmat:* ${service}%0A📞 *Nomer:* ${phone}%0A💰 *Mukdar:* ${amount} TMT`;
-            window.open(`https://wa.me/99364041065?text=${msg}`);
-        }
-
-        function showHistory() {
-            window.history.pushState({page: "history"}, "");
-            const list = document.getElementById('history-list');
-            list.innerHTML = "";
-            let history = JSON.parse(localStorage.getItem('pay_history') || '[]');
-            if (history.length === 0) { list.innerHTML = `<p style='text-align:center; font-weight:900;'>${translations[curLang].empty}</p>`; } 
-            else {
-                history.forEach(item => {
-                    list.innerHTML += `<div class="history-item"><b>${item.service}</b><br>Nomer: ${item.phone}<br>Mukdar: ${item.amount} TMT<br><small style="color:gray;">Sene: ${item.date}</small></div>`;
-                });
-            }
-            document.getElementById('history-panel').style.display = 'block';
-        }
-
-        function closeHistory() { document.getElementById('history-panel').style.display = 'none'; window.history.back(); }
-        function calculate() { let val = document.getElementById('tmt_input').value; document.getElementById('calc-res').innerText = (val * 2.5).toFixed(2) + " TL"; }
-        function updateDateTime() { const now = new Date(); document.getElementById('date-now').innerText = now.toLocaleDateString('tk-TM'); document.getElementById('time-now').innerText = now.toLocaleTimeString('tk-TM'); }
-        function showError(m) { document.getElementById('error-text').innerText = m; document.getElementById('modal-overlay').style.display = 'block'; document.getElementById('error-modal').style.display = 'block'; }
-        function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; document.getElementById('error-modal').style.display = 'none'; }
-        function copyIban() { navigator.clipboard.writeText("TR91 0015 7000 0000 0201 1511 63"); const btnText = document.getElementById('copy-text'); btnText.innerText = "KOPÝALANDY! ✅"; btnText.style.color = "#28a745"; setTimeout(() => { btnText.innerText = translations[curLang].copy; btnText.style.color = "#555"; }, 2000); }
-    </script>
-</body>
-</html>
